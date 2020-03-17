@@ -28,4 +28,11 @@ public class Character {
         this.lifePoints = 0;
         this.specialAbility="";
     }
+    
+    public Character(String name, int lifePoints, String specialAbility){
+        this.name = name;
+        this.lifePoints = lifePoints;
+        this.specialAbility = specialAbility;
+        
+    }
 }
