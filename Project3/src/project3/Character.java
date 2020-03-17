@@ -33,6 +33,20 @@ public class Character {
         this.name = name;
         this.lifePoints = lifePoints;
         this.specialAbility = specialAbility;
-        
     }
+    
+    public String getName(){
+        String tempName = this.name;
+        return tempName;
+    }
+    public String getSpecialAbility(){
+        String tempAbility = this.specialAbility;
+        return tempAbility;
+    }
+    
+    public int getLifePoints(){
+        int lifePoint  = this.lifePoints;
+        return lifePoint;
+    }
+    
 }
