@@ -49,4 +49,15 @@ public class Character {
         return lifePoint;
     }
     
+    public void setName(String name){
+        this.name = name;
+    }
+    
+    public void setLifePoints(int lifePoints){
+        this.lifePoints = lifePoints;
+    }
+    
+    public void setSpecialAbility(String specialAbility){
+        this.specialAbility = specialAbility;
+    }
 }
