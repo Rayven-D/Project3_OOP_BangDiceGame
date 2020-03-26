@@ -18,46 +18,81 @@ import java.util.ArrayList;
  */
 public class Character {
     
-    public String name;
-    public int lifePoints;
-    public String specialAbility;
-    public static ArrayList<String> all;
+    private String name;
+
+    private int lifePoints;
+
+    private String specialAbility;
+
+    private static ArrayList<String> all;
     
+
     public Character(){
         this.name = "";
         this.lifePoints = 0;
         this.specialAbility="";
     }
     
+    /**
+     *
+     * @param name
+     * @param lifePoints
+     * @param specialAbility
+     */
     public Character(String name, int lifePoints, String specialAbility){
         this.name = name;
         this.lifePoints = lifePoints;
         this.specialAbility = specialAbility;
     }
     
+    /**
+     *
+     * @return the name of the character
+     */
     public String getName(){
         String tempName = this.name;
         return tempName;
     }
+
+    /**
+     *
+     * @return the special ability of the character associated with the player
+     */
     public String getSpecialAbility(){
         String tempAbility = this.specialAbility;
         return tempAbility;
     }
     
+    /**
+     *
+     * @return The current life points the player has
+     */
     public int getLifePoints(){
         int lifePoint  = this.lifePoints;
         return lifePoint;
     }
     
-    public void setName(String name){
+    private void setName(String name){
         this.name = name;
     }
     
-    public void setLifePoints(int lifePoints){
+    private void setLifePoints(int lifePoints){
         this.lifePoints = lifePoints;
     }
     
-    public void setSpecialAbility(String specialAbility){
+    private void setSpecialAbility(String specialAbility){
         this.specialAbility = specialAbility;
     }
+    
+    /**
+     *
+     * @param numberOfPoints - The number of life points player loses
+     */
+    public void loseLifePoints(int numberOfPoints){
+        setLifePoints(getLifePoints()-numberOfPoints);
+    }
+    
+    
+    
+    
 }
