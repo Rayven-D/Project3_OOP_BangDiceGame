@@ -18,11 +18,11 @@ import java.util.ArrayList;
  */
 public class Character {
     
-//    enum Name{
-//     BART_CASSIDY, BLACK_JACK, CALAMITY_JANET, EL_GRINGO, JESSE_JONES, JOURDONNAIS, KIT_CARLSON, LUCKY_DUKE, 
-//     PAUL_REGRET, PEDRO_RAMIREZ, ROSE_DOOLAN, SID_KETCHUM, SLAB_THE_KILLER, SUZY_LAFAYETTE, VULTURE_SAM, WILLY_THE_KID
-//    };
-//    
+    enum Name{
+    BART_CASSIDY, BLACK_JACK, CALAMITY_JANET, EL_GRINGO, JESSE_JONES, JOURDONNAIS, KIT_CARLSON, LUCKY_DUKE, 
+     PAUL_REGRET, PEDRO_RAMIREZ, ROSE_DOOLAN, SID_KETCHUM, SLAB_THE_KILLER, SUZY_LAFAYETTE, VULTURE_SAM, WILLY_THE_KID
+   };
+   
     
     private String name;
 
@@ -105,11 +105,13 @@ public class Character {
      */
     public int loseLifePoints(int numberOfPoints){
         int points= getLifePoints()-numberOfPoints;
-        if(points>=0){
+        if(points>=0)
+        {
             setLifePoints(points);
             return points;
         }
-        else {
+        else 
+        {
             return -1;
         }
         
@@ -137,7 +139,13 @@ public class Character {
      * @param args
      */
     public static void main(String[] args){
-        
+  
+        Character character = new Character(Name.BART_CASSIDY.toString().replaceAll("_"," "), "Take an arrow instead of losing life point", 8);
+        System.out.println(character.getName());
+        System.out.println(character.getSpecialAbility());
+        System.out.println(character.getLifePoints());
+        System.out.println(character.loseLifePoints(1));
+        System.out.println(character.gainLifePoints(1));
     }
     
     
