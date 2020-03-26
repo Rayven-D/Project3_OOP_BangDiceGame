@@ -22,7 +22,7 @@ public class Character {
      * !!!!!!!!!!!MAKE SURE TO INCLUDE THIS WITHIN THE GAME CLASS!!!!!!!!!!
      * enum for all the specific characters within the game
      */
-    public static enum Name{
+    public enum Characters{
  
         BART_CASSIDY(8), 
         BLACK_JACK(8), 
@@ -44,7 +44,7 @@ public class Character {
         
         public int lifePoints;
     
-        Name(int lifePoints){
+        Characters(int lifePoints){
             this.lifePoints = lifePoints;
         }
         
@@ -80,7 +80,7 @@ public class Character {
      * @param lifePoints
      * @param specialAbility
      */
-    public Character(Name name, String specialAbility){
+    public Character(Characters name, String specialAbility){
         this.name = name.toString();
         this.lifePoints = name.lifePoints;
         lifePointsInTheBeginning = lifePoints;
@@ -168,7 +168,7 @@ public class Character {
      */
     public static void main(String[] args){
   
-        Character character = new Character(Name.BART_CASSIDY, "Take an arrow instead of losing life point");
+        Character character = new Character(Characters.BART_CASSIDY, "Take an arrow instead of losing life point");
         System.out.println(character.getName());
         System.out.println(character.getSpecialAbility());
         System.out.println(character.getLifePoints());
