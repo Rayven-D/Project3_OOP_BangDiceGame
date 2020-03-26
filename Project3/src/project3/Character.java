@@ -18,10 +18,38 @@ import java.util.ArrayList;
  */
 public class Character {
     
-    enum Name{
-    BART_CASSIDY, BLACK_JACK, CALAMITY_JANET, EL_GRINGO, JESSE_JONES, JOURDONNAIS, KIT_CARLSON, LUCKY_DUKE, 
-     PAUL_REGRET, PEDRO_RAMIREZ, ROSE_DOOLAN, SID_KETCHUM, SLAB_THE_KILLER, SUZY_LAFAYETTE, VULTURE_SAM, WILLY_THE_KID
-   };
+    /**
+     * !!!!!!!!!!!MAKE SURE TO INCLUDE THIS WITHIN THE GAME CLASS!!!!!!!!!!
+     * enum for all the specific characters within the game
+     */
+    public static enum Name{
+ 
+        BART_CASSIDY(8), 
+        BLACK_JACK(8), 
+        CALAMITY_JANET(8), 
+        EL_GRINGO(7), 
+        JESSE_JONES(9), 
+        JOURDONNAIS(7), 
+        KIT_CARLSON(7), 
+        LUCKY_DUKE(8), 
+        PAUL_REGRET(9), 
+        PEDRO_RAMIREZ(8), 
+        ROSE_DOOLAN(9), 
+        SID_KETCHUM(8), 
+        SLAB_THE_KILLER(8), 
+        SUZY_LAFAYETTE(8), 
+        VULTURE_SAM(9), 
+        WILLY_THE_KID(8);
+
+        
+        public int lifePoints;
+    
+        Name(int lifePoints){
+            this.lifePoints = lifePoints;
+        }
+        
+       
+   }
    
     
     private String name;
@@ -52,9 +80,9 @@ public class Character {
      * @param lifePoints
      * @param specialAbility
      */
-    public Character(String name, String specialAbility, int lifePoints){
-        this.name = name;
-        this.lifePoints = lifePoints;
+    public Character(Name name, String specialAbility){
+        this.name = name.toString();
+        this.lifePoints = name.lifePoints;
         lifePointsInTheBeginning = lifePoints;
         this.specialAbility = specialAbility;
     }
@@ -140,12 +168,14 @@ public class Character {
      */
     public static void main(String[] args){
   
-        Character character = new Character(Name.BART_CASSIDY.toString().replaceAll("_"," "), "Take an arrow instead of losing life point", 8);
+        Character character = new Character(Name.BART_CASSIDY, "Take an arrow instead of losing life point");
         System.out.println(character.getName());
         System.out.println(character.getSpecialAbility());
         System.out.println(character.getLifePoints());
         System.out.println(character.loseLifePoints(1));
         System.out.println(character.gainLifePoints(1));
+        System.out.println(character.gainLifePoints(1)+". THIS IS AN INVALID PLAY");
+        System.out.println(character.getLifePoints()+ " DOES NOT CHANGE");
     }
     
     
