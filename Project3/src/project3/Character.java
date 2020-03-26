@@ -18,6 +18,12 @@ import java.util.ArrayList;
  */
 public class Character {
     
+//    enum Name{
+//     BART_CASSIDY, BLACK_JACK, CALAMITY_JANET, EL_GRINGO, JESSE_JONES, JOURDONNAIS, KIT_CARLSON, LUCKY_DUKE, 
+//     PAUL_REGRET, PEDRO_RAMIREZ, ROSE_DOOLAN, SID_KETCHUM, SLAB_THE_KILLER, SUZY_LAFAYETTE, VULTURE_SAM, WILLY_THE_KID
+//    };
+//    
+    
     private String name;
 
     private int lifePoints;
@@ -26,7 +32,14 @@ public class Character {
 
     private static ArrayList<String> all;
     
-
+    /**
+     *
+     */
+    public static int lifePointsInTheBeginning; 
+    
+    /**
+     *
+     */
     public Character(){
         this.name = "";
         this.lifePoints = 0;
@@ -39,9 +52,10 @@ public class Character {
      * @param lifePoints
      * @param specialAbility
      */
-    public Character(String name, int lifePoints, String specialAbility){
+    public Character(String name, String specialAbility, int lifePoints){
         this.name = name;
         this.lifePoints = lifePoints;
+        lifePointsInTheBeginning = lifePoints;
         this.specialAbility = specialAbility;
     }
     
@@ -87,12 +101,44 @@ public class Character {
     /**
      *
      * @param numberOfPoints - The number of life points player loses
+     * @return  life points if its valid. -1 if it is not valid. 
      */
-    public void loseLifePoints(int numberOfPoints){
-        setLifePoints(getLifePoints()-numberOfPoints);
+    public int loseLifePoints(int numberOfPoints){
+        int points= getLifePoints()-numberOfPoints;
+        if(points>=0){
+            setLifePoints(points);
+            return points;
+        }
+        else {
+            return -1;
+        }
+        
     }
     
+    /**
+     *
+     * @param numberOfPoints - The number of life points player gains
+     * @return life points if its valid. -1 if it is not valid. 
+     */
+    public int gainLifePoints(int numberOfPoints){
+        int points= getLifePoints()+numberOfPoints;
+        if(points<=lifePointsInTheBeginning){
+            setLifePoints(points);
+            return points;
+        }
+        else 
+        {
+            return -1;
+        }
+    }
     
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args){
+        
+    }
     
     
 }
