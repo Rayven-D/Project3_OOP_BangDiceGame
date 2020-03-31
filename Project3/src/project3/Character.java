@@ -138,10 +138,7 @@ public class Character {
             setLifePoints(points);
             return points;
         }
-        else 
-        {
-            return -1;
-        }
+        return -1;
         
     }
     
@@ -156,10 +153,7 @@ public class Character {
             setLifePoints(points);
             return points;
         }
-        else 
-        {
-            return -1;
-        }
+        return -1;
     }
     
     /**
