@@ -22,21 +22,12 @@ import javafx.scene.image.ImageView;
  *
  * @author shreyesh
  */
-public class Token {
+public class Inventory {
     
-    public static final int PADDING_SIZE = 20;
-    
-    public static VBox display(String type, int curVal){
-        // Components
-        Label tokenType = new Label(type);
-        Label tokenVal = new Label(Integer.toString(curVal));
-        
-        
-        //Layouts
-        VBox tokenCard = new VBox(PADDING_SIZE);
-        tokenCard.getChildren().addAll(tokenType, tokenVal);
-        
-        return tokenCard;
-    }
+    public static final int PADDING_SIZE = 40;
 
+    public static VBox display(){
+        VBox inventory = new VBox(PADDING_SIZE);
+        return inventory;
+    }
 }

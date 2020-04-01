@@ -27,8 +27,14 @@ public class DieView{
     
     public static HBox display(String title, String message){
        
-        //Button view 
+        //Components 
         Button die1 = new Button();
+        Button die2 = new Button();
+        Button die3 = new Button();
+        Button die4 = new Button();
+        Button die5 = new Button();
+        
+        
         
         HBox diceLayout = new HBox(40);
         
