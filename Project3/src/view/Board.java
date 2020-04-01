@@ -37,8 +37,19 @@ public class Board extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
-        BorderPane boardLayout = new BorderPane();
         
+        
+        //Right Pane elements
+        VBox roleCard = AttributeCard.display("Role", "Renegade");
+        VBox characterCard = AttributeCard.display("Character", "Billy Jackson");
+        HBox userInfo = new HBox();
+        
+        
+        
+        
+        //Board Layout
+        VBox rightPane = new VBox(40);
+        BorderPane boardLayout = new BorderPane();
         
         
         Scene game = new Scene(boardLayout, 800, 800);
