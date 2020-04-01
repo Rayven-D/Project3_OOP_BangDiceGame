@@ -42,14 +42,16 @@ public class Board extends Application{
         //Right Pane elements
         VBox roleCard = AttributeCard.display("Role", "Renegade");
         VBox characterCard = AttributeCard.display("Character", "Billy Jackson");
-        HBox userInfo = new HBox();
-        
+        HBox userInfo = new HBox(40);
+        userInfo.getChildren().addAll(roleCard, characterCard);
         
         
         
         //Board Layout
         VBox rightPane = new VBox(40);
+        rightPane.getChildren().addAll(userInfo);
         BorderPane boardLayout = new BorderPane();
+        boardLayout.setRight(rightPane);
         
         
         Scene game = new Scene(boardLayout, 800, 800);
