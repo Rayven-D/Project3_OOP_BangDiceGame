@@ -30,10 +30,9 @@ public class Token {
         Label tokenVal = new Label(Integer.toString(curVal));
         
         
-
-        
         //Layouts
         VBox tokenCard = new VBox(40);
+        tokenCard.getChildren().addAll(tokenType, tokenVal);
         
         return tokenCard;
     }

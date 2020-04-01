@@ -28,6 +28,8 @@ import javafx.scene.image.ImageView;
 
 public class Board extends Application{
     
+    public final int PADDING_SIZE = 40;
+    
     Stage window;
     
     public static void main(String[] args){
@@ -40,15 +42,23 @@ public class Board extends Application{
         
         
         //Right Pane elements
+        
+        //User Attributes
         VBox roleCard = AttributeCard.display("Role", "Renegade");
         VBox characterCard = AttributeCard.display("Character", "Billy Jackson");
-        HBox userInfo = new HBox(40);
+        HBox userInfo = new HBox(PADDING_SIZE);
         userInfo.getChildren().addAll(roleCard, characterCard);
         
+        //User Tokens
+        VBox singleBullet = Token.display("Bullet", 4);
+        VBox multipleBullets = Token.display("Three Bullets", 4);
+        VBox arrows = Token.display("Arrows", 6);
+        HBox tokens = new HBox(PADDING_SIZE);
+        tokens.getChildren().addAll(singleBullet, multipleBullets, arrows);
         
         //Board Layout
-        VBox rightPane = new VBox(40);
-        rightPane.getChildren().addAll(userInfo);
+        VBox rightPane = new VBox(PADDING_SIZE);
+        rightPane.getChildren().addAll(userInfo, tokens);
         BorderPane boardLayout = new BorderPane();
         boardLayout.setRight(rightPane);
         
