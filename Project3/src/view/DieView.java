@@ -10,7 +10,6 @@
 
 package view;
 
-import javafx.application.Application;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -19,32 +18,20 @@ import javafx.geometry.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
 /**
  *
  * @author shreyesh
  */
-
-
-public class Board extends Application{
+public class DieView{
     
-    Stage window;
     
-    public static void main(String[] args){
-        launch(args);
+    public static HBox display(String title, String message){
+       
+        //Button view 
+        Button die1 = new Button();
+        
+        HBox diceLayout = new HBox(40);
+        
+        return diceLayout;
     }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        window = stage;
-        BorderPane boardLayout = new BorderPane();
-        
-        
-        
-        Scene game = new Scene(boardLayout, 800, 800);
-        window.setScene(game);
-        window.show();
-    }
-    
-   
 }
