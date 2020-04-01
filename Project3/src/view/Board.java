@@ -46,7 +46,6 @@ public class Board extends Application{
         userInfo.getChildren().addAll(roleCard, characterCard);
         
         
-        
         //Board Layout
         VBox rightPane = new VBox(40);
         rightPane.getChildren().addAll(userInfo);

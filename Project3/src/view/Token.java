@@ -18,23 +18,24 @@ import javafx.geometry.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
 /**
  *
  * @author shreyesh
  */
-public class AttributeCard {
+public class Token {
     
-    public static VBox display(String label, String role){
-        //Components
-        Label roleLabel = new Label(label);
-        Label userRole = new Label(role);
+    public static VBox display(String type, int curVal){
+        // Components
+        Label tokenType = new Label(type);
+        Label tokenVal = new Label(Integer.toString(curVal));
+        
+        
+
         
         //Layouts
-        VBox card = new VBox();
-        card.getChildren().addAll(roleLabel, userRole);
+        VBox tokenCard = new VBox(40);
         
-        return card;
+        return tokenCard;
     }
 
 }
