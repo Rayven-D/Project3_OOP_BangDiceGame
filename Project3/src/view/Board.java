@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.geometry.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import project3.RollDice;
 
 
 /**
@@ -31,6 +32,15 @@ public class Board extends Application{
     public final int PADDING_SIZE = 40;
     
     Stage window;
+    
+    // State Properties - Controller 
+    public int numberOfSingleBullet;
+    public int numberOfMultipleBullets;
+    public int numberOfArrows;
+    public String userRole; 
+    public String userCharacter;
+    
+    
     
     public static void main(String[] args){
         launch(args);
@@ -56,9 +66,20 @@ public class Board extends Application{
         HBox tokens = new HBox(PADDING_SIZE);
         tokens.getChildren().addAll(singleBullet, multipleBullets, arrows);
         
+        //Roll Die Button 
+        Button rollDice = new Button("Roll Dice");
+        HBox inventory = new HBox(PADDING_SIZE);
+        rollDice.setOnAction(e-> {
+            //TEMPORARY CONTROLLER FOR TESTING
+            RollDice die = new RollDice();
+            
+            DieView view = new DieView();
+            view.display(die.getDice());
+        });
+        
         //Board Layout
         VBox rightPane = new VBox(PADDING_SIZE);
-        rightPane.getChildren().addAll(userInfo, tokens);
+        rightPane.getChildren().addAll(userInfo, tokens, rollDice);
         BorderPane boardLayout = new BorderPane();
         boardLayout.setRight(rightPane);
         
@@ -67,6 +88,7 @@ public class Board extends Application{
         window.setScene(game);
         window.show();
     }
+    
     
    
 }
