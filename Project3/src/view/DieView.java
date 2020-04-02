@@ -73,24 +73,27 @@ public class DieView{
         
         
         //Components
-        Button oneButton = new Button(die1.getFace());
+        Button oneButton = new Button();
         oneButton.setOnAction(e -> {
             oneButton.setVisible(false);
         });
+        oneButton.setPrefSize(90, 100);
         oneButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
                 + AssetsURL.getImage(die1.getFace())
                 + ");");
         
         
-        Button twoButton = new Button(die2.getFace());
+        Button twoButton = new Button();
         twoButton.setOnAction(e -> {
             twoButton.setVisible(false);
         });
+        twoButton.setPrefSize(90, 100);       
         twoButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
                 + AssetsURL.getImage(die2.getFace())
                 + ");");
         
-        Button threeButton = new Button(die3.getFace());
+        Button threeButton = new Button();
+        threeButton.setPrefSize(90, 100);      
         threeButton.setOnAction(e -> { 
             threeButton.setVisible(false);
         });
@@ -98,7 +101,8 @@ public class DieView{
                 + AssetsURL.getImage(die3.getFace())
                 + ");");
         
-        Button fourButton = new Button(die4.getFace());
+        Button fourButton = new Button();
+        fourButton.setPrefSize(90, 100);       
         fourButton.setOnAction(e -> {
             fourButton.setVisible(false);
         });
@@ -106,7 +110,8 @@ public class DieView{
                 + AssetsURL.getImage(die4.getFace())
                 + ");");
         
-        Button fiveButton = new Button(die5.getFace());
+        Button fiveButton = new Button();
+        fiveButton.setPrefSize(90, 100);       
         fiveButton.setOnAction(e -> {
             fiveButton.setVisible(false);
         });
@@ -114,13 +119,15 @@ public class DieView{
                 + AssetsURL.getImage(die5.getFace())
                 + ");");
         
-        Button sixButton = new Button(die6.getFace());
+        Button sixButton = new Button();
+        sixButton.setPrefSize(90, 100);       
         sixButton.setOnAction(e -> {
             sixButton.setVisible(false);
         });
         sixButton.setStyle("-fx-background-color: #ffffff; "
                 + "-fx-background-image: url("
-                + AssetsURL.getImage(die6.getFace())+ ");");
+                + AssetsURL.getImage(die6.getFace())
+                + ");");
         
       
         HBox diceLayout = new HBox(40);

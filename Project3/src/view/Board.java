@@ -127,7 +127,7 @@ public class Board extends Application{
         boardLayout.setLeft(leftPane);
         
         
-        Scene game = new Scene(boardLayout, 1024, 900);
+        Scene game = new Scene(boardLayout, 1024, 1024);
         game.getStylesheets().add("styles/Bang.css");
         window.setScene(game);
         window.show();
