@@ -29,12 +29,12 @@ public class DieView{
     
     
     public enum AssetsURL{
-        ARROW("assets/arrow.jpg"),
-        BEER("assets/beer.jpg"),
-        DYNAMITE("assets/dynamite.jpg"),
-        GATLING("assets/gatling.jpg"),
-        ONE("assets/1.jpg"),
-        TWO("assets/2.jpg");
+        ARROW("assets/arrow.png"),
+        BEER("assets/beer.png"),
+        DYNAMITE("assets/dynamite.png"),
+        GATLING("assets/gatling.png"),
+        ONE("assets/1.png"),
+        TWO("assets/2.png");
         
         public String url;
         
@@ -77,7 +77,7 @@ public class DieView{
         oneButton.setOnAction(e -> {
             oneButton.setVisible(false);
         });
-        oneButton.setPrefSize(90, 100);
+        oneButton.setPrefSize(128, 128);
         oneButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
                 + AssetsURL.getImage(die1.getFace())
                 + ");");
@@ -87,13 +87,13 @@ public class DieView{
         twoButton.setOnAction(e -> {
             twoButton.setVisible(false);
         });
-        twoButton.setPrefSize(90, 100);       
+        twoButton.setPrefSize(128, 128);       
         twoButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
                 + AssetsURL.getImage(die2.getFace())
                 + ");");
         
         Button threeButton = new Button();
-        threeButton.setPrefSize(90, 100);      
+        threeButton.setPrefSize(128, 128);      
         threeButton.setOnAction(e -> { 
             threeButton.setVisible(false);
         });
@@ -102,7 +102,7 @@ public class DieView{
                 + ");");
         
         Button fourButton = new Button();
-        fourButton.setPrefSize(90, 100);       
+        fourButton.setPrefSize(128, 128);       
         fourButton.setOnAction(e -> {
             fourButton.setVisible(false);
         });
@@ -111,7 +111,7 @@ public class DieView{
                 + ");");
         
         Button fiveButton = new Button();
-        fiveButton.setPrefSize(90, 100);       
+        fiveButton.setPrefSize(128, 128);       
         fiveButton.setOnAction(e -> {
             fiveButton.setVisible(false);
         });
@@ -120,7 +120,7 @@ public class DieView{
                 + ");");
         
         Button sixButton = new Button();
-        sixButton.setPrefSize(90, 100);       
+        sixButton.setPrefSize(128, 128);       
         sixButton.setOnAction(e -> {
             sixButton.setVisible(false);
         });

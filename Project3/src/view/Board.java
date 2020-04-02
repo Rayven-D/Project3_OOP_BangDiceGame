@@ -18,6 +18,8 @@ import javafx.scene.control.*;
 import javafx.geometry.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import project3.RollDice;
 
 
@@ -56,6 +58,7 @@ public class Board extends Application{
         window = stage;
         window.setTitle("Bang! The Dice Game");
         
+   
         //Anonymous Players
         StackPane player1 = new StackPane();
         player1.getChildren().addAll(Player.display(50, 50));
@@ -71,9 +74,9 @@ public class Board extends Application{
         userInfo.getChildren().addAll(roleCard, characterCard);
         
         //User Tokens
-        VBox singleBullet = Token.display("Bullet", 4);
-        VBox multipleBullets = Token.display("Three Bullets", 4);
-        VBox arrows = Token.display("Arrows", 6);
+        VBox singleBullet = Token.display("Bullet", 4, "assets/bullet.png");
+        VBox multipleBullets = Token.display("Three Bullets", 4, "assets/ammunition.png");
+        VBox arrows = Token.display("Arrows", 6, "assets/indian.png");
         HBox tokens = new HBox(PADDING_SIZE);
         tokens.getChildren().addAll(singleBullet, multipleBullets, arrows);
         
@@ -103,7 +106,7 @@ public class Board extends Application{
         
         //
         HBox userAttacks = new HBox(PADDING_SIZE);
-        Button attackLeft = new Button("Attack Left");
+        Button attackLeft = new Button("Attack Left");   
         Button attackRight = new Button("Attack Right");
         
         userAttacks.getChildren().addAll(attackLeft, attackRight);
@@ -113,11 +116,13 @@ public class Board extends Application{
         //Board Layout
         VBox leftPane = new VBox(PADDING_SIZE);
         leftPane.getChildren().addAll(player1);
+        leftPane.setStyle("-fx-padding: 50 25 50 25");
+
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
         center.getChildren().addAll(diceText,inventory, arrowsOnTheTable, currentArrowsOnTheTable);
-        center.setStyle("-fx-background-color: #F9E784; -fx-padding: 50 50 50 50");
+        center.setStyle("-fx-padding: 200 25 200 25;");
         centerView.getChildren().addAll(center);
         
         VBox rightPane = new VBox(PADDING_SIZE);

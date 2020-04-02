@@ -10,6 +10,7 @@
 
 package view;
 
+import javafx.scene.Group;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -22,18 +23,18 @@ public class Player {
     
     public static final int PADDING_SIZE = 20;
     
-    public static StackPane display(int width, int height){
+    public static Group display(int width, int height){
         // Components
-        StackPane playerCard = new StackPane();
-        
+        Group group = new Group();
         Rectangle card = new Rectangle(width, height);
-        card.setFill(Color.DARKGRAY);
+        card.setFill(Color.TRANSPARENT);
+        card.setStroke(Color.BLACK);
         card.setArcHeight(10.0d); 
         card.setArcWidth(10.0d); 
-        playerCard.getChildren().add(card);
+        group.getChildren().add(card);
         
         
-        return playerCard;
+        return group;
     }
 
 }
