@@ -117,17 +117,22 @@ public class Board extends Application{
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
         center.getChildren().addAll(diceText,inventory, arrowsOnTheTable, currentArrowsOnTheTable);
+        center.setStyle("-fx-background-color: #F9E784; -fx-padding: 50 50 50 50");
         centerView.getChildren().addAll(center);
         
         VBox rightPane = new VBox(PADDING_SIZE);
         rightPane.getChildren().addAll(userInfo, tokens, userRoll, userAttacks); 
+        rightPane.setStyle("-fx-background-color: #D05353; -fx-padding: 50 50 50 50");
         BorderPane boardLayout = new BorderPane();
+        
+        
+        //Final Pane Set Up
         boardLayout.setRight(rightPane);
         boardLayout.setCenter(center);
         boardLayout.setLeft(leftPane);
         
         
-        Scene game = new Scene(boardLayout, 1024, 1024);
+        Scene game = new Scene(boardLayout, 1980, 1024);
         game.getStylesheets().add("styles/Bang.css");
         window.setScene(game);
         window.show();
