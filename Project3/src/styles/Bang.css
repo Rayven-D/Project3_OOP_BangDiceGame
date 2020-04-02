@@ -8,21 +8,43 @@ and open the template in the editor.
     Author     : shreyesh
 */
 
+
+
 .root {
-    -fx-background-color: #191919; 
-    -fx-font-size: 16pt;
+    -fx-font-family: 'Tahoma';
+    -fx-background-color: #000000; 
+    -fx-font-size: 14pt;
 }
 
 
 
 .button {
-    -fx-background-color: #E58F65;
+    -fx-background-color: #191919;
+    -fx-background-radius: 20;
     -fx-text-fill: #ffffff;
-    -fx-font-size: 14pt;
+    -fx-font-size: 12pt;
     
 }
 
+.button:hover {
+    -fx-background-color: #000000;
+    -fx-background-radius: 20;
+    -fx-border-color: #7DDF64;
+    -fx-border-radius: 15;
+    -fx-border-width: 11 11 11 11;
+}
+
+#button-attack:hover {
+    -fx-background-color: #E8D6CB;
+    -fx-text-fill: #000000;
+    -fx-background-radius: 20;
+    -fx-border-color: #000000;
+    -fx-border-radius: 10;
+    -fx-border-width: 5 5 5 5;
+}
+
 .label {
+    
     -fx-text-fill: #ffffff;
     
 }

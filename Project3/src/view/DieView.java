@@ -80,7 +80,8 @@ public class DieView{
         oneButton.setPrefSize(128, 128);
         oneButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
                 + AssetsURL.getImage(die1.getFace())
-                + ");");
+                + ");"
+                + "");
         
         
         Button twoButton = new Button();
@@ -130,7 +131,7 @@ public class DieView{
                 + ");");
         
       
-        HBox diceLayout = new HBox(40);
+        HBox diceLayout = new HBox(20);
         diceLayout.getChildren().addAll(oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton);
         
         return diceLayout;

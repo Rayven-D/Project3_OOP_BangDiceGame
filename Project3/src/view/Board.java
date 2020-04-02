@@ -15,11 +15,6 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import javafx.geometry.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import project3.RollDice;
 
 
@@ -74,9 +69,9 @@ public class Board extends Application{
         userInfo.getChildren().addAll(roleCard, characterCard);
         
         //User Tokens
-        VBox singleBullet = Token.display("Bullet", 4, "assets/bullet.png");
-        VBox multipleBullets = Token.display("Three Bullets", 4, "assets/ammunition.png");
-        VBox arrows = Token.display("Arrows", 6, "assets/indian.png");
+        VBox singleBullet = Token.display("Bullet", 4, "assets/bullet.png", 64, 64);
+        VBox multipleBullets = Token.display("Three Bullets", 4, "assets/ammunition.png", 64, 64);
+        VBox arrows = Token.display("Arrows", 6, "assets/indian.png", 64, 64);
         HBox tokens = new HBox(PADDING_SIZE);
         tokens.getChildren().addAll(singleBullet, multipleBullets, arrows);
         
@@ -88,12 +83,28 @@ public class Board extends Application{
         //Roll Dice  
         StackPane userRoll = new StackPane();
         Button rollDice = new Button("Roll Dice");
+        rollDice.setId("button-attack");
         userRoll.getChildren().addAll(rollDice);
         
         //Center Console
-        Label diceText = new Label("Dice");
-        Label arrowsOnTheTable = new Label("Arrows");
+        Label diceText = new Label("DICE");
+        diceText.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; ");
+        StackPane dicePane = new StackPane();
+        dicePane.getChildren().addAll(diceText);
+        
+        Label arrowsOnTheTable = new Label("ARROWS");
+        arrowsOnTheTable.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; fx-padding-bottom: 140px");
+        StackPane arrowTextPane = new StackPane();
+        arrowTextPane.getChildren().addAll(arrowsOnTheTable);  
+        
         Label currentArrowsOnTheTable = new Label(Integer.toString(numberOfArrowsOnTheTable));
+        StackPane curArrowPane = new StackPane();
+        curArrowPane.getChildren().addAll(arrowsOnTheTable);  
+        
+        VBox boardArrows = Token.display("", 6, "assets/arrow.png", 128, 128);
+        
+        
+        
         HBox inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> {
             //TEMPORARY CONTROLLER FOR TESTING
@@ -106,8 +117,10 @@ public class Board extends Application{
         
         //
         HBox userAttacks = new HBox(PADDING_SIZE);
-        Button attackLeft = new Button("Attack Left");   
+        Button attackLeft = new Button("Attack Left");  
+        attackLeft.setId("button-attack");
         Button attackRight = new Button("Attack Right");
+        attackRight.setId("button-attack");
         
         userAttacks.getChildren().addAll(attackLeft, attackRight);
         
@@ -121,13 +134,16 @@ public class Board extends Application{
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
-        center.getChildren().addAll(diceText,inventory, arrowsOnTheTable, currentArrowsOnTheTable);
-        center.setStyle("-fx-padding: 200 25 200 25;");
+        center.getChildren().addAll(dicePane,inventory, arrowTextPane,curArrowPane, boardArrows);
+        center.setStyle("-fx-padding: 150 25 150 25;");
         centerView.getChildren().addAll(center);
         
         VBox rightPane = new VBox(PADDING_SIZE);
         rightPane.getChildren().addAll(userInfo, tokens, userRoll, userAttacks); 
-        rightPane.setStyle("-fx-background-color: #D05353; -fx-padding: 50 50 50 50");
+        rightPane.setStyle("-fx-background-color: #D33F49; "
+                + "-fx-padding: 50 30 30 50; "
+                + "-fx-border-width: 0 0 0 5; "
+                + "-fx-border-color: #E8D6CB;");
         BorderPane boardLayout = new BorderPane();
         
         

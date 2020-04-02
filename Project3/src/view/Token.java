@@ -26,7 +26,7 @@ public class Token {
     
     public static final int PADDING_SIZE = 20;
     
-    public static VBox display(String type, int curVal, String url){
+    public static VBox display(String type, int curVal, String url, int width, int height){
         // Components
         Label tokenType = new Label(type);
         Button icon = new Button();
@@ -36,7 +36,7 @@ public class Token {
                 + url
                 + ");");
         icon.setDisable(true);
-        icon.setPrefSize(64, 64);
+        icon.setPrefSize(width, height);
         
         StackPane align = new StackPane();
         align.getChildren().addAll(icon, tokenVal);
