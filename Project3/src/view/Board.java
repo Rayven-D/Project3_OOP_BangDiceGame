@@ -39,7 +39,7 @@ public class Board extends Application{
     private static int numberOfArrows;
     private static String userRole; 
     private static String userCharacter;
-    private static int numberOfArrowsOnTheTable;
+    private static int numberOfArrowsOnTheTable = 9;
     
     
     public void setNumberOfSingleBullet(){
@@ -84,6 +84,7 @@ public class Board extends Application{
         //Center Console
         Label diceText = new Label("Dice");
         Label arrowsOnTheTable = new Label("Arrows");
+        Label currentArrowsOnTheTable = new Label(Integer.toString(numberOfArrowsOnTheTable));
         HBox inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> {
             //TEMPORARY CONTROLLER FOR TESTING
@@ -104,16 +105,22 @@ public class Board extends Application{
         
         
         //Board Layout
+        VBox leftPane = new VBox(PADDING_SIZE);
+        
+        StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
-        center.getChildren().addAll(inventory);
+        center.getChildren().addAll(diceText,inventory, arrowsOnTheTable, currentArrowsOnTheTable);
+        centerView.getChildren().addAll(center);
+        
         VBox rightPane = new VBox(PADDING_SIZE);
         rightPane.getChildren().addAll(userInfo, tokens, userRoll, userAttacks); 
         BorderPane boardLayout = new BorderPane();
         boardLayout.setRight(rightPane);
         boardLayout.setCenter(center);
+        boardLayout.setLeft(leftPane);
         
         
-        Scene game = new Scene(boardLayout, 800, 800);
+        Scene game = new Scene(boardLayout, 1024, 900);
         window.setScene(game);
         window.show();
     }
