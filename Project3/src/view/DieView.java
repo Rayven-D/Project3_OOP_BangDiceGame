@@ -28,6 +28,22 @@ import project3.Die;
 public class DieView{
     
     
+    public enum AssetsURL{
+        ARROW("assets/arrow.jpg"),
+        BEER("assets/beer.jpg"),
+        DYNAMITE("assets/dynamite.jpg"),
+        GATLING("assets/gatling.jpg"),
+        SINGLE("assets/single_bullet.jpg"),
+        MULTI("assets/triple_bullet.jpg");
+        
+        public String url;
+        
+        AssetsURL(String url){
+            this.url = url;
+        }
+    };
+    
+    
     public static HBox display(LinkedList dice){
         
         Die die1 = (Die) dice.get(0);
@@ -42,31 +58,37 @@ public class DieView{
         oneButton.setOnAction(e -> {
             oneButton.setVisible(false);
         });
+        oneButton.setStyle("-fx-background-color: #ffffff;");
         
         Button twoButton = new Button(die2.getFace());
         twoButton.setOnAction(e -> {
             twoButton.setVisible(false);
         });
+        twoButton.setStyle("-fx-background-color: #ffffff;");
         
         Button threeButton = new Button(die3.getFace());
         threeButton.setOnAction(e -> { 
             threeButton.setVisible(false);
         });
+        threeButton.setStyle("-fx-background-color: #ffffff;");
         
         Button fourButton = new Button(die4.getFace());
         fourButton.setOnAction(e -> {
             fourButton.setVisible(false);
         });
+        fourButton.setStyle("-fx-background-color: #ffffff;");
         
         Button fiveButton = new Button(die5.getFace());
         fiveButton.setOnAction(e -> {
             fiveButton.setVisible(false);
         });
+        fiveButton.setStyle("-fx-background-color: #ffffff;");
         
         Button sixButton = new Button(die6.getFace());
         sixButton.setOnAction(e -> {
             sixButton.setVisible(false);
         });
+        sixButton.setStyle("-fx-background-color: #ffffff;");
         
       
         HBox diceLayout = new HBox(40);

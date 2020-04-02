@@ -54,6 +54,12 @@ public class Board extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
+        window.setTitle("Bang! The Dice Game");
+        
+        //Anonymous Players
+        StackPane player1 = new StackPane();
+        player1.getChildren().addAll(Player.display(50, 50));
+        
         
         
         //Right Pane elements
@@ -106,6 +112,7 @@ public class Board extends Application{
         
         //Board Layout
         VBox leftPane = new VBox(PADDING_SIZE);
+        leftPane.getChildren().addAll(player1);
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
@@ -121,6 +128,7 @@ public class Board extends Application{
         
         
         Scene game = new Scene(boardLayout, 1024, 900);
+        game.getStylesheets().add("styles/Bang.css");
         window.setScene(game);
         window.show();
     }
