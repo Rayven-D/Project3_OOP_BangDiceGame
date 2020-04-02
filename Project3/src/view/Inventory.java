@@ -18,16 +18,25 @@ import javafx.geometry.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+
 /**
  *
  * @author shreyesh
  */
 public class Inventory {
     
-    public static final int PADDING_SIZE = 40;
+    public static final int PADDING_SIZE = 40;  
 
-    public static VBox display(){
+    public static VBox display(boolean canShoot){
+        
         VBox inventory = new VBox(PADDING_SIZE);
+        
+        if(canShoot){
+            Button attackLeft = new Button("Attack Left");
+            Button attackRight = new Button("Attack Right");
+            inventory.getChildren().addAll(attackLeft, attackRight);
+        }
+        
         return inventory;
     }
 }

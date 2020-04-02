@@ -28,7 +28,7 @@ import project3.Die;
 public class DieView{
     
     
-    public HBox display(LinkedList dice){
+    public static HBox display(LinkedList dice){
         
         Die die1 = (Die) dice.get(0);
         Die die2 = (Die) dice.get(1);
@@ -39,11 +39,34 @@ public class DieView{
         
         //Components
         Button oneButton = new Button(die1.getFace());
+        oneButton.setOnAction(e -> {
+            oneButton.setVisible(false);
+        });
+        
         Button twoButton = new Button(die2.getFace());
+        twoButton.setOnAction(e -> {
+            twoButton.setVisible(false);
+        });
+        
         Button threeButton = new Button(die3.getFace());
+        threeButton.setOnAction(e -> { 
+            threeButton.setVisible(false);
+        });
+        
         Button fourButton = new Button(die4.getFace());
+        fourButton.setOnAction(e -> {
+            fourButton.setVisible(false);
+        });
+        
         Button fiveButton = new Button(die5.getFace());
+        fiveButton.setOnAction(e -> {
+            fiveButton.setVisible(false);
+        });
+        
         Button sixButton = new Button(die6.getFace());
+        sixButton.setOnAction(e -> {
+            sixButton.setVisible(false);
+        });
         
       
         HBox diceLayout = new HBox(40);
