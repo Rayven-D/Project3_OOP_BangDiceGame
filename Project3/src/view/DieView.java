@@ -27,7 +27,15 @@ import project3.Die;
  */
 public class DieView{
     
+    //SIZE Attributes
+    public static final int WIDTH = 120;
+    public static final int HEIGHT = 120;
     
+    //Current Dice as per the roll
+    public static LinkedList remainingDice = new LinkedList();
+    public static LinkedList selectedDice = new LinkedList();
+    
+   
     public enum AssetsURL{
         ARROW("assets/arrow.png"),
         BEER("assets/beer.png"),
@@ -71,69 +79,70 @@ public class DieView{
         Die die5 = (Die) dice.get(4);
         Die die6 = (Die) dice.get(5);
         
-        
-        //Components
-        Button oneButton = new Button();
-        oneButton.setOnAction(e -> {
+        remainingDice = dice;
+       
+        Button oneButton = assignDie(die1);
+        oneButton.setOnAction(e->{
             oneButton.setVisible(false);
+            remainingDice.remove(die1);
+            selectedDice.add(die1);
         });
-        oneButton.setPrefSize(128, 128);
-        oneButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
-                + AssetsURL.getImage(die1.getFace())
-                + ");"
-                + "");
         
-        
-        Button twoButton = new Button();
-        twoButton.setOnAction(e -> {
+        Button twoButton = assignDie(die2);
+        twoButton.setOnAction(e->{
             twoButton.setVisible(false);
+            remainingDice.remove(die2);
+            selectedDice.add(die2);
         });
-        twoButton.setPrefSize(128, 128);       
-        twoButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
-                + AssetsURL.getImage(die2.getFace())
-                + ");");
         
-        Button threeButton = new Button();
-        threeButton.setPrefSize(128, 128);      
-        threeButton.setOnAction(e -> { 
+        Button threeButton = assignDie(die3);
+        threeButton.setOnAction(e->{
             threeButton.setVisible(false);
+            remainingDice.remove(die3);
+            selectedDice.add(die3);
         });
-        threeButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
-                + AssetsURL.getImage(die3.getFace())
-                + ");");
         
-        Button fourButton = new Button();
-        fourButton.setPrefSize(128, 128);       
-        fourButton.setOnAction(e -> {
+        Button fourButton = assignDie(die4);
+        fourButton.setOnAction(e->{
             fourButton.setVisible(false);
+            remainingDice.remove(die4);
+            selectedDice.add(die4);
         });
-        fourButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
-                + AssetsURL.getImage(die4.getFace())
-                + ");");
         
-        Button fiveButton = new Button();
-        fiveButton.setPrefSize(128, 128);       
-        fiveButton.setOnAction(e -> {
+        Button fiveButton = assignDie(die5);
+        fiveButton.setOnAction(e->{
             fiveButton.setVisible(false);
+            remainingDice.remove(die5);
+            selectedDice.add(die5);
         });
-        fiveButton.setStyle("-fx-background-color: #ffffff; -fx-background-image: url("
-                + AssetsURL.getImage(die5.getFace())
-                + ");");
         
-        Button sixButton = new Button();
-        sixButton.setPrefSize(128, 128);       
-        sixButton.setOnAction(e -> {
+        Button sixButton = assignDie(die6);
+        sixButton.setOnAction(e->{
             sixButton.setVisible(false);
+            remainingDice.remove(die6);
+            selectedDice.add(die6);
         });
-        sixButton.setStyle("-fx-background-color: #ffffff; "
-                + "-fx-background-image: url("
-                + AssetsURL.getImage(die6.getFace())
-                + ");");
-        
-      
+
         HBox diceLayout = new HBox(20);
         diceLayout.getChildren().addAll(oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton);
         
         return diceLayout;
     }
+    
+    public static Button assignDie(Die die){
+        
+        String url = AssetsURL.getImage(die.getFace());
+        
+        Button button = new Button();
+        button.setPrefSize(WIDTH, HEIGHT);
+        button.setStyle("-fx-background-color: #ffffff; "
+                + "-fx-background-image: url("+ url + ")"
+                + ");"
+                + "");
+        
+        return button;
+    }
+    
+    
+    
 }

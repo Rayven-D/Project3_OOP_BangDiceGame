@@ -38,12 +38,7 @@ public class Board extends Application{
     private static String userCharacter;
     private static int numberOfArrowsOnTheTable = 9;
     
-    
-    public void setNumberOfSingleBullet(){
         
-    }
-    
-    
     public static void main(String[] args){
         launch(args);
     }
@@ -55,18 +50,16 @@ public class Board extends Application{
         
    
         //Anonymous Players
-        StackPane player1 = new StackPane();
-        player1.getChildren().addAll(Player.display(50, 50));
-        
-        
+
         
         //Right Pane elements
         
         //User Attributes
         VBox roleCard = AttributeCard.display("Role", "Renegade");
         VBox characterCard = AttributeCard.display("Character", "Billy Jackson");
-        HBox userInfo = new HBox(PADDING_SIZE);
+        HBox userInfo = new HBox(PADDING_SIZE+20);
         userInfo.getChildren().addAll(roleCard, characterCard);
+
         
         //User Tokens
         VBox singleBullet = Token.display("Bullet", 4, "assets/bullet.png", 64, 64);
@@ -76,15 +69,35 @@ public class Board extends Application{
         tokens.getChildren().addAll(singleBullet, multipleBullets, arrows);
         
         
-        //Selected Token 
-        
-        
-        
         //Roll Dice  
         StackPane userRoll = new StackPane();
         Button rollDice = new Button("Roll Dice");
+        
         rollDice.setId("button-attack");
         userRoll.getChildren().addAll(rollDice);
+        
+        StackPane attacks = new StackPane();
+        HBox userAttacks = new HBox(PADDING_SIZE);
+        
+        Button attackLeft = new Button("Attack Left");  
+        attackLeft.setId("button-attack");
+        
+        Button attackRight = new Button("Attack Right");
+        attackRight.setId("button-attack");
+        
+        userAttacks.getChildren().addAll(attackLeft, attackRight);
+        attacks.getChildren().addAll(userAttacks);
+        
+                
+        HBox inventory = new HBox(PADDING_SIZE);
+        rollDice.setOnAction(e-> {
+            inventory.getChildren().clear();
+            RollDice die = new RollDice();  
+            inventory.getChildren().add(DieView.display(die.getDice()));
+        });
+        
+        
+        
         
         //Center Console
         Label diceText = new Label("DICE");
@@ -101,34 +114,14 @@ public class Board extends Application{
         StackPane curArrowPane = new StackPane();
         curArrowPane.getChildren().addAll(arrowsOnTheTable);  
         
-        VBox boardArrows = Token.display("", 6, "assets/arrow.png", 128, 128);
+        VBox boardArrows = Token.display("", 6, "assets/arrow.png", 120, 120);
         
-        
-        
-        HBox inventory = new HBox(PADDING_SIZE);
-        rollDice.setOnAction(e-> {
-            //TEMPORARY CONTROLLER FOR TESTING
-            inventory.getChildren().clear();
-            RollDice die = new RollDice();  
-            inventory.getChildren().add(DieView.display(die.getDice()));
-        });
-        
-        
-        
-        //
-        HBox userAttacks = new HBox(PADDING_SIZE);
-        Button attackLeft = new Button("Attack Left");  
-        attackLeft.setId("button-attack");
-        Button attackRight = new Button("Attack Right");
-        attackRight.setId("button-attack");
-        
-        userAttacks.getChildren().addAll(attackLeft, attackRight);
-        
-        
+     
+         
         
         //Board Layout
         VBox leftPane = new VBox(PADDING_SIZE);
-        leftPane.getChildren().addAll(player1);
+//        leftPane.getChildren().addAll(player1);
         leftPane.setStyle("-fx-padding: 50 25 50 25");
 
         
@@ -140,12 +133,13 @@ public class Board extends Application{
         
         VBox rightPane = new VBox(PADDING_SIZE);
         rightPane.getChildren().addAll(userInfo, tokens, userRoll, userAttacks); 
-        rightPane.setStyle("-fx-background-color: #D33F49; "
-                + "-fx-padding: 50 30 30 50; "
-                + "-fx-border-width: 0 0 0 5; "
-                + "-fx-border-color: #E8D6CB;");
+        rightPane.setStyle( "-fx-padding: 50 30 30 50; ");
         BorderPane boardLayout = new BorderPane();
         
+        boardLayout.setStyle("-fx-background-color: #ffffff ;-fx-background-image: url("
+                + "assets/background.jpg"
+                + ");"
+                + "-fx-object-fit: contain;");
         
         //Final Pane Set Up
         boardLayout.setRight(rightPane);
@@ -157,6 +151,19 @@ public class Board extends Application{
         game.getStylesheets().add("styles/Bang.css");
         window.setScene(game);
         window.show();
+    }
+    
+    
+    public Player[] createPlayers(int totalNumberOfPlayers){
+        Player[] players = new Player[totalNumberOfPlayers]; 
+        for(Player player: players){
+            //Assign the player a character
+            
+            //Assign the Player a role
+            
+            //Assign characters his life Points and abilites
+        }
+        return players;
     }
     
     

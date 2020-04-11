@@ -50,7 +50,7 @@ public class RollDice {
      */
     public LinkedList rollDice(LinkedList dice){
         
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < dice.size(); i++){
             this.die = (Die) dice.get(i);
             
             if(die.getReroll() && die.getChooseRoll()){
@@ -72,6 +72,7 @@ public class RollDice {
         }
         return dice;
     }
+    
     
     /**
      *

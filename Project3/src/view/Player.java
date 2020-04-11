@@ -23,7 +23,9 @@ public class Player {
     
     public static final int PADDING_SIZE = 20;
     
-    public static Group display(int width, int height){
+    //Create a constructor that takes in a Player object and create the necessary labels
+    
+    public Group display(int width, int height){
         // Components
         Group group = new Group();
         Rectangle card = new Rectangle(width, height);
