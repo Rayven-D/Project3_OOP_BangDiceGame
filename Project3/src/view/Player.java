@@ -10,7 +10,6 @@
 
 package view;
 
-import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -31,7 +30,7 @@ public class Player {
         StackPane group = new StackPane();
         Rectangle card = new Rectangle(width, height);
         Label playerName = new Label("Player 2");
-        card.setFill(Color.TRANSPARENT);
+        card.setFill(Color.BLACK);
         card.setStroke(Color.BLACK);
         card.setArcHeight(10.0d); 
         card.setArcWidth(10.0d); 

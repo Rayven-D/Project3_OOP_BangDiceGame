@@ -59,9 +59,9 @@ public class Board extends Application{
         HBox bottomPlayers = new HBox(100);
         HBox topPlayers = new HBox(100);
         
-        leftPlayers.getChildren().addAll(player.display(75, 75), player.display(75, 75));
-        bottomPlayers.getChildren().addAll(player.display(75, 75), player.display(75, 75));
-        topPlayers.getChildren().addAll(player.display(75, 75), player.display(75, 75));
+        leftPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
+        bottomPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
+        topPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
         
         //Right Pane elements
         
