@@ -11,6 +11,7 @@
 package view;
 
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -25,15 +26,18 @@ public class Player {
     
     //Create a constructor that takes in a Player object and create the necessary labels
     
-    public Group display(int width, int height){
+    public StackPane display(int width, int height){
         // Components
-        Group group = new Group();
+        StackPane group = new StackPane();
         Rectangle card = new Rectangle(width, height);
+        Label playerName = new Label("Player 2");
         card.setFill(Color.TRANSPARENT);
         card.setStroke(Color.BLACK);
         card.setArcHeight(10.0d); 
         card.setArcWidth(10.0d); 
-        group.getChildren().add(card);
+        group.getChildren().addAll(card,playerName);
+        
+        
         
         
         return group;

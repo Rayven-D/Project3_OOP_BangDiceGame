@@ -10,11 +10,13 @@
 
 package view;
 
+import java.util.LinkedList;
 import javafx.application.Application;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import project3.Die;
 import project3.RollDice;
 
 
@@ -37,6 +39,8 @@ public class Board extends Application{
     private static String userRole; 
     private static String userCharacter;
     private static int numberOfArrowsOnTheTable = 9;
+    public static HBox currentDiceSelection;
+
     
         
     public static void main(String[] args){
@@ -50,7 +54,14 @@ public class Board extends Application{
         
    
         //Anonymous Players
-
+        Player player = new Player();
+        VBox leftPlayers = new VBox(100);
+        HBox bottomPlayers = new HBox(100);
+        HBox topPlayers = new HBox(100);
+        
+        leftPlayers.getChildren().addAll(player.display(75, 75), player.display(75, 75));
+        bottomPlayers.getChildren().addAll(player.display(75, 75), player.display(75, 75));
+        topPlayers.getChildren().addAll(player.display(75, 75), player.display(75, 75));
         
         //Right Pane elements
         
@@ -90,12 +101,15 @@ public class Board extends Application{
         
                 
         HBox inventory = new HBox(PADDING_SIZE);
-        rollDice.setOnAction(e-> {
+        rollDice.setOnAction(e-> { 
             inventory.getChildren().clear();
             RollDice die = new RollDice();  
             inventory.getChildren().add(DieView.display(die.getDice()));
         });
         
+        
+        // Selected Dice
+        HBox userSelectedDice = new HBox();
         
         
         
@@ -120,16 +134,26 @@ public class Board extends Application{
          
         
         //Board Layout
-        VBox leftPane = new VBox(PADDING_SIZE);
-//        leftPane.getChildren().addAll(player1);
-        leftPane.setStyle("-fx-padding: 50 25 50 25");
+        HBox topPane = new HBox();
+        topPane.getChildren().addAll(topPlayers);
+        topPane.setStyle("-fx-padding: 0 500 0 500");
+
+        
+        VBox leftPane = new VBox();
+        leftPane.getChildren().addAll(leftPlayers);
+        leftPane.setStyle("-fx-padding: 250 0 250 50");
 
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
         center.getChildren().addAll(dicePane,inventory, arrowTextPane,curArrowPane, boardArrows);
-        center.setStyle("-fx-padding: 150 25 150 25;");
+        center.setStyle("-fx-padding: 150 25 50 25;");
         centerView.getChildren().addAll(center);
+        
+        HBox bottomPane = new HBox();
+        bottomPane.getChildren().addAll(bottomPlayers);
+        bottomPane.setStyle("-fx-padding: 0 500 0 500");
+
         
         VBox rightPane = new VBox(PADDING_SIZE);
         rightPane.getChildren().addAll(userInfo, tokens, userRoll, userAttacks); 
@@ -145,6 +169,8 @@ public class Board extends Application{
         boardLayout.setRight(rightPane);
         boardLayout.setCenter(center);
         boardLayout.setLeft(leftPane);
+        boardLayout.setBottom(bottomPane);
+        boardLayout.setTop(topPane);
         
         
         Scene game = new Scene(boardLayout, 1980, 1024);

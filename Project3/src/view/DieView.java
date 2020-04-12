@@ -86,6 +86,7 @@ public class DieView{
             oneButton.setVisible(false);
             remainingDice.remove(die1);
             selectedDice.add(die1);
+            Board.currentDiceSelection.getChildren().add(oneButton);
         });
         
         Button twoButton = assignDie(die2);
@@ -93,6 +94,7 @@ public class DieView{
             twoButton.setVisible(false);
             remainingDice.remove(die2);
             selectedDice.add(die2);
+            Board.currentDiceSelection.getChildren().add(twoButton);
         });
         
         Button threeButton = assignDie(die3);
@@ -100,6 +102,7 @@ public class DieView{
             threeButton.setVisible(false);
             remainingDice.remove(die3);
             selectedDice.add(die3);
+            Board.currentDiceSelection.getChildren().add(threeButton);
         });
         
         Button fourButton = assignDie(die4);
@@ -107,6 +110,7 @@ public class DieView{
             fourButton.setVisible(false);
             remainingDice.remove(die4);
             selectedDice.add(die4);
+            Board.currentDiceSelection.getChildren().add(fourButton);
         });
         
         Button fiveButton = assignDie(die5);
@@ -114,6 +118,7 @@ public class DieView{
             fiveButton.setVisible(false);
             remainingDice.remove(die5);
             selectedDice.add(die5);
+            Board.currentDiceSelection.getChildren().add(fiveButton);
         });
         
         Button sixButton = assignDie(die6);
@@ -121,6 +126,7 @@ public class DieView{
             sixButton.setVisible(false);
             remainingDice.remove(die6);
             selectedDice.add(die6);
+            Board.currentDiceSelection.getChildren().add(sixButton);
         });
 
         HBox diceLayout = new HBox(20);
@@ -136,7 +142,7 @@ public class DieView{
         Button button = new Button();
         button.setPrefSize(WIDTH, HEIGHT);
         button.setStyle("-fx-background-color: #ffffff; "
-                + "-fx-background-image: url("+ url + ")"
+                + "-fx-background-image: url("+ url
                 + ");"
                 + "");
         
