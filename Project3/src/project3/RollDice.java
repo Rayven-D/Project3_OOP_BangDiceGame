@@ -75,6 +75,33 @@ public class RollDice {
     
     /**
      *
+     * @param remainingDice - The remaining dice that the user has not chosen
+     * @return A set of new re-rolled dice
+     */
+    public LinkedList reRollDice(LinkedList remainingDice){
+        String face;
+        boolean reRoll;
+        boolean chooseRoll = false; 
+        
+        for(int i=0 ; i<remainingDice.size(); i++){
+            Die curDie = (Die) remainingDice.get(i);
+            if(curDie.getReroll()==false){
+                return remainingDice;
+            }
+        }
+        for(int i=0; i<remainingDice.size(); i++){
+            int randomNum = ThreadLocalRandom.current().nextInt(0,6);
+            face = Face[randomNum];
+            reRoll = face.equals("Dynamite")? false: true;
+            Die curDie = new Die(face, reRoll, chooseRoll);
+            remainingDice.set(i, curDie);
+        }
+        return remainingDice;
+    }
+    
+    
+    /**
+     *
      * @return the linkedList of Die objects
      */
     public LinkedList getDice(){
