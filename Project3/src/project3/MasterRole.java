@@ -4,7 +4,7 @@
  * Project 3 - Bang! Dice Game
  */
 
-package project3.project3_OOP;
+package project3;
 
 import java.util.*;
 
