@@ -52,7 +52,9 @@ public class Board extends Application{
         window = stage;
         window.setTitle("Bang! The Dice Game");
         
-   
+        ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
+        boolean ans = dialogBox.display();
+        System.out.println(ans);
         //Anonymous Players
         Player player = new Player("Player 2", 3, 7);
         VBox leftPlayers = new VBox(100);
@@ -197,6 +199,7 @@ public class Board extends Application{
             //Assign the Player a role
             
             //Assign characters his life Points and abilites
+            
         }
         return players;
     }
