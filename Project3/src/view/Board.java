@@ -54,7 +54,7 @@ public class Board extends Application{
         
    
         //Anonymous Players
-        Player player = new Player();
+        Player player = new Player("Player 2", 3, 7);
         VBox leftPlayers = new VBox(100);
         HBox bottomPlayers = new HBox(100);
         HBox topPlayers = new HBox(100);
@@ -158,25 +158,34 @@ public class Board extends Application{
         VBox rightPane = new VBox(PADDING_SIZE);
         rightPane.getChildren().addAll(userInfo, tokens, userRoll, userAttacks); 
         rightPane.setStyle( "-fx-padding: 50 30 30 50; ");
-        BorderPane boardLayout = new BorderPane();
         
-        boardLayout.setStyle("-fx-background-color: #ffffff ;-fx-background-image: url("
-                + "assets/background.jpg"
-                + ");"
-                + "-fx-object-fit: contain;");
         
-        //Final Pane Set Up
-        boardLayout.setRight(rightPane);
-        boardLayout.setCenter(center);
-        boardLayout.setLeft(leftPane);
-        boardLayout.setBottom(bottomPane);
-        boardLayout.setTop(topPane);
+        BorderPane boardLayout = createBorderPane(topPane, bottomPane, leftPane, rightPane, centerView);
         
         
         Scene game = new Scene(boardLayout, 1980, 1024);
         game.getStylesheets().add("styles/Bang.css");
         window.setScene(game);
         window.show();
+    }
+    
+
+    
+    
+    public BorderPane createBorderPane(HBox topPane, HBox bottomPane, VBox leftPane, VBox rightPane, StackPane center){
+        
+        BorderPane boardLayout = new BorderPane();
+        boardLayout.setStyle("-fx-background-color: #ffffff ;-fx-background-image: url("
+                + "assets/background.jpg"
+                + ");"
+                + "-fx-object-fit: contain;");
+        boardLayout.setRight(rightPane);
+        boardLayout.setCenter(center);
+        boardLayout.setLeft(leftPane);
+        boardLayout.setBottom(bottomPane);
+        boardLayout.setTop(topPane);
+        
+        return boardLayout;
     }
     
     
