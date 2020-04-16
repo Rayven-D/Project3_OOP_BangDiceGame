@@ -25,6 +25,7 @@ import javafx.scene.image.ImageView;
 public class Token {
     
     public static final int PADDING_SIZE = 20;
+    public Label tokenType;
     
     public static VBox display(String type, int curVal, String url, int width, int height){
         // Components

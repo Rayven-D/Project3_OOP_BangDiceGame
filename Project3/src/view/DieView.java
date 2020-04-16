@@ -141,8 +141,7 @@ public class DieView{
         
         Button button = new Button();
         button.setPrefSize(WIDTH, HEIGHT);
-        button.setStyle("-fx-background-color: #ffffff; "
-                + "-fx-background-image: url("+ url
+        button.setStyle( "-fx-background-image: url("+ url
                 + ");"
                 + "");
         
