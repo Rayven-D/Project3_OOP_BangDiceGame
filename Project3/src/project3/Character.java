@@ -114,7 +114,7 @@ public class Character {
         return lifePoint;
     }
     
-    private void setName(String name){
+    public void setName(String name){
         this.name = name;
     }
     
@@ -122,7 +122,7 @@ public class Character {
         this.lifePoints = lifePoints;
     }
     
-    private void setSpecialAbility(String specialAbility){
+    public void setSpecialAbility(String specialAbility){
         this.specialAbility = specialAbility;
     }
     
