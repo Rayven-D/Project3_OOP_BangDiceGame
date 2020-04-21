@@ -21,8 +21,9 @@ public class UserPanel {
     public Character userCharacter;
     public Role userRole;
     
-    public UserPanel(Character charater, Role role){
-        
+    public UserPanel(Character character, Role role){
+        this.userCharacter = character;
+        this.userRole = role;
     }
 
 }
