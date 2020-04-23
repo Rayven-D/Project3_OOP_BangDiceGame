@@ -8,6 +8,8 @@ package project3.project3_OOP;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.*;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -15,7 +17,7 @@ import java.util.Scanner;
  */
 public class RollDice {
     
-    private LinkedList dice = new LinkedList();
+    private List<Die> dice = new ArrayList<>();
     
     String[] Face = new String[]{"Arrow", "One", "Two", "Dynamite", "Gatling", "Beer"};
     
@@ -64,10 +66,10 @@ public class RollDice {
     
     /**
      * rolls the dice if the player chooses to and they are able to be rolled
-     * @param dice: the LinkedList of Die objects
-     * @return a LinkedList of rerolled dice
+     * @param dice: the ArrayList of Die objects
+     * @return a ArrayList of rerolled dice
      */
-    public LinkedList rollDice(LinkedList dice){
+    public List rollDice(List dice){
         
         for(int i = 0; i < 5; i++){
             this.die = (Die) dice.get(i);
@@ -116,9 +118,9 @@ public class RollDice {
     
     /**
      *
-     * @return the linkedList of Die objects
+     * @return the ArrayList of Die objects
      */
-    public LinkedList getDice(){
+    public List getDice(){
         return dice;
     }
     
@@ -155,7 +157,7 @@ public class RollDice {
         dices.setExp1(true);
         dices.setExp2(true); 
         
-        LinkedList dice =  dices.getDice();
+        List<Die> dice =  dices.getDice();
         
         Die die1 = (Die) dice.get(0);
         Die die2 = (Die) dice.get(1);
