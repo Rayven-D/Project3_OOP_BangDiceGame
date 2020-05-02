@@ -123,16 +123,21 @@ public class Game {
         allDynamite[1] = null;
         allDynamite[2] = null;
         
-        ArrayList<Die> finalRoll = null;
+        List<Die> finalRoll = null;
         
         boolean lafayette = true;
         
         boolean rollAgain = true;
         
         for(int i = 0; i < rolls; i++){
-            RollDice diceroll = new RollDice();
-            ArrayList<Die> roll = diceroll.rollDice(diceroll.getDice());    
+            RollDice diceroll = new RollDice("none");
+            List<Die> roll = diceroll.rollDice(diceroll.getDice());    
   
+            
+            /*
+            This for loop resolves arrows and dynamite, as they are resolved while
+                the player is still rolling
+            */
             for(int rollIterator = 0; rollIterator < roll.size(); rollIterator++){
                 String currFace = roll.get(i).getFace().toLowerCase();
                 if(currFace.equalsIgnoreCase("arrow")){
@@ -168,7 +173,9 @@ public class Game {
         
         int gatling = 0;
         int beerKiller = 0;
-        
+        /*
+        This for loop resolved the beer and gatling
+        */
         for(Die d: finalRoll){
             String faceName = d.getFace();
             if(faceName.equalsIgnoreCase("beer")){
@@ -205,6 +212,8 @@ public class Game {
             for(int i = 0; i < players.length; i++){
                 if(i == playerTurn){
                     continue;
+                }else if(players[i].getCharacter().getName().equalsIgnoreCase("paul_regret")){
+                    continue;
                 }
                 else{
                     players[i].setHealth(players[i].getCharacter().loseLifePoints(1));
@@ -212,6 +221,10 @@ public class Game {
                 }
             }
         }
+        
+        /*
+        Finally, after all is resolved, we resolve the one and two die face
+        */
         for(Die d: finalRoll){
             String faceName = d.getFace();
             if(faceName.equalsIgnoreCase("one")){
@@ -223,9 +236,18 @@ public class Game {
                         spacesFromPlayer = 2;
                     }
                 }
+                if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
+                    //asks if user wants to use one for one place furhter
+                    if(true){
+                        spacesFromPlayer++;
+                    }
+                }
                 /*player chooses spacesFromPlayer spaces away*/
                 int targetPlayer = 0;
                 loseLife(players[playerTurn], players[targetPlayer]);
+                if(beerKiller > 0){
+                    loseLife(players[playerTurn], players[targetPlayer]);
+                }
             }
             if(faceName.equalsIgnoreCase("two")){
                 lafayette = false;
@@ -236,14 +258,26 @@ public class Game {
                         spacesFromPlayer = 1;
                     }
                 }
+                if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
+                    //asks if user wants to use two for one place furhter
+                    if(true){
+                        spacesFromPlayer++;
+                    }
+                }
                 /*player chooses spacesFromPlayer spaces away*/
                 int targetPlayer = 0;
                 loseLife(players[playerTurn], players[targetPlayer]);
+                if(beerKiller > 0){
+                    loseLife(players[playerTurn], players[targetPlayer]);
+                }
             }
         }
         
+        
+        //turn resolution 
+        //check if any players have 0 or less life points
         for(Player p: players){
-            if(p.getHealth() == 0){
+            if(p.getHealth() <= 0){
                 p.setStatus(false);
                 for(int i = 0; i < players.length; i++){
                     if(players[i].getStatus() && players[i].getCharacter().getName().equalsIgnoreCase("vulture_sam")){
