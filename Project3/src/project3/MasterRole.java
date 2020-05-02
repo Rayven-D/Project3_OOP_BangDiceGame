@@ -83,7 +83,7 @@ public class MasterRole {
      */
     public void assignRole(Player player)
     {
-        player.setRole(new Role(roles));
+        
     }
     
     /**

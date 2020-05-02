@@ -166,9 +166,11 @@ public class Game {
                 }           
             }
             if(!rollAgain  || (i+1) == rolls){
+                writeDiceRoll(roll);                
                 finalRoll = roll;
                 break;
             }
+            writeDiceRoll(roll);
         }
         
         int gatling = 0;
@@ -341,6 +343,26 @@ public class Game {
        }
    }
 
+   public void writeDiceRoll(List<Die> roll){
+       //displays the dice roll to all players
+       
+   }
+   
+   public void writeArrowStatus(){
+       //write the arrows on each player, and the middle pile
+       for(Player p: players){
+           
+       }
+   }
+   
+   public void writePlayerStatus(){
+       //displays each player's alive status and health
+       for(Player p: players){
+           p.getStatus();
+           p.getHealth();
+       }
+   }
+   
     public static void main(String [] args){
         Game g = new Game(4,1);
     }
