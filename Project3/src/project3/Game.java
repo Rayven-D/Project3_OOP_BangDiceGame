@@ -1,18 +1,33 @@
-import java.util.*;
+package project3;
 
-import project3.RollDice;
+import java.util.*;
 
 public class Game {
 
 
-    private Player players[]; 
+    Player players[]; 
     private int playerTurn;
     private int numPlayers;
     private int middleArrows;
     private int lossLifeIndians;
 
-    public Game(int numPlayers) {
-
+    public Game(int numPlayers, int userPlayers) {
+        this.numPlayers = numPlayers;
+        this.middleArrows = 9;
+        this.playerTurn = 0;
+        players = new Player[numPlayers];
+        int i = 0;
+        for(; i < userPlayers; i++){
+            players[i] = new Player(i, true);
+        }
+        for(; i < numPlayers; i++){
+            players[i] = new Player(i, false);
+        }
+        setUp();
+        for(int j = 0; j < numPlayers; j++){
+            System.out.println(players[j].getCharacter().getName() + players[j].getCharacter().getSpecialAbility());
+        }
+        
     }
 
     public Game() {
@@ -61,44 +76,238 @@ public class Game {
                 case "paul_regret":
                     playerCharacter.setSpecialAbility("You never lose life points to the (gatling gun)");
                     break;
-                case ""
-
-        }
-
-        Role roles = new Roles(numPlayers);
-        ArrayList<Role> roleList = roles.getAllRoles(); 
-        for(int i = 0; i < players.length; i++){
-            players[i].setRole(roleList.get(i));
-        }
-    }
-
-    private void turn(){
-        Character playerChar = players[playerTurn].getCharacter();
-        if(playerChar.getName().equalsIgnoreCase("sid_ketchum")){
-            //player chooses who gets life point
-            players[playerChosen].addLifePoint(1);
-        }
-        int rerolls = 2;
-        if(playerChar.getName().equalsIgnoreCase("lucky_duke")){
-            rerolls++;
-        }
-        
-        for(int i = 0; i < rerolls; i++){
-            RollDice diceroll = new RollDice()
-            ArrayList<RollDice> roll = diceroll.rollDice(diceroll.getDice());    
-
-            for(int rollIterator = 0; rollIterator < roll.size(); rollIterator++){
-
-                if()
+                case "pedro_ramirez":
+                    playerCharacter.setSpecialAbility("Each time you lose a life point, you may discard one of your arrows. You still lose a life point.");
+                    break;
+                case "rose_doolan":
+                    playerCharacter.setSpecialAbility("You may use (1) or (2) for players sitting one place further from you.");
+                    break;
+                case "sid_ketchum":
+                    playerCharacter.setSpecialAbility("At the beginning of your turn, any player of your choice gains one life point. You can choose yourself.");
+                    break;
+                case "slab_the_killer":
+                    playerCharacter.setSpecialAbility("Once per turn, you can use a (beer) to double a (1) or (2). It takes two life points from target player instead of one. The beer does not give you any life points.");
+                    break;
+                case "suzy_lafayette":
+                    playerCharacter.setSpecialAbility("If you didn't roll any (1)'s or (2)'s, you gain two life points. Applies at the end of your turn");
+                    break;
+                case "vulture_sam":
+                    playerCharacter.setSpecialAbility("Each time another player is eliminated, you gain two life points.");
+                    break;
+                case "willy_the_kid":
+                    playerCharacter.setSpecialAbility("You only need 2 (gatling guns) to use the Gatling Gun. You can only use the Gatling Gun one per turn.");
+                    break;
+                default:
+                    playerCharacter.setSpecialAbility("NULL");
+                    break;
             }
         }
-
         
     }
 
-    public void assessDice(ArrayList<RollDice> roll){
-
+   private void turn(){
+        Character playerChar = players[playerTurn].getCharacter();
+        if(playerChar.getName().equalsIgnoreCase("sid_ketchum")){
+            int chosenPlayer = 0; // index of chosen player
+            int gainHealth = players[chosenPlayer].getCharacter().gainLifePoints(2);
+            players[chosenPlayer].setHealth(gainHealth);
+        }
+        int rolls = 3;
+        if(playerChar.getName().equalsIgnoreCase("lucky_duke")){
+            rolls++;
+        }
+        
+        int numDyn = 0;
+        Die allDynamite[] = new Die[3];
+        allDynamite[0] = null;
+        allDynamite[1] = null;
+        allDynamite[2] = null;
+        
+        ArrayList<Die> finalRoll = null;
+        
+        boolean lafayette = true;
+        
+        boolean rollAgain = true;
+        
+        for(int i = 0; i < rolls; i++){
+            RollDice diceroll = new RollDice();
+            ArrayList<Die> roll = diceroll.rollDice(diceroll.getDice());    
+  
+            for(int rollIterator = 0; rollIterator < roll.size(); rollIterator++){
+                String currFace = roll.get(i).getFace().toLowerCase();
+                if(currFace.equalsIgnoreCase("arrow")){
+                    int a = players[i].getArrows();
+                    a++;
+                    players[i].setArrows(a);
+                }
+                else if(currFace.equalsIgnoreCase("dynamite")){
+                    Die d = roll.get(i);
+                    d.setReroll(false);
+                    d.setChooseRoll(false);
+                    allDynamite[numDyn] = d;
+                    numDyn++;
+                }  
+            }
+            if(numDyn == 3){
+                break;
+            }
+            if(playerChar.getName().equalsIgnoreCase("black_jack")){
+                for(int j = 0; j < allDynamite.length; j++){
+                    if(allDynamite[i] == null){
+                        break;
+                    }
+                    allDynamite[i].setReroll(true);
+                    allDynamite[i].setChooseRoll(true);
+                }           
+            }
+            if(!rollAgain  || (i+1) == rolls){
+                finalRoll = roll;
+                break;
+            }
+        }
+        
+        int gatling = 0;
+        int beerKiller = 0;
+        
+        for(Die d: finalRoll){
+            String faceName = d.getFace();
+            if(faceName.equalsIgnoreCase("beer")){
+                if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("slab_the_killer")){
+                    if(/*he chooses to double 1 or 2 instead */){
+                        beerKiller++; 
+                        continue;
+                    }
+                }
+                int chosenPlayer = 0; // index of chosen player
+                
+                if(players[chosenPlayer].getCharacter().getName().equalsIgnoreCase("jesse_jones")&& playerTurn == chosenPlayer && players[chosenPlayer].getHealth() <= 4){
+                    players[chosenPlayer].setHealth(players[chosenPlayer].getCharacter().gainLifePoints(2));
+                }
+                else{
+                    players[chosenPlayer].setHealth(players[chosenPlayer].getCharacter().gainLifePoints(1));
+                }
+            }
+            if(faceName.equalsIgnoreCase("gatling")){
+                gatling++;
+            }
+        }
+        if(playerChar.getName().equalsIgnoreCase("kit_carlson") && gatling > 0){
+            if(/*he chooses to use gatling to discard*/){
+                for(int i = 0; i < gatling; i++){
+                    int chosen = 0; //index of chosen player, -1 if done choosing
+                    if(chosen == -1)
+                        break;
+                    players[chosen].setArrows(players[chosen].getArrows() - 1);
+                }
+            }
+        }
+        if((gatling == 2 && playerChar.getName().equalsIgnoreCase("willy_the_kid")) || gatling >= 3){
+            for(int i = 0; i < players.length; i++){
+                if(i == playerTurn){
+                    continue;
+                }
+                else{
+                    players[i].setHealth(players[i].getCharacter().loseLifePoints(1));
+                    
+                }
+            }
+        }
+        for(Die d: finalRoll){
+            String faceName = d.getFace();
+            if(faceName.equalsIgnoreCase("one")){
+                lafayette = false;
+                int spacesFromPlayer = 1;
+                if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
+                    /*ask user if they want to do two instead*/
+                    if(true){
+                        spacesFromPlayer = 2;
+                    }
+                }
+                /*player chooses spacesFromPlayer spaces away*/
+                int targetPlayer = 0;
+                loseLife(players[playerTurn], players[targetPlayer]);
+            }
+            if(faceName.equalsIgnoreCase("two")){
+                lafayette = false;
+                int spacesFromPlayer = 2;
+                if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
+                    /*ask user if they want to do one instead*/
+                    if(true){
+                        spacesFromPlayer = 1;
+                    }
+                }
+                /*player chooses spacesFromPlayer spaces away*/
+                int targetPlayer = 0;
+                loseLife(players[playerTurn], players[targetPlayer]);
+            }
+        }
+        
+        for(Player p: players){
+            if(p.getHealth() == 0){
+                p.setStatus(false);
+                for(int i = 0; i < players.length; i++){
+                    if(players[i].getStatus() && players[i].getCharacter().getName().equalsIgnoreCase("vulture_sam")){
+                        players[i].setHealth(players[i].getCharacter().gainLifePoints(2));
+                    }
+                }
+            }
+        }
+        
     }
+   
+   public void loseLife(Player attacker, Player target){
+       int loss = 1;
+       if(target.getCharacter().getName().equalsIgnoreCase("bart_cassidy")){
+           if(/*chooses to take arrow instead*/){
+               int a = target.getArrows();
+               a++;
+               target.setArrows(a);
+               middleArrows--;
+               if(middleArrows == 0){
+                   indianAttack();
+               }
+           }
+       }
+       else if(target.getCharacter().getName().equalsIgnoreCase("el_gringo")){
+           int a = attacker.getArrows();
+           a++;
+           attacker.setArrows(a);
+           middleArrows--;
+           if(middleArrows == 0)
+                indianAttack();
+           int loseHealth = target.getCharacter().loseLifePoints(loss);
+           target.setHealth(loseHealth);
+       }
+       else if(target.getCharacter().getName().equalsIgnoreCase("pedro_ramirez")){
+          if(/*chooses to discard an arrow*/){
+              target.setArrows(target.getArrows() - 1);
+              middleArrows++;
+          }
+          int loseHealth = target.getCharacter().loseLifePoints(loss);
+           target.setHealth(loseHealth);
+       }
+       else{
+           int loseHealth = target.getCharacter().loseLifePoints(loss);
+           target.setHealth(loseHealth);
+       }
+   }
 
+   public void indianAttack(){
+       for(int i = 0; i < players.length; i++){
+           if(players[i].getCharacter().getName().equalsIgnoreCase("jourdonnais")){
+               players[i].setHealth(players[i].getCharacter().loseLifePoints(1));
+               middleArrows += players[i].getArrows();
+               continue;
+           }
+           else{
+              int numArr = players[i].getArrows();
+              players[i].setHealth(players[i].getCharacter().loseLifePoints(numArr)); 
+              middleArrows += numArr;
+           }
+       }
+   }
 
+    public static void main(String [] args){
+        Game g = new Game(4,1);
+    }
 }
