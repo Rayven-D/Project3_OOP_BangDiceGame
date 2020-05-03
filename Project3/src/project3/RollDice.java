@@ -3,7 +3,8 @@
 *Cole Trammell
 *Project 3
  */
-package project3;
+package project3.project3_OOP;
+
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.*;
 import java.util.Scanner;
