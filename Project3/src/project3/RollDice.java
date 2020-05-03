@@ -3,7 +3,7 @@
 *Cole Trammell
 *Project 3
  */
-package project3.project3_OOP;
+package project3;
 
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.*;
