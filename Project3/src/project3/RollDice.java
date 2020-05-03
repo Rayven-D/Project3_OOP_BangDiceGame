@@ -10,6 +10,7 @@ import java.util.*;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+import project3.Die;
 
 /**
  *
@@ -42,9 +43,7 @@ public class RollDice {
      * @param exp1Die: A string for which expansion die if any the player wants
      * to include in their role.
      */
-    public RollDice(String exp1Die){
-        
-        this.exp1Die = exp1Die;
+    public RollDice(){
         
         Die die1 = new Die("One",true,true);
         Die die2 = new Die("One",true,true);
@@ -69,7 +68,7 @@ public class RollDice {
      * @param dice: the ArrayList of Die objects
      * @return a ArrayList of rerolled dice
      */
-    public List rollDice(List dice){
+    public List rollDice(List<Die> dice){
         
         for(int i = 0; i < 5; i++){
             this.die = (Die) dice.get(i);
@@ -141,6 +140,20 @@ public class RollDice {
     }
     
     
+    public boolean getExp1(){
+        return this.incExp1;
+    }
+    
+    public boolean getExp2(){
+        return this.incExp2;
+    }
+    
+    
+    public void setExp1Die(String exp1Die){
+        this.exp1Die = exp1Die;
+    }
+       
+       
     /**
     *test case for RollDice class
      * @param args
@@ -152,10 +165,11 @@ public class RollDice {
         
         
         
-        RollDice dices = new RollDice("LoudMouth");
+        RollDice dices = new RollDice();
         
         dices.setExp1(true);
         dices.setExp2(true); 
+        dices.setExp1Die("LoudMouth");
         
         List<Die> dice =  dices.getDice();
         
@@ -214,9 +228,9 @@ public class RollDice {
             System.out.print("Do you want to reroll?\n Y/N: ");
             choose = input.nextLine();
             
-            String duel = dices.duel();
+        }
+        String duel = dices.duel();
             
             System.out.println("\t" + duel);
-        }
     } //end of main method
 }

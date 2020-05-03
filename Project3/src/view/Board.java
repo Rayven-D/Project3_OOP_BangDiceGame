@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import project3.RollDice;
 import project3.Die;
+import project3.MasterRole;
 
 /**
  *
@@ -27,25 +28,35 @@ import project3.Die;
 
 public class Board extends Application{
     
+    /**
+     * The general padding size used
+     */
     public final int PADDING_SIZE = 40;
     
     Stage window;
     
     // State Properties - Controller 
-    private static int numberOfSingleBullet;
-    private static int numberOfMultipleBullets;
-    private static int numberOfArrows;
-    private static String userRole; 
-    private static String userCharacter;
-    private static int numberOfArrowsOnTheTable = 9;
+    public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable;
+    public static String userRole, userCharacter;
+
+    /**
+     * Attribute to keep track of the Dice selected by the Player 
+     */
     public static HBox currentDiceSelection;
 
-    
-        
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args){
         launch(args);
     }
 
+    /**
+     *
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
@@ -104,7 +115,7 @@ public class Board extends Application{
         HBox inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
             inventory.getChildren().clear();
-            RollDice die = new RollDice("");  
+            RollDice die = new RollDice();  
             inventory.getChildren().add(DieView.display(die.getDice()));
         });
         
@@ -170,9 +181,15 @@ public class Board extends Application{
         window.show();
     }
     
-
-    
-    
+    /**
+     *
+     * @param topPane  The top pane for the game layout
+     * @param bottomPane The bottom pane for the game layout
+     * @param leftPane  The left pane for the game layout
+     * @param rightPane  The right pane for the game layout
+     * @param center  The center pane for the game layout
+     * @return The layout for the game
+     */
     public BorderPane createBorderPane(HBox topPane, HBox bottomPane, VBox leftPane, VBox rightPane, StackPane center){
         
         BorderPane boardLayout = new BorderPane();
@@ -189,9 +206,14 @@ public class Board extends Application{
         return boardLayout;
     }
     
-    
+    /**
+     *
+     * @param totalNumberOfPlayers The total number of players playing the game
+     * @return
+     */
     public Player[] createPlayers(int totalNumberOfPlayers){
         Player[] players = new Player[totalNumberOfPlayers]; 
+        MasterRole masterRole = new MasterRole(totalNumberOfPlayers); 
         for(Player player: players){
             //Assign the player a character
             
@@ -203,6 +225,8 @@ public class Board extends Application{
         return players;
     }
     
+    
+
     
    
 }
