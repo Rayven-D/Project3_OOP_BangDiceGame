@@ -27,7 +27,7 @@ public class Game {
         for(int j = 0; j < numPlayers; j++){
             System.out.println(players[j].getCharacter().getName() + players[j].getCharacter().getSpecialAbility());
         }
-        
+        setUp();
     }
 
     public Game() {
@@ -103,9 +103,31 @@ public class Game {
             }
         }
         
+        
+        
+        Random randomRole = new Random();
+        int [] roleIndex = new int[numPlayers];
+        for(int i = 0; i < roleIndex.length; i++)
+            roleIndex[i] = -1;
+        
+        for(int i = 0; i < roleIndex.length; i++){
+            int randomInt = randomRole.nextInt(numPlayers);
+            for(int j = 0; j <= i; j++){
+                if(roleIndex[j] != randomInt && i == j){
+                    roleIndex[j] = randomInt;
+                }
+            }
+        }
+        
+        for(int i = 0; i < players.length; i++){
+        }
+    }
+    
+    public void runGame(){
+        
     }
 
-   private void turn(){
+    private void turn(){
         Character playerChar = players[playerTurn].getCharacter();
         if(playerChar.getName().equalsIgnoreCase("sid_ketchum")){
             int chosenPlayer = 0; // index of chosen player
@@ -348,19 +370,8 @@ public class Game {
        
    }
    
-   public void writeArrowStatus(){
-       //write the arrows on each player, and the middle pile
-       for(Player p: players){
-           
-       }
-   }
-   
-   public void writePlayerStatus(){
-       //displays each player's alive status and health
-       for(Player p: players){
-           p.getStatus();
-           p.getHealth();
-       }
+   public void writePlayers(){
+       
    }
    
     public static void main(String [] args){
