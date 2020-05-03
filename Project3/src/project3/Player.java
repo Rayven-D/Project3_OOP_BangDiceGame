@@ -42,6 +42,11 @@ public class Player {
      */
     private Character character;
     
+    /**
+     * an object of type Role containing the PLayer's Role
+     */
+    private Role role;
+    
     /***
      * Declare a new Player Object
      * @param playerNum - the player number of the Player
