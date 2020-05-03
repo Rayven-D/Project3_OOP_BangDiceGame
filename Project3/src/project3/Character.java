@@ -129,7 +129,7 @@ public class Character {
     /**
      *
      * @param numberOfPoints - The number of life points player loses
-     * @return  life points if its valid. -1 if it is not valid. 
+     * @return  0 life points, player is eliminated
      */
     public int loseLifePoints(int numberOfPoints){
         int points= getLifePoints()-numberOfPoints;
@@ -138,14 +138,14 @@ public class Character {
             setLifePoints(points);
             return points;
         }
-        return -1;
+        return 0;
         
     }
     
     /**
      *
      * @param numberOfPoints - The number of life points player gains
-     * @return life points if its valid. -1 if it is not valid. 
+     * @return life points that the player started with. 
      */
     public int gainLifePoints(int numberOfPoints){
         int points= getLifePoints()+numberOfPoints;
@@ -153,7 +153,7 @@ public class Character {
             setLifePoints(points);
             return points;
         }
-        return -1;
+        return lifePointsInTheBeginning;
     }
     
     /**

@@ -11,6 +11,16 @@ package project3;
  * @author Jeffrey Tessitore
  */
 public class Player {
+    
+    /**
+     * a boolean containing if the player is a user or a CPU
+     */
+    private boolean user;
+    
+    /**
+     * an int containing the number of arrows current player has
+     */
+    private int arrows;
 
     /**
      * a boolean containing if the Player is alive (true) or dead (false)
@@ -39,6 +49,8 @@ public class Player {
      */
     public Player(int playerNum, boolean user) {
         this.playerNum = playerNum;
+        this.user = user;
+        this.arrows = 0;
     }
     
     /***
@@ -95,5 +107,12 @@ public class Player {
      */
     public Character getCharacter() {
         return character;
+    }
+    
+    public void setArrows(int arrows){
+        this.arrows = arrows;
+    }
+    public int getArrows(){
+        return this.arrows;
     }
 }
