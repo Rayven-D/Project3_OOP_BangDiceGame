@@ -42,12 +42,9 @@ public class Player {
      */
     private Character character;
     
-<<<<<<< HEAD
     /**
      * an object of type Role containing the PLayer's Role
      */
-=======
->>>>>>> 3e1ae5128c176f6352be81d2b263dcca9ea56997
     private Role role;
     
     /***
