@@ -12,6 +12,8 @@ package view;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.ArrayList;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -32,8 +34,8 @@ public class DieView{
     public static final int HEIGHT = 120;
     
     //Current Dice as per the roll
-    public static LinkedList remainingDice = new LinkedList();
-    public static LinkedList selectedDice = new LinkedList();
+    public static List remainingDice = new ArrayList<Die>();
+    public static List selectedDice = new ArrayList<Die>();
     
    
     public enum AssetsURL{
@@ -70,14 +72,13 @@ public class DieView{
     };
     
     
-    public static HBox display(LinkedList dice){
+    public static HBox display(List<Die> dice){
         
         Die die1 = (Die) dice.get(0);
         Die die2 = (Die) dice.get(1);
         Die die3 = (Die) dice.get(2);
         Die die4 = (Die) dice.get(3);
         Die die5 = (Die) dice.get(4);
-        Die die6 = (Die) dice.get(5);
         
         remainingDice = dice;
        
@@ -86,15 +87,13 @@ public class DieView{
             oneButton.setVisible(false);
             remainingDice.remove(die1);
             selectedDice.add(die1);
-            Board.currentDiceSelection.getChildren().add(oneButton);
         });
         
         Button twoButton = assignDie(die2);
         twoButton.setOnAction(e->{
             twoButton.setVisible(false);
             remainingDice.remove(die2);
-            selectedDice.add(die2);
-            Board.currentDiceSelection.getChildren().add(twoButton);
+            selectedDice.add(die2); 
         });
         
         Button threeButton = assignDie(die3);
@@ -102,7 +101,6 @@ public class DieView{
             threeButton.setVisible(false);
             remainingDice.remove(die3);
             selectedDice.add(die3);
-            Board.currentDiceSelection.getChildren().add(threeButton);
         });
         
         Button fourButton = assignDie(die4);
@@ -110,7 +108,6 @@ public class DieView{
             fourButton.setVisible(false);
             remainingDice.remove(die4);
             selectedDice.add(die4);
-            Board.currentDiceSelection.getChildren().add(fourButton);
         });
         
         Button fiveButton = assignDie(die5);
@@ -118,19 +115,11 @@ public class DieView{
             fiveButton.setVisible(false);
             remainingDice.remove(die5);
             selectedDice.add(die5);
-            Board.currentDiceSelection.getChildren().add(fiveButton);
         });
         
-        Button sixButton = assignDie(die6);
-        sixButton.setOnAction(e->{
-            sixButton.setVisible(false);
-            remainingDice.remove(die6);
-            selectedDice.add(die6);
-            Board.currentDiceSelection.getChildren().add(sixButton);
-        });
 
         HBox diceLayout = new HBox(20);
-        diceLayout.getChildren().addAll(oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton);
+        diceLayout.getChildren().addAll(oneButton, twoButton, threeButton, fourButton, fiveButton);
         
         return diceLayout;
     }

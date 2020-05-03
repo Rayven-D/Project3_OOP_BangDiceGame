@@ -13,22 +13,22 @@ import java.util.*;
  */
 public class User extends Player {
     
-    private LinkedList keptDice;
+    private List keptDice;
     
     public User(int playerNum) {
         super(playerNum,true);
-        keptDice = new LinkedList();
+        keptDice = new ArrayList<Die>();
     }
     
     public void move() {
         // insert stuff
-        RollDice rDice = new RollDice();
-        LinkedList dice = rDice.getDice();
+        RollDice rDice = new RollDice("");
+        List dice = rDice.getDice();
         promptDice(dice);
         promptTarget();
     }
     
-    private LinkedList promptDice(LinkedList dice) {
+    private LinkedList promptDice(List dice) {
         return null;
     }
     
