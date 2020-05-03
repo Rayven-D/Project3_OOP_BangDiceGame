@@ -22,7 +22,7 @@ public class User extends Player {
     
     public void move() {
         // insert stuff
-        RollDice rDice = new RollDice("");
+        RollDice rDice = new RollDice();
         List dice = rDice.getDice();
         promptDice(dice);
         promptTarget();

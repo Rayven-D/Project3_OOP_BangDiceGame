@@ -22,7 +22,7 @@ import javafx.scene.image.ImageView;
  *
  * @author shreyesh
  */
-public class Token {
+public class Token{
     
     public static final int PADDING_SIZE = 20;
     public Label tokenType;

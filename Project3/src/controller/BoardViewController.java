@@ -10,6 +10,10 @@
 
 package controller;
 
+import javafx.stage.Stage;
+import project3.Player;
+import view.Board;
+
 
 /**
  *
@@ -17,10 +21,30 @@ package controller;
  */
 public class BoardViewController {
     
-    public BoardViewController(){
-        
+    //User attributes
+    private String role, character;
+    private int lifePoints, arrows;
+    public Board board;
+    
+    public BoardViewController(Player player){
+        this.role = player.getRole().getName();
+        this.character = player.getCharacter().getName();
+        this.lifePoints = player.getHealth();
+        this.arrows = player.getArrows();
+        this.initPlayer();
+  
     }
     
-   
+    public void initPlayer(){
+
+        Board.lifePoints = lifePoints;
+        Board.userCharacter = character;
+        Board.userRole = role;
+        Board.numberOfArrows = arrows;
+    }
+    
+    public static void main(String[] args){
+        Board.main(args);
+    }
 
 }
