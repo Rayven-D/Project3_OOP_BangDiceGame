@@ -8,10 +8,19 @@
  * and open the template in the editor.
  */
 
+package controller;
+
+
 /**
  *
  * @author shreyesh
  */
 public class BoardViewController {
+    
+    public BoardViewController(){
+        
+    }
+    
+   
 
 }
