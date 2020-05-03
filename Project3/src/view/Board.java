@@ -16,7 +16,8 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-
+import project3.RollDice;
+import project3.Die;
 
 /**
  *
@@ -102,9 +103,9 @@ public class Board extends Application{
                 
         HBox inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
-//            inventory.getChildren().clear();
-//            RollDice die = new RollDice();  
-//            inventory.getChildren().add(DieView.display(die.getDice()));
+            inventory.getChildren().clear();
+            RollDice die = new RollDice("");  
+            inventory.getChildren().add(DieView.display(die.getDice()));
         });
         
         

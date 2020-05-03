@@ -42,6 +42,8 @@ public class Player {
      */
     private Character character;
     
+    private Role role;
+    
     /***
      * Declare a new Player Object
      * @param playerNum - the player number of the Player
@@ -114,5 +116,15 @@ public class Player {
     }
     public int getArrows(){
         return this.arrows;
+    }
+    
+    /* UPDATE THIS ASAP - Shreyesh */
+    
+    public void setRole(Role role){
+        this.role = role;
+    }
+    
+    public Role getRole(){
+        return this.role;
     }
 }
