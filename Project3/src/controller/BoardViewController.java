@@ -36,11 +36,10 @@ public class BoardViewController {
     }
     
     public void initPlayer(){
-
-        Board.lifePoints = lifePoints;
-        Board.userCharacter = character;
-        Board.userRole = role;
-        Board.numberOfArrows = arrows;
+    Board.lifePoints = lifePoints;
+    Board.userCharacter = character;
+    Board.userRole = role;
+    Board.numberOfArrows = arrows;  
     }
     
     public static void main(String[] args){

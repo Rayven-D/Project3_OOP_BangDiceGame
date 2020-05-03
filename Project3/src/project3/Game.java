@@ -291,6 +291,7 @@ public class Game {
         
     }
    
+   
    public void loseLife(Player attacker, Player target){
        int loss = 1;
        if(target.getCharacter().getName().equalsIgnoreCase("bart_cassidy")){
@@ -344,7 +345,7 @@ public class Game {
    }
 
    public void writeDiceRoll(List<Die> roll){
-       //displays the dice roll to all players
+       //displays the dice roll to all player
        
    }
    
