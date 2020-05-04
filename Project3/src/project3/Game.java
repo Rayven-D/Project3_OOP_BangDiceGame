@@ -412,21 +412,27 @@ public class Game {
         initPlayer = cur;
         
         for(int i=0; i<=distance; i++){
-            if(i==distance){
-                attackPlayerIndices[index] = cur.getData().getNum();
-                index++;
+            if(cur.getData().getStatus()){
+                if(i==distance){
+                    attackPlayerIndices[index] = cur.getData().getNum();
+                    index++;
+                }
+                cur = cur.getNext();
             }
-            cur = cur.getNext();
+                
         }
         
         cur = initPlayer;
         
         for(int i=0; i<=distance; i++){
-            if(i==distance){
+            if(cur.getData().getStatus()){
+               if(i==distance){
                 attackPlayerIndices[index] = cur.getData().getNum();
                 index++;
+                }
+                cur = cur.getPrevious(); 
             }
-            cur = cur.getPrevious();
+            
         }
         
         return attackPlayerIndices;

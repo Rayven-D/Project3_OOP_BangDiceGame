@@ -10,17 +10,10 @@
 
 package view;
 
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
-import javafx.stage.*;
-import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import javafx.geometry.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import project3.Die;
 
 /**
@@ -32,10 +25,11 @@ public class DieView{
     //SIZE Attributes
     public static final int WIDTH = 120;
     public static final int HEIGHT = 120;
+    public static Button oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton;
     
     //Current Dice as per the roll
-    public static List remainingDice = new ArrayList<Die>();
-    public static List selectedDice = new ArrayList<Die>();
+    public static List<Die> remainingDice = new ArrayList<Die>();
+    public static List<Die> selectedDice = new ArrayList<Die>();
     
    
     public enum AssetsURL{
@@ -44,7 +38,14 @@ public class DieView{
         DYNAMITE("assets/dynamite.png"),
         GATLING("assets/gatling.png"),
         ONE("assets/1.png"),
-        TWO("assets/2.png");
+        TWO("assets/2.png"),
+        INSTANT_BULLET("assets/instant_bulet.png"),
+        DUEL("assets/duel.png"),
+        BROKEN_ARROW("assets/broken_arrow.png"),
+        DOUBLE_ONE("assets/double_one.png"),
+        DOUBLE_TWO("assets/double_two.png"),
+        DOUBLE_BEER("assets/double_beer.png"),
+        WHISKEY("assets/whiskey.png");
         
         public String url;
         
@@ -82,35 +83,35 @@ public class DieView{
         
         remainingDice = dice;
        
-        Button oneButton = assignDie(die1);
+        oneButton = assignDie(die1);
         oneButton.setOnAction(e->{
             oneButton.setVisible(false);
             remainingDice.remove(die1);
             selectedDice.add(die1);
         });
         
-        Button twoButton = assignDie(die2);
+        twoButton = assignDie(die2);
         twoButton.setOnAction(e->{
             twoButton.setVisible(false);
             remainingDice.remove(die2);
             selectedDice.add(die2); 
         });
         
-        Button threeButton = assignDie(die3);
+        threeButton = assignDie(die3);
         threeButton.setOnAction(e->{
             threeButton.setVisible(false);
             remainingDice.remove(die3);
             selectedDice.add(die3);
         });
         
-        Button fourButton = assignDie(die4);
+        fourButton = assignDie(die4);
         fourButton.setOnAction(e->{
             fourButton.setVisible(false);
             remainingDice.remove(die4);
             selectedDice.add(die4);
         });
         
-        Button fiveButton = assignDie(die5);
+        fiveButton = assignDie(die5);
         fiveButton.setOnAction(e->{
             fiveButton.setVisible(false);
             remainingDice.remove(die5);
@@ -135,6 +136,10 @@ public class DieView{
                 + "");
         
         return button;
+    }
+    
+    public static String getMostRecentClick(){
+        return selectedDice.get(selectedDice.size()-1).getFace();        
     }
     
     

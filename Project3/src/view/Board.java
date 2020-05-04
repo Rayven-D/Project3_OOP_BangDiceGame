@@ -10,6 +10,7 @@
 
 package view;
 
+import java.util.List;
 import javafx.application.Application;
 import javafx.stage.*;
 import javafx.scene.*;
@@ -45,6 +46,8 @@ public class Board extends Application{
     private HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
     private Player user;
     
+    public Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
+    
     
     
 
@@ -79,6 +82,59 @@ public class Board extends Application{
         return confirm.display();
     }
     
+    public int whomDoYouWantToAttack(String face, int[] attackPlayerIndices){
+        String message = "You can either attack Player "+
+                attackPlayerIndices[0]+" or "+
+                attackPlayerIndices[1]+"!";
+        String title = "You have chosen "+"face" ;
+        AttackDialogBox attack = new AttackDialogBox(message, title);
+        return attack.display();
+    }
+    
+    public void checkDieAction(Die die){
+       
+    }
+    
+    public HBox displayDice(List<Die> dice){
+        
+        Die die1 = (Die) dice.get(0);
+        Die die2 = (Die) dice.get(1);
+        Die die3 = (Die) dice.get(2);
+        Die die4 = (Die) dice.get(3);
+        Die die5 = (Die) dice.get(4);
+        
+        firstDie = DieView.assignDie(die1);
+        firstDie.setOnAction(e->{
+            firstDie.setVisible(false);
+        });
+        
+        secondDie = DieView.assignDie(die2);
+        secondDie.setOnAction(e->{
+            secondDie.setVisible(false);
+        });
+        
+        thirdDie = DieView.assignDie(die3);
+        thirdDie.setOnAction(e->{
+            thirdDie.setVisible(false);
+        });
+        
+        fourthDie = DieView.assignDie(die4);
+        fourthDie.setOnAction(e->{
+            fourthDie.setVisible(false);
+        });
+        
+        fifthDie = DieView.assignDie(die5);
+        fifthDie.setOnAction(e->{
+            fifthDie.setVisible(false);
+        });
+        
+
+        HBox diceLayout = new HBox(20);
+        diceLayout.getChildren().addAll(firstDie, secondDie, thirdDie, fourthDie, fifthDie);
+        
+        return diceLayout;
+    }
+    
 
     
     public void createPlayerCards(Player[] players){
@@ -98,20 +154,10 @@ public class Board extends Application{
    
     }
     
-    public int getPlayerToAttack(int distance, int curUser){
+    public void checkSelectedDie(Die die){
         
     }
-    
-    public VBox displayUserActions(){
-        VBox actions = new VBox();
-        StackPane attacks = new StackPane();
-        HBox userAttacks = new HBox(PADDING_SIZE); 
-        Button attackLeft = new Button("Attack Left");  
-        Button attackRight = new Button("Attack Right");
-        userAttacks.getChildren().addAll(attackLeft, attackRight);
-        attacks.getChildren().addAll(userAttacks);
-        return actions;
-    }
+   
 
     /**
      *
@@ -168,15 +214,23 @@ public class Board extends Application{
         Button rollDice = new Button("Roll Dice");        
         userRoll.getChildren().addAll(rollDice);
         
-        VBox userActions = displayUserActions();
+        
+        StackPane attacks = new StackPane();
+        HBox userAttacks = new HBox(PADDING_SIZE); 
+        Button attackLeft = new Button("Attack Left");
+        Button attackRight = new Button("Attack Right");
+        userAttacks.getChildren().addAll(attackLeft, attackRight);
+        attacks.getChildren().addAll(userAttacks);
         
                 
         HBox inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
             inventory.getChildren().clear();
-            RollDice die = new RollDice();  
-            inventory.getChildren().add(DieView.display(die.getDice()));
+            RollDice dice = new RollDice();
+            inventory.getChildren().add(displayDice(dice.getDice()));
         });
+        
+        
         
         
         // Selected Dice
@@ -227,7 +281,7 @@ public class Board extends Application{
 
         
         VBox rightPane = new VBox(PADDING_SIZE);
-        rightPane.getChildren().addAll(userInfo, tokens, userRoll, userActions); 
+        rightPane.getChildren().addAll(userInfo, tokens, userRoll, attacks); 
         rightPane.setStyle( "-fx-padding: 50 30 30 50; ");
         
         
@@ -264,6 +318,7 @@ public class Board extends Application{
         
         return boardLayout;
     }
+    
     
   
 }
