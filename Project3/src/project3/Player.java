@@ -47,6 +47,7 @@ public class Player {
      */
     private Role role;
     
+    
     /***
      * Declare a new Player Object
      * @param playerNum - the player number of the Player
@@ -56,6 +57,7 @@ public class Player {
         this.playerNum = playerNum;
         this.user = user;
         this.arrows = 0;
+        this.alive = true;
     }
     
     /***

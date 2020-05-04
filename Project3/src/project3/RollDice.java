@@ -72,9 +72,9 @@ public class RollDice {
         
         for(int i = 0; i < 5; i++){
             this.die = (Die) dice.get(i);
-            
+            Random r = new Random();
             if(die.getReroll() && die.getChooseRoll()){
-                int randomNum = ThreadLocalRandom.current().nextInt(0, 6);
+                int randomNum = r.nextInt(6);
 
                 if(i == 2 && this.incExp1 && this.exp1Die == "LoudMouth"){
                     this.die.setFace(LoudFace[randomNum]);
