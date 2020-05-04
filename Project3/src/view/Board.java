@@ -16,12 +16,10 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import project3.CyclicDoublyLinkedList;
 import project3.RollDice;
 import project3.Die;
 import project3.Player;
 import project3.Game;
-import project3.MasterRole;
 
 /**
  *
@@ -138,19 +136,22 @@ public class Board extends Application{
 
     
     public void createPlayerCards(Player[] players){
+
        for(Player player: players){
            PlayerView card = new PlayerView(player, 175, 100);
-           if (player.getNum()<2){
-               leftPlayers.getChildren().add(card.display());
+           if (player.getNum()<3){
+               bottomPlayers.getChildren().add(card.display());
            }
            else if(player.getNum()<5){
-               bottomPlayers.getChildren().add(card.display());
+               leftPlayers.getChildren().add(card.display());
            }
            else if(player.getNum()<8){
                topPlayers.getChildren().add(card.display());
            }
            if(player.isUser()) user = player;
        }
+       
+  
    
     }
     
@@ -195,7 +196,7 @@ public class Board extends Application{
         
         //User Attributes
         VBox roleCard = AttributeCard.display("Role",user.getRole().getName());
-        VBox characterCard = AttributeCard.display("Character", user.getCharacter().getName());
+        VBox characterCard = AttributeCard.display("Character", user.getCharacter().getName().replace('_',' '));
         HBox userInfo = new HBox(PADDING_SIZE+20);
         userInfo.getChildren().addAll(roleCard, characterCard);
 
@@ -215,13 +216,13 @@ public class Board extends Application{
         userRoll.getChildren().addAll(rollDice);
         
         
-        StackPane attacks = new StackPane();
-        HBox userAttacks = new HBox(PADDING_SIZE); 
-        Button attackLeft = new Button("Attack Left");
-        Button attackRight = new Button("Attack Right");
-        userAttacks.getChildren().addAll(attackLeft, attackRight);
-        attacks.getChildren().addAll(userAttacks);
-        
+//        StackPane attacks = new StackPane();
+//        HBox userAttacks = new HBox(PADDING_SIZE); 
+//        Button attackLeft = new Button("Attack Left");
+//        Button attackRight = new Button("Attack Right");
+//        userAttacks.getChildren().addAll(attackLeft, attackRight);
+//        attacks.getChildren().addAll(userAttacks);
+//        
                 
         HBox inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
@@ -277,7 +278,7 @@ public class Board extends Application{
 
         
         VBox rightPane = new VBox(PADDING_SIZE);
-        rightPane.getChildren().addAll(userInfo, tokens, userRoll, attacks); 
+        rightPane.getChildren().addAll(userInfo, tokens, userRoll); //ADD ATTACKS IF NECESSARY
         rightPane.setStyle( "-fx-padding: 50 30 30 50; ");
         
         
