@@ -22,12 +22,22 @@ import javafx.scene.image.ImageView;
  *
  * @author shreyesh
  */
-public class Token{
+public class Token implements Components<VBox>{
     
     public static final int PADDING_SIZE = 20;
-    public Label tokenType;
+    public String type, url;
+    public int curVal, width, height;
     
-    public static VBox display(String type, int curVal, String url, int width, int height){
+    public Token(String type, int curVal, String url, int width, int height){
+        this.type = type;
+        this.curVal = curVal;
+        this.url = url;
+        this.width = width;
+        this.height = height;
+    }
+    
+    @Override
+    public VBox display(){
         // Components
         Label tokenType = new Label(type);
         Button icon = new Button();

@@ -23,7 +23,7 @@ public class AttributeCard {
         DEPUTY("assets/Deputy.png"),
         RENEGADE("assets/Renegade.png"),
         OUTLAW("assets/Outlaw.png"),
-        SHERIFF("assets/Sheriff.png");
+        SHERIFF("assets/Sheriff.PNG");
         
         public String url;
         
@@ -36,7 +36,7 @@ public class AttributeCard {
                     return Role.DEPUTY.url;
                 case "outlaw": 
                     return Role.OUTLAW.url;
-                case "sherrif":
+                case "sheriff":
                     return Role.SHERIFF.url;
                 case "renegade":
                     return Role.RENEGADE.url;

@@ -5,11 +5,12 @@ import java.util.*;
 public class Game {
 
 
-    Player players[]; 
+    private Player players[]; 
     private int playerTurn;
     private int numPlayers;
     private int middleArrows;
     private int lossLifeIndians;
+    private CyclicDoublyLinkedList<Player> playerSeating;
 
     public Game(int numPlayers, int userPlayers) {
         this.numPlayers = numPlayers;
@@ -27,7 +28,7 @@ public class Game {
         for(int j = 0; j < numPlayers; j++){
             System.out.println(players[j].getCharacter().getName() + players[j].getCharacter().getSpecialAbility());
         }
-        setUp();
+        setRoles();
     }
 
     public Game() {
@@ -152,7 +153,7 @@ public class Game {
         boolean rollAgain = true;
         
         for(int i = 0; i < rolls; i++){
-            RollDice diceroll = new RollDice("none");
+            RollDice diceroll = new RollDice();
             List<Die> roll = diceroll.rollDice(diceroll.getDice());    
   
             
@@ -204,7 +205,7 @@ public class Game {
             String faceName = d.getFace();
             if(faceName.equalsIgnoreCase("beer")){
                 if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("slab_the_killer")){
-                    if(/*he chooses to double 1 or 2 instead */){
+                    if(true){/*he chooses to double 1 or 2 instead */
                         beerKiller++; 
                         continue;
                     }
@@ -223,7 +224,7 @@ public class Game {
             }
         }
         if(playerChar.getName().equalsIgnoreCase("kit_carlson") && gatling > 0){
-            if(/*he chooses to use gatling to discard*/){
+            if(true){/*he chooses to use gatling to discard*/
                 for(int i = 0; i < gatling; i++){
                     int chosen = 0; //index of chosen player, -1 if done choosing
                     if(chosen == -1)
@@ -313,10 +314,11 @@ public class Game {
         
     }
    
+   
    public void loseLife(Player attacker, Player target){
        int loss = 1;
        if(target.getCharacter().getName().equalsIgnoreCase("bart_cassidy")){
-           if(/*chooses to take arrow instead*/){
+           if(true)/*chooses to take arrow instead*/{
                int a = target.getArrows();
                a++;
                target.setArrows(a);
@@ -337,7 +339,7 @@ public class Game {
            target.setHealth(loseHealth);
        }
        else if(target.getCharacter().getName().equalsIgnoreCase("pedro_ramirez")){
-          if(/*chooses to discard an arrow*/){
+          if(true){ /*chooses to discard an arrow*/
               target.setArrows(target.getArrows() - 1);
               middleArrows++;
           }
@@ -366,13 +368,77 @@ public class Game {
    }
 
    public void writeDiceRoll(List<Die> roll){
-       //displays the dice roll to all players
+       //displays the dice roll to all player
        
    }
    
    public void writePlayers(){
        
    }
+   /*
+    Collaborator: Shreyesh Arangath
+   */
+   public Player[] getPlayers(){
+       Player[] tempPlayer = this.players;
+       return tempPlayer;
+   }
+   
+   public Player[] setRoles(){
+       MasterRole mr = new MasterRole(numPlayers);
+       mr.assignRole(players);
+       return players;
+   }
+   
+   
+   //Assembles the players in a circle
+    public CyclicDoublyLinkedList createPlayerSeating(Player[] players){
+        CyclicDoublyLinkedList<Player> ll = new CyclicDoublyLinkedList<>();
+        for(Player player: players){
+            ll.insert(player);
+        }
+        return ll;
+    }
+    
+    //Returns the index/number of players whom you can attack
+    public Integer[] getPlayerToAttack(int distance, int curPlayerNumber){
+        playerSeating = createPlayerSeating(players);
+        int index=0;
+        Node<Player> cur = playerSeating.start;
+        Node<Player> initPlayer;
+        Integer[] attackPlayerIndices = new Integer[2];
+        for(int i=0; i<curPlayerNumber; i++){
+            cur = cur.getNext();
+        }
+        initPlayer = cur;
+        
+        for(int i=0; i<=distance; i++){
+            if(cur.getData().getStatus()){
+                if(i==distance){
+                    attackPlayerIndices[index] = cur.getData().getNum();
+                    index++;
+                }
+                cur = cur.getNext();
+            }
+                
+        }
+        
+        cur = initPlayer;
+        
+        for(int i=0; i<=distance; i++){
+            if(cur.getData().getStatus()){
+               if(i==distance){
+                attackPlayerIndices[index] = cur.getData().getNum();
+                index++;
+                }
+                cur = cur.getPrevious(); 
+            }
+            
+        }
+        
+        return attackPlayerIndices;
+    }
+    
+    
    
     public static void main(String [] args){
         Game g = new Game(4,1);

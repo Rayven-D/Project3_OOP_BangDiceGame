@@ -104,6 +104,7 @@ public class Player {
      */
     public void setCharacter(Character c) {
         this.character = c;
+        this.setHealth(c.getLifePoints());
     }
     
     /***
@@ -129,5 +130,9 @@ public class Player {
     
     public Role getRole(){
         return this.role;
+    }
+    
+    public boolean isUser(){
+        return this.user;
     }
 }

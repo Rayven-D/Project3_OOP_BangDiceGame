@@ -12,7 +12,11 @@ package controller;
 
 import javafx.stage.Stage;
 import project3.Player;
+import project3.Character;
+import project3.Game;
 import view.Board;
+import view.ConfirmDialogBox;
+import view.DropdownDialogBox;
 
 
 /**
@@ -23,28 +27,50 @@ public class BoardViewController {
     
     //User attributes
     private String role, character;
-    private int lifePoints, arrows;
+    private int lifePoints, arrows, numPlayers, wantExtension;
+
+    /**
+     *
+     */
     public Board board;
     
-    public BoardViewController(Player player){
-        this.role = player.getRole().getName();
-        this.character = player.getCharacter().getName();
-        this.lifePoints = player.getHealth();
-        this.arrows = player.getArrows();
-        this.initPlayer();
-  
+    /**
+     * Ask the user if they want the extensions included
+     */
+    
+    /**
+     *
+     * @param user
+     */
+    public BoardViewController(){
+        
     }
     
-    public void initPlayer(){
-
+    /**
+     *
+     */
+    public void initUser(){
         Board.lifePoints = lifePoints;
         Board.userCharacter = character;
         Board.userRole = role;
-        Board.numberOfArrows = arrows;
+        Board.numberOfArrows = arrows;  
     }
     
-    public static void main(String[] args){
+    public int getNumPlayers(){
+        return this.numPlayers;
+    }
+    
+    public int getWantExtensions(){
+        return this.wantExtension;
+    }
+    
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args){   
         Board.main(args);
+        Game game = new Game(Board.numPlayers,1 );
     }
 
 }

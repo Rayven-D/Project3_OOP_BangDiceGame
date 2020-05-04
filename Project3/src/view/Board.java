@@ -10,14 +10,17 @@
 
 package view;
 
-import java.util.LinkedList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import project3.CyclicDoublyLinkedList;
 import project3.RollDice;
 import project3.Die;
+import project3.Player;
+import project3.Game;
 import project3.MasterRole;
 
 /**
@@ -36,13 +39,17 @@ public class Board extends Application{
     Stage window;
     
     // State Properties - Controller 
-    public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable;
+    public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable, wantExtension, numPlayers, oneBullet, threeBullets;
     public static String userRole, userCharacter;
-
-    /**
-     * Attribute to keep track of the Dice selected by the Player 
-     */
     public static HBox currentDiceSelection;
+    private VBox leftPlayers = new VBox(100);
+    private HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
+    private Player user;
+    
+    public Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
+    
+    
+    
 
     /**
      *
@@ -51,6 +58,106 @@ public class Board extends Application{
     public static void main(String[] args){
         launch(args);
     }
+    
+    public int wantExtensionsIncluded(){
+        ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
+        return dialogBox.display();
+    }
+    
+    /**
+     * Get the number of players playing the game
+     */
+    public int getNumberOfPlayers(){
+        DropdownDialogBox dropdown = new DropdownDialogBox("Select the number of players you want in the game", "How many friends you got ?");
+        return dropdown.display();
+    }
+    
+    public void setDistributionOfBullets(){
+        oneBullet = user.getHealth()%3;
+        threeBullets = user.getHealth()/3;
+    }
+    
+    public int wantToUseAbility(){
+        ConfirmDialogBox confirm = new ConfirmDialogBox(user.getCharacter().getSpecialAbility(), "Do you want to use your ability?");
+        return confirm.display();
+    }
+    
+    public int whomDoYouWantToAttack(String face, int[] attackPlayerIndices){
+        String message = "You can either attack Player "+
+                attackPlayerIndices[0]+" or "+
+                attackPlayerIndices[1]+"!";
+        String title = "You have chosen "+"face" ;
+        AttackDialogBox attack = new AttackDialogBox(message, title);
+        return attack.display();
+    }
+    
+    public void checkDieAction(Die die){
+       
+    }
+    
+    public HBox displayDice(List<Die> dice){
+        
+        Die die1 = (Die) dice.get(0);
+        Die die2 = (Die) dice.get(1);
+        Die die3 = (Die) dice.get(2);
+        Die die4 = (Die) dice.get(3);
+        Die die5 = (Die) dice.get(4);
+        
+        firstDie = DieView.assignDie(die1);
+        firstDie.setOnAction(e->{
+            firstDie.setVisible(false);
+        });
+        
+        secondDie = DieView.assignDie(die2);
+        secondDie.setOnAction(e->{
+            secondDie.setVisible(false);
+        });
+        
+        thirdDie = DieView.assignDie(die3);
+        thirdDie.setOnAction(e->{
+            thirdDie.setVisible(false);
+        });
+        
+        fourthDie = DieView.assignDie(die4);
+        fourthDie.setOnAction(e->{
+            fourthDie.setVisible(false);
+        });
+        
+        fifthDie = DieView.assignDie(die5);
+        fifthDie.setOnAction(e->{
+            fifthDie.setVisible(false);
+        });
+        
+
+        HBox diceLayout = new HBox(20);
+        diceLayout.getChildren().addAll(firstDie, secondDie, thirdDie, fourthDie, fifthDie);
+        
+        return diceLayout;
+    }
+    
+
+    
+    public void createPlayerCards(Player[] players){
+       for(Player player: players){
+           PlayerView card = new PlayerView(player, 175, 100);
+           if (player.getNum()<2){
+               leftPlayers.getChildren().add(card.display());
+           }
+           else if(player.getNum()<5){
+               bottomPlayers.getChildren().add(card.display());
+           }
+           else if(player.getNum()<8){
+               topPlayers.getChildren().add(card.display());
+           }
+           if(player.isUser()) user = player;
+       }
+   
+    }
+    
+    public void checkSelectedDie(Die die){
+        
+    }
+   
 
     /**
      *
@@ -59,55 +166,59 @@ public class Board extends Application{
      */
     @Override
     public void start(Stage stage) throws Exception {
+        
+        /*
+              ********  INITIAL SET UP  *******
+        */  
+        
+        //Set the stage for the game
         window = stage;
         window.setTitle("Bang! The Dice Game");
         
-        ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
-        boolean ans = dialogBox.display();
-        System.out.println(ans);
+        //Get the necessary input from the user
+        wantExtension = wantExtensionsIncluded();
+        numPlayers = getNumberOfPlayers();
+    
+        //Initialize the Game class
+        Game game = new Game(numPlayers, 1);
+        
         //Anonymous Players
-        Player player = new Player("Player 2", 3, 7);
-        VBox leftPlayers = new VBox(100);
-        HBox bottomPlayers = new HBox(100);
-        HBox topPlayers = new HBox(100);
+        Player[] players = game.getPlayers();
         
-        leftPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
-        bottomPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
-        topPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
+        //Create Player cards
+        createPlayerCards(players);
         
-        //Right Pane elements
+
+        /*
+              ********  RIGHT PANE ELEMENTS (USER) *******
+        */
         
         //User Attributes
-        VBox roleCard = AttributeCard.display("Role", "Renegade");
-        VBox characterCard = AttributeCard.display("Character", "Billy Jackson");
+        VBox roleCard = AttributeCard.display("Role",user.getRole().getName());
+        VBox characterCard = AttributeCard.display("Character", user.getCharacter().getName());
         HBox userInfo = new HBox(PADDING_SIZE+20);
         userInfo.getChildren().addAll(roleCard, characterCard);
 
         
         //User Tokens
-        VBox singleBullet = Token.display("Bullet", 4, "assets/bullet.png", 64, 64);
-        VBox multipleBullets = Token.display("Three Bullets", 4, "assets/ammunition.png", 64, 64);
-        VBox arrows = Token.display("Arrows", 6, "assets/indian.png", 64, 64);
+        setDistributionOfBullets();
+        Token singleBullet = new Token("Bullet", oneBullet, "assets/bullet.png", 64, 64);
+        Token multipleBullet = new Token("Three Bullets", threeBullets, "assets/ammunition.png", 64, 64);
+        Token arrows = new Token("Arrows", user.getArrows(), "assets/indian.png", 64, 64);
         HBox tokens = new HBox(PADDING_SIZE);
-        tokens.getChildren().addAll(singleBullet, multipleBullets, arrows);
+        tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display());
         
         
-        //Roll Dice  
+        //User Actions  
         StackPane userRoll = new StackPane();
-        Button rollDice = new Button("Roll Dice");
-        
-        rollDice.setId("button-attack");
+        Button rollDice = new Button("Roll Dice");        
         userRoll.getChildren().addAll(rollDice);
         
+        
         StackPane attacks = new StackPane();
-        HBox userAttacks = new HBox(PADDING_SIZE);
-        
-        Button attackLeft = new Button("Attack Left");  
-        attackLeft.setId("button-attack");
-        
+        HBox userAttacks = new HBox(PADDING_SIZE); 
+        Button attackLeft = new Button("Attack Left");
         Button attackRight = new Button("Attack Right");
-        attackRight.setId("button-attack");
-        
         userAttacks.getChildren().addAll(attackLeft, attackRight);
         attacks.getChildren().addAll(userAttacks);
         
@@ -115,9 +226,11 @@ public class Board extends Application{
         HBox inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
             inventory.getChildren().clear();
-            RollDice die = new RollDice();  
-            inventory.getChildren().add(DieView.display(die.getDice()));
+            RollDice dice = new RollDice();
+            inventory.getChildren().add(displayDice(dice.getDice()));
         });
+        
+        
         
         
         // Selected Dice
@@ -140,7 +253,7 @@ public class Board extends Application{
         StackPane curArrowPane = new StackPane();
         curArrowPane.getChildren().addAll(arrowsOnTheTable);  
         
-        VBox boardArrows = Token.display("", 6, "assets/arrow.png", 120, 120);
+        Token boardArrows = new Token("", 6, "assets/arrow.png", 120, 120);
         
      
          
@@ -148,36 +261,36 @@ public class Board extends Application{
         //Board Layout
         HBox topPane = new HBox();
         topPane.getChildren().addAll(topPlayers);
-        topPane.setStyle("-fx-padding: 0 500 0 500");
+        topPane.setStyle("-fx-padding: 0 100 0 100");
 
         
         VBox leftPane = new VBox();
         leftPane.getChildren().addAll(leftPlayers);
-        leftPane.setStyle("-fx-padding: 250 0 250 50");
+        leftPane.setStyle("-fx-padding: 100 0 100 50");
 
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
-        center.getChildren().addAll(dicePane,inventory, arrowTextPane,curArrowPane, boardArrows);
-        center.setStyle("-fx-padding: 150 25 50 25;");
+        center.getChildren().addAll(dicePane,inventory, arrowTextPane,curArrowPane, boardArrows.display());
+        center.setStyle("-fx-padding: 100 25 0 25;");
         centerView.getChildren().addAll(center);
         
         HBox bottomPane = new HBox();
         bottomPane.getChildren().addAll(bottomPlayers);
-        bottomPane.setStyle("-fx-padding: 0 500 0 500");
+        bottomPane.setStyle("-fx-padding: 0 100 0 100");
 
         
         VBox rightPane = new VBox(PADDING_SIZE);
-        rightPane.getChildren().addAll(userInfo, tokens, userRoll, userAttacks); 
+        rightPane.getChildren().addAll(userInfo, tokens, userRoll, attacks); 
         rightPane.setStyle( "-fx-padding: 50 30 30 50; ");
         
         
         BorderPane boardLayout = createBorderPane(topPane, bottomPane, leftPane, rightPane, centerView);
         
         
-        Scene game = new Scene(boardLayout, 1980, 1024);
-        game.getStylesheets().add("styles/Bang.css");
-        window.setScene(game);
+        Scene gameView = new Scene(boardLayout, 1980, 1024);
+        gameView.getStylesheets().add("styles/Bang.css");
+        window.setScene(gameView);
         window.show();
     }
     
@@ -206,27 +319,6 @@ public class Board extends Application{
         return boardLayout;
     }
     
-    /**
-     *
-     * @param totalNumberOfPlayers The total number of players playing the game
-     * @return
-     */
-    public Player[] createPlayers(int totalNumberOfPlayers){
-        Player[] players = new Player[totalNumberOfPlayers]; 
-        MasterRole masterRole = new MasterRole(totalNumberOfPlayers); 
-        for(Player player: players){
-            //Assign the player a character
-            
-            //Assign the Player a role
-            
-            //Assign characters his life Points and abilites
-            
-        }
-        return players;
-    }
     
-    
-
-    
-   
+  
 }
