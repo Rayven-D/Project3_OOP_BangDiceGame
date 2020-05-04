@@ -65,8 +65,20 @@ public class Board extends Application{
         return dropdown.display();
     }
     
-    public createPlayerCards(){
-        
+    public void createPlayerCards(Player[] players){
+       for(Player player: players){
+           PlayerView card = new PlayerView(player, 175, 75);
+           if (player.getNum()<2){
+               leftPlayers.getChildren().addAll(card.display());
+           }
+           else if(player.getNum()<5){
+               bottomPlayers.getChildren().addAll(card.display());
+           }
+           else if(player.getNum()<8){
+               bottomPlayers.getChildren().addAll(card.display());
+           }
+       }
+   
     }
 
     /**
@@ -92,12 +104,10 @@ public class Board extends Application{
         //Anonymous Players
         Player[] players = game.getPlayers();
         
-        //Create
+        //Create Player cards
+        createPlayerCards(players);
         
-//        leftPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
-//        bottomPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
-//        topPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
-        
+
         //Right Pane elements
         
         //User Attributes
