@@ -10,7 +10,6 @@
 
 package view;
 
-import java.util.LinkedList;
 import javafx.application.Application;
 import javafx.stage.*;
 import javafx.scene.*;
@@ -18,6 +17,8 @@ import javafx.scene.layout.*;
 import javafx.scene.control.*;
 import project3.RollDice;
 import project3.Die;
+import project3.Player;
+import project3.Game;
 import project3.MasterRole;
 
 /**
@@ -52,17 +53,17 @@ public class Board extends Application{
         launch(args);
     }
     
-    public void wantExtensionsIncluded(){
+    public int wantExtensionsIncluded(){
         ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
-        wantExtension = dialogBox.display();
+        return dialogBox.display();
     }
     
     /**
      * Get the number of players playing the game
      */
-    public void getNumberOfPlayers(){
+    public int getNumberOfPlayers(){
         DropdownDialogBox dropdown = new DropdownDialogBox("Select the number of players you want in the game", "How many friends you got ?");
-        numPlayers = dropdown.display();
+        return dropdown.display();
     }
 
     /**
@@ -72,20 +73,28 @@ public class Board extends Application{
      */
     @Override
     public void start(Stage stage) throws Exception {
+        
+        //Set the stage for the game
         window = stage;
         window.setTitle("Bang! The Dice Game");
-        wantExtensionsIncluded();
-        getNumberOfPlayers();
+        
+        //Get the necessary input from the user
+        wantExtension = wantExtensionsIncluded();
+        numPlayers = getNumberOfPlayers();
+        
+         
+        //Initialize the Game class
+        Game game = new Game(numPlayers, 1);
   
         //Anonymous Players
-        Player player = new Player("Player 2", 3, 7);
+        Player[] players = game.players;
         VBox leftPlayers = new VBox(100);
         HBox bottomPlayers = new HBox(100);
         HBox topPlayers = new HBox(100);
         
-        leftPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
-        bottomPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
-        topPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
+//        leftPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
+//        bottomPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
+//        topPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
         
         //Right Pane elements
         

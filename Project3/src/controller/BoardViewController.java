@@ -69,11 +69,8 @@ public class BoardViewController {
      * @param args
      */
     public static void main(String[] args){   
-//        BoardViewController vc = new BoardViewController();
-//        vc.getNumberOfPlayers();
-//        vc.wantExtensionsIncluded();
-//        Game game = new Game(vc.getNumPlayers(), 1);
         Board.main(args);
+        Game game = new Game(Board.numPlayers,1 );
     }
 
 }

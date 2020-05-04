@@ -5,7 +5,7 @@ import java.util.*;
 public class Game {
 
 
-    Player players[]; 
+    private Player players[]; 
     private int playerTurn;
     private int numPlayers;
     private int middleArrows;
@@ -362,6 +362,11 @@ public class Game {
            p.getStatus();
            p.getHealth();
        }
+   }
+   
+   public Player[] getPlayers(){
+       Player[] tempPlayer = this.players;
+       return tempPlayer;
    }
    
     public static void main(String [] args){
