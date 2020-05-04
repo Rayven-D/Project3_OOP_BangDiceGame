@@ -42,6 +42,7 @@ public class Board extends Application{
     public static HBox currentDiceSelection;
     private VBox leftPlayers = new VBox(100);
     private HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
+    private Player user;
     
 
     /**
@@ -77,6 +78,7 @@ public class Board extends Application{
            else if(player.getNum()<8){
                topPlayers.getChildren().add(card.display());
            }
+           if(player.isUser()) user = player;
        }
    
     }
@@ -117,7 +119,7 @@ public class Board extends Application{
         */
         
         //User Attributes
-        VBox roleCard = AttributeCard.display("Role", "Renegade");
+        VBox roleCard = AttributeCard.display("Role",user.getRole().getName());
         VBox characterCard = AttributeCard.display("Character", "Billy Jackson");
         HBox userInfo = new HBox(PADDING_SIZE+20);
         userInfo.getChildren().addAll(roleCard, characterCard);

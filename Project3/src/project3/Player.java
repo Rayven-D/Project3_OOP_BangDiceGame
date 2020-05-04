@@ -127,4 +127,8 @@ public class Player {
     public Role getRole(){
         return this.role;
     }
+    
+    public boolean isUser(){
+        return this.user;
+    }
 }
