@@ -37,7 +37,7 @@ public class Board extends Application{
     Stage window;
     
     // State Properties - Controller 
-    public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable, wantExtension, numPlayers;
+    public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable, wantExtension, numPlayers, oneBullet, threeBullets;
     public static String userRole, userCharacter;
     public static HBox currentDiceSelection;
     private VBox leftPlayers = new VBox(100);
@@ -64,6 +64,11 @@ public class Board extends Application{
     public int getNumberOfPlayers(){
         DropdownDialogBox dropdown = new DropdownDialogBox("Select the number of players you want in the game", "How many friends you got ?");
         return dropdown.display();
+    }
+    
+    public void setDistributionOfBullets(){
+        oneBullet = user.getHealth()%3;
+        threeBullets = user.getHealth()/3;
     }
     
     public void createPlayerCards(Player[] players){
@@ -120,17 +125,18 @@ public class Board extends Application{
         
         //User Attributes
         VBox roleCard = AttributeCard.display("Role",user.getRole().getName());
-        VBox characterCard = AttributeCard.display("Character", "Billy Jackson");
+        VBox characterCard = AttributeCard.display("Character", user.getCharacter().getName());
         HBox userInfo = new HBox(PADDING_SIZE+20);
         userInfo.getChildren().addAll(roleCard, characterCard);
 
         
         //User Tokens
-        VBox singleBullet = Token.display("Bullet", 4, "assets/bullet.png", 64, 64);
-        VBox multipleBullets = Token.display("Three Bullets", 4, "assets/ammunition.png", 64, 64);
-        VBox arrows = Token.display("Arrows", 6, "assets/indian.png", 64, 64);
+        setDistributionOfBullets();
+        Token singleBullet = new Token("Bullet", oneBullet, "assets/bullet.png", 64, 64);
+        Token multipleBullet = new Token("Three Bullets", threeBullets, "assets/ammunition.png", 64, 64);
+        Token arrows = new Token("Arrows", user.getArrows(), "assets/indian.png", 64, 64);
         HBox tokens = new HBox(PADDING_SIZE);
-        tokens.getChildren().addAll(singleBullet, multipleBullets, arrows);
+        tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display());
         
         
         //Roll Dice  
@@ -181,7 +187,7 @@ public class Board extends Application{
         StackPane curArrowPane = new StackPane();
         curArrowPane.getChildren().addAll(arrowsOnTheTable);  
         
-        VBox boardArrows = Token.display("", 6, "assets/arrow.png", 120, 120);
+        Token boardArrows = new Token("", 6, "assets/arrow.png", 120, 120);
         
      
          
@@ -199,7 +205,7 @@ public class Board extends Application{
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
-        center.getChildren().addAll(dicePane,inventory, arrowTextPane,curArrowPane, boardArrows);
+        center.getChildren().addAll(dicePane,inventory, arrowTextPane,curArrowPane, boardArrows.display());
         center.setStyle("-fx-padding: 100 25 0 25;");
         centerView.getChildren().addAll(center);
         

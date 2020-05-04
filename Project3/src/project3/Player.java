@@ -101,6 +101,7 @@ public class Player {
      */
     public void setCharacter(Character c) {
         this.character = c;
+        this.setHealth(c.getLifePoints());
     }
     
     /***
