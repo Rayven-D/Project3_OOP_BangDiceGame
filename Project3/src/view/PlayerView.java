@@ -20,9 +20,8 @@ import project3.Player;
  *
  * @author shreyesh
  */
-public class PlayerView {
+public class PlayerView implements Components<StackPane>{
     
-    public static final int PADDING_SIZE = 20;
     private String playerName;
     private int oneBullet, threeBullet, bullets;
     private int width, height;
@@ -31,7 +30,7 @@ public class PlayerView {
     
     public PlayerView(Player player, int width, int height){
         this.playerName = player.getCharacter().getName();
-        this.bullets = player.getHealth();
+        this.bullets = player.getCharacter().getLifePoints();
         this.width = width;
         this.height = height;
     }
@@ -39,17 +38,23 @@ public class PlayerView {
     public StackPane display(){
         // Components
         setBullets();
+        VBox component = new VBox();
         StackPane group = new StackPane();
-        Rectangle card = new Rectangle(width, height);
+//        Rectangle card = new Rectangle(width, height);
         Label player = new Label(playerName);
         Label singleBullets = new Label(Integer.toString(oneBullet));
         Label multiBullets = new Label(Integer.toString(threeBullet));
-        card.setFill(Color.BLACK);
-        card.setStroke(Color.BLACK);
-        card.setArcHeight(10.0d); 
-        card.setArcWidth(10.0d); 
-        group.getChildren().addAll(card,player, singleBullets, multiBullets);
         
+        //Card Attributes
+//        card.setFill(Color.BLACK);
+//        card.setStroke(Color.BLACK);
+//        card.setArcHeight(10.0d); 
+//        card.setArcWidth(10.0d); 
+        
+        component.getChildren().addAll(player, singleBullets, multiBullets);
+        group.getChildren().add(component);
+        
+        group.setStyle("-fx-background-color: #000000");
         return group;
     }
     

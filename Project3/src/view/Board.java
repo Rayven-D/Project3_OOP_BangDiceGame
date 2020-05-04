@@ -41,7 +41,7 @@ public class Board extends Application{
     public static String userRole, userCharacter;
     public static HBox currentDiceSelection;
     private VBox leftPlayers = new VBox(100);
-    private HBox bottomPlayers, topPlayers = new HBox(100);
+    private HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
     
 
     /**
@@ -67,15 +67,15 @@ public class Board extends Application{
     
     public void createPlayerCards(Player[] players){
        for(Player player: players){
-           PlayerView card = new PlayerView(player, 175, 75);
+           PlayerView card = new PlayerView(player, 175, 100);
            if (player.getNum()<2){
-               leftPlayers.getChildren().addAll(card.display());
+               leftPlayers.getChildren().add(card.display());
            }
            else if(player.getNum()<5){
-               bottomPlayers.getChildren().addAll(card.display());
+               bottomPlayers.getChildren().add(card.display());
            }
            else if(player.getNum()<8){
-               bottomPlayers.getChildren().addAll(card.display());
+               topPlayers.getChildren().add(card.display());
            }
        }
    
@@ -89,6 +89,10 @@ public class Board extends Application{
     @Override
     public void start(Stage stage) throws Exception {
         
+        /*
+              ********  INITIAL SET UP  *******
+        */  
+        
         //Set the stage for the game
         window = stage;
         window.setTitle("Bang! The Dice Game");
@@ -100,7 +104,7 @@ public class Board extends Application{
          
         //Initialize the Game class
         Game game = new Game(numPlayers, 1);
-  
+        
         //Anonymous Players
         Player[] players = game.getPlayers();
         
@@ -108,7 +112,9 @@ public class Board extends Application{
         createPlayerCards(players);
         
 
-        //Right Pane elements
+        /*
+              ********  RIGHT PANE ELEMENTS *******
+        */
         
         //User Attributes
         VBox roleCard = AttributeCard.display("Role", "Renegade");
@@ -181,23 +187,23 @@ public class Board extends Application{
         //Board Layout
         HBox topPane = new HBox();
         topPane.getChildren().addAll(topPlayers);
-        topPane.setStyle("-fx-padding: 0 500 0 500");
+        topPane.setStyle("-fx-padding: 0 100 0 100");
 
         
         VBox leftPane = new VBox();
         leftPane.getChildren().addAll(leftPlayers);
-        leftPane.setStyle("-fx-padding: 250 0 250 50");
+        leftPane.setStyle("-fx-padding: 100 0 100 50");
 
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
         center.getChildren().addAll(dicePane,inventory, arrowTextPane,curArrowPane, boardArrows);
-        center.setStyle("-fx-padding: 150 25 50 25;");
+        center.setStyle("-fx-padding: 100 25 0 25;");
         centerView.getChildren().addAll(center);
         
         HBox bottomPane = new HBox();
         bottomPane.getChildren().addAll(bottomPlayers);
-        bottomPane.setStyle("-fx-padding: 0 500 0 500");
+        bottomPane.setStyle("-fx-padding: 0 100 0 100");
 
         
         VBox rightPane = new VBox(PADDING_SIZE);

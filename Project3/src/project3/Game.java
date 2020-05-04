@@ -27,6 +27,7 @@ public class Game {
         for(int j = 0; j < numPlayers; j++){
             System.out.println(players[j].getCharacter().getName() + players[j].getCharacter().getSpecialAbility());
         }
+        setRoles();
         
     }
 
@@ -367,6 +368,12 @@ public class Game {
    public Player[] getPlayers(){
        Player[] tempPlayer = this.players;
        return tempPlayer;
+   }
+   
+   public Player[] setRoles(){
+       MasterRole mr = new MasterRole(numPlayers);
+       mr.assignRole(players);
+       return players;
    }
    
     public static void main(String [] args){
