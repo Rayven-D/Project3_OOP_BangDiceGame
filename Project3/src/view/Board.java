@@ -39,11 +39,10 @@ public class Board extends Application{
     // State Properties - Controller 
     public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable, wantExtension, numPlayers;
     public static String userRole, userCharacter;
-
-    /**
-     * Attribute to keep track of the Dice selected by the Player 
-     */
     public static HBox currentDiceSelection;
+    private VBox leftPlayers = new VBox(100);
+    private HBox bottomPlayers, topPlayers = new HBox(100);
+    
 
     /**
      *
@@ -87,10 +86,9 @@ public class Board extends Application{
         Game game = new Game(numPlayers, 1);
   
         //Anonymous Players
-        Player[] players = game.players;
-        VBox leftPlayers = new VBox(100);
-        HBox bottomPlayers = new HBox(100);
-        HBox topPlayers = new HBox(100);
+        Player[] players = game.getPlayers();
+        
+        //Create
         
 //        leftPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
 //        bottomPlayers.getChildren().addAll(player.display(175, 75), player.display(175, 75));
@@ -196,9 +194,9 @@ public class Board extends Application{
         BorderPane boardLayout = createBorderPane(topPane, bottomPane, leftPane, rightPane, centerView);
         
         
-        Scene game = new Scene(boardLayout, 1980, 1024);
-        game.getStylesheets().add("styles/Bang.css");
-        window.setScene(game);
+        Scene gameView = new Scene(boardLayout, 1980, 1024);
+        gameView.getStylesheets().add("styles/Bang.css");
+        window.setScene(gameView);
         window.show();
     }
     

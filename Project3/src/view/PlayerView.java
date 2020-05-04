@@ -19,7 +19,7 @@ import javafx.scene.shape.Rectangle;
  *
  * @author shreyesh
  */
-public class Player {
+public class PlayerView {
     
     public static final int PADDING_SIZE = 20;
     private String playerName;
@@ -28,7 +28,7 @@ public class Player {
     
     //Create a constructor that takes in a Player object and create the necessary labels
     
-    public Player(String playerName, int oneBullet, int threeBullet){
+    public PlayerView(String playerName, int oneBullet, int threeBullet){
         this.playerName = playerName;
         this.oneBullet = oneBullet;
         this.threeBullet = threeBullet;
@@ -44,9 +44,6 @@ public class Player {
         card.setArcHeight(10.0d); 
         card.setArcWidth(10.0d); 
         group.getChildren().addAll(card,player);
-        
-        
-        
         
         return group;
     }
