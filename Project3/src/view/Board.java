@@ -64,6 +64,10 @@ public class Board extends Application{
         DropdownDialogBox dropdown = new DropdownDialogBox("Select the number of players you want in the game", "How many friends you got ?");
         return dropdown.display();
     }
+    
+    public createPlayerCards(){
+        
+    }
 
     /**
      *
@@ -225,27 +229,5 @@ public class Board extends Application{
         return boardLayout;
     }
     
-    /**
-     *
-     * @param totalNumberOfPlayers The total number of players playing the game
-     * @return
-     */
-    public Player[] createPlayers(int totalNumberOfPlayers){
-        Player[] players = new Player[totalNumberOfPlayers]; 
-        MasterRole masterRole = new MasterRole(totalNumberOfPlayers); 
-        for(Player player: players){
-            //Assign the player a character
-            
-            //Assign the Player a role
-            
-            //Assign characters his life Points and abilites
-            
-        }
-        return players;
-    }
-    
-    
-
-    
-   
+  
 }
