@@ -20,7 +20,7 @@ public class MasterRole {
     /**
      * Creates possible roles based on number of players in game
      */
-    private final ArrayList<String> roles = new ArrayList<>();
+    private ArrayList<String> roles = new ArrayList<>();
     
     /**
      * holds index of the winner of the game
@@ -75,6 +75,13 @@ public class MasterRole {
                 }
             }
         }
+    }
+    
+    /**
+     * returns the list of roles
+     */
+    public ArrayList<String> getRoles(){
+        return this.roles;
     }
     
     /**

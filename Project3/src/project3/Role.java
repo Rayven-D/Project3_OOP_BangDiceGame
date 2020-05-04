@@ -153,7 +153,7 @@ public class Role {
             case("Sheriff"): case("Deputy"):
                 while(losing == false && i < players.length)
                 {
-                    if(players[i].getRole().getName().equals("Outlaw") || players[i].getRole().getName().equals("Renegade")) //Get role has been added temporarily. Please fill. 
+                    if(players[i].getRole().getName().equalsIgnoreCase("outlaw") || players[i].getRole().getName().equalsIgnoreCase("renegade")) //Get role has been added temporarily. Please fill. 
                     {
                         if(players[i].getStatus() == true)
                         {
@@ -166,7 +166,7 @@ public class Role {
             case("Outlaw"):
                 while(losing == false && i < players.length)
                 {
-                    if(players[i].getRole().getName().equals("Sheriff"))
+                    if(players[i].getRole().getName().equalsIgnoreCase("sheriff"))
                     {
                         if(players[i].getStatus() == true)
                         {
@@ -179,7 +179,8 @@ public class Role {
             case("Renegade"):
                 while(losing == false && i < players.length)
                 {
-                    if(players[i].getStatus() == true)
+                   
+                    if(players[i].getStatus() == true && !players[i].getRole().getName().equalsIgnoreCase("renegade"))
                     {
                         losing = true;
                     }
@@ -187,7 +188,6 @@ public class Role {
                 }
                 break;                   
         }
-        
         if(losing == false)
         {
             won = true;
