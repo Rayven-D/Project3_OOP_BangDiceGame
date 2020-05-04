@@ -130,7 +130,7 @@ public class Game {
         boolean rollAgain = true;
         
         for(int i = 0; i < rolls; i++){
-            RollDice diceroll = new RollDice("none");
+            RollDice diceroll = new RollDice();
             List<Die> roll = diceroll.rollDice(diceroll.getDice());    
   
             
@@ -182,7 +182,7 @@ public class Game {
             String faceName = d.getFace();
             if(faceName.equalsIgnoreCase("beer")){
                 if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("slab_the_killer")){
-                    if(/*he chooses to double 1 or 2 instead */){
+                    if(true){/*he chooses to double 1 or 2 instead */
                         beerKiller++; 
                         continue;
                     }
@@ -201,7 +201,7 @@ public class Game {
             }
         }
         if(playerChar.getName().equalsIgnoreCase("kit_carlson") && gatling > 0){
-            if(/*he chooses to use gatling to discard*/){
+            if(true){/*he chooses to use gatling to discard*/
                 for(int i = 0; i < gatling; i++){
                     int chosen = 0; //index of chosen player, -1 if done choosing
                     if(chosen == -1)
@@ -295,7 +295,7 @@ public class Game {
    public void loseLife(Player attacker, Player target){
        int loss = 1;
        if(target.getCharacter().getName().equalsIgnoreCase("bart_cassidy")){
-           if(/*chooses to take arrow instead*/){
+           if(true)/*chooses to take arrow instead*/{
                int a = target.getArrows();
                a++;
                target.setArrows(a);
@@ -316,7 +316,7 @@ public class Game {
            target.setHealth(loseHealth);
        }
        else if(target.getCharacter().getName().equalsIgnoreCase("pedro_ramirez")){
-          if(/*chooses to discard an arrow*/){
+          if(true){ /*chooses to discard an arrow*/
               target.setArrows(target.getArrows() - 1);
               middleArrows++;
           }
