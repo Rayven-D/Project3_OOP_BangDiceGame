@@ -45,7 +45,7 @@ public class DropdownDialogBox extends ConfirmDialogBox{
             
             ChoiceBox<Integer> choiceBox = new ChoiceBox<>();
             
-            choiceBox.getItems().addAll(3,4,5,6,7,8);
+            choiceBox.getItems().addAll(4,5,6,7,8);
             
             proceed.setOnAction(e -> {
                 userChoice = getChoice(choiceBox);
