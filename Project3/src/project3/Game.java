@@ -11,11 +11,13 @@ public class Game {
     private int middleArrows;
     private int lossLifeIndians;
     private CyclicDoublyLinkedList<Player> playerSeating;
+    private MasterRole roles; 
 
     public Game(int numPlayers, int userPlayers) {
         this.numPlayers = numPlayers;
         this.middleArrows = 9;
-        this.playerTurn = 0;
+        this.playerTurn = ((int)Math.random()*100) % this.numPlayers;
+        roles = new MasterRole(numPlayers);
         players = new Player[numPlayers];
         int i = 0;
         for(; i < userPlayers; i++){
@@ -25,29 +27,70 @@ public class Game {
             players[i] = new Player(i, false);
         }
         setUp();
-        for(int j = 0; j < numPlayers; j++){
-            System.out.println(players[j].getCharacter().getName() + players[j].getCharacter().getSpecialAbility());
-        }
-        setRoles();
+        runGame();
     }
 
     public Game() {
-
     }
 
+    public void runGame(){
+        for(Player p : players){
+                System.out.println(p.getRole().getName() + " " + p.getCharacter().getName() + " " + p.getHealth());
+        }
+        boolean won = false;
+        while(true){
+            turn();
+            for(int i = 0; i < players.length; i++){
+                won = players[i].getRole().getWon(players);
+                if(won){
+                    System.out.println(players[i].getCharacter().getName() + " WON!!!");
+                    break;
+                }
+            }
+            if(won){
+                break;
+            }
+            System.out.println();
+            for(Player p: players){
+                System.out.println(p.getCharacter().getName() + " " + p.getHealth());
+            }
+            System.out.println();
+            nextTurn();
+        }
+        
+    }
+    
     public void nextTurn() {
-        playerTurn = (playerTurn + 1) % (numPlayers - 1);
+        playerTurn = (playerTurn + 1) % (numPlayers);
 
     }
 
     private void setUp(){
 
         Random randomCharacter = new Random();
+        int usedIndex[] = new int[numPlayers];
+        Character playerCharacter = new Character(Character.Characters.values()[0], "");
 
         for(int i = 0; i < numPlayers; i++){
-            int randomInt = randomCharacter.nextInt(16);
-            Character playerCharacter  = new Character(Character.Characters.values()[randomInt], "");
-            players[i].setCharacter(playerCharacter);
+            int randomInt;
+            int usedIndexes[] = new int[numPlayers];
+            boolean used= true;
+            while(used){
+                randomInt = randomCharacter.nextInt(16);
+                for(int j = 0; j <= i; j++){
+                    if(i == 0){
+                        playerCharacter  = new Character(Character.Characters.values()[randomInt], "");
+                        players[i].setCharacter(playerCharacter);
+                        used = false;
+                    }else if(randomInt == usedIndex[j]){
+                        used = true;
+                    }else{
+                        playerCharacter  = new Character(Character.Characters.values()[randomInt], "");
+                        players[i].setCharacter(playerCharacter);
+                        used = false;
+                    }
+                }
+            }
             String charName = playerCharacter.getName().toLowerCase();
             switch(charName){
                 case "bart_cassidy":
@@ -107,29 +150,16 @@ public class Game {
         
         
         Random randomRole = new Random();
-        int [] roleIndex = new int[numPlayers];
-        for(int i = 0; i < roleIndex.length; i++)
-            roleIndex[i] = -1;
-        
-        for(int i = 0; i < roleIndex.length; i++){
-            int randomInt = randomRole.nextInt(numPlayers);
-            for(int j = 0; j <= i; j++){
-                if(roleIndex[j] != randomInt && i == j){
-                    roleIndex[j] = randomInt;
-                }
-            }
-        }
-        
-        for(int i = 0; i < players.length; i++){
-        }
-    }
-    
-    public void runGame(){
-        
+        roles.assignRole(players);
     }
 
     private void turn(){
+        if(players[playerTurn].getStatus() == false){
+             System.out.println("Player " + players[playerTurn].getCharacter().getName() + " is eliminated.Skipping Turn");
+            return;
+        }
         Character playerChar = players[playerTurn].getCharacter();
+        System.out.println(playerChar.getName() + "'s Turn");
         if(playerChar.getName().equalsIgnoreCase("sid_ketchum")){
             int chosenPlayer = 0; // index of chosen player
             int gainHealth = players[chosenPlayer].getCharacter().gainLifePoints(2);
@@ -155,13 +185,13 @@ public class Game {
         for(int i = 0; i < rolls; i++){
             RollDice diceroll = new RollDice();
             List<Die> roll = diceroll.rollDice(diceroll.getDice());    
-  
+            System.out.println("Roll " + i + " " );
             
             /*
             This for loop resolves arrows and dynamite, as they are resolved while
                 the player is still rolling
             */
-            for(int rollIterator = 0; rollIterator < roll.size(); rollIterator++){
+            for(int rollIterator = 0; rollIterator < roll.size() || numDyn >= allDynamite.length; rollIterator++){
                 String currFace = roll.get(i).getFace().toLowerCase();
                 if(currFace.equalsIgnoreCase("arrow")){
                     int a = players[i].getArrows();
@@ -174,26 +204,35 @@ public class Game {
                     d.setChooseRoll(false);
                     allDynamite[numDyn] = d;
                     numDyn++;
+
                 }  
+                if(numDyn == 3){
+                    break;
+                }
+                if(playerChar.getName().equalsIgnoreCase("black_jack")){
+                    for(int j = 0; j < allDynamite.length; j++){
+                        if(allDynamite[i] == null){
+                            break;
+                        }
+                        allDynamite[i].setReroll(true);
+                        allDynamite[i].setChooseRoll(true);
+                    }           
+                }
             }
-            if(numDyn == 3){
-                break;
-            }
-            if(playerChar.getName().equalsIgnoreCase("black_jack")){
-                for(int j = 0; j < allDynamite.length; j++){
-                    if(allDynamite[i] == null){
-                        break;
-                    }
-                    allDynamite[i].setReroll(true);
-                    allDynamite[i].setChooseRoll(true);
-                }           
-            }
-            if(!rollAgain  || (i+1) == rolls){
+            for(Die d: roll){
+                System.out.print(d.getFace() + " ");
+            }   
+            System.out.println();
+            if(!rollAgain  || (i+1) == rolls || numDyn >= 3){
                 writeDiceRoll(roll);                
                 finalRoll = roll;
                 break;
             }
             writeDiceRoll(roll);
+        }
+        System.out.println("");
+        if(numDyn >= 3){
+            players[playerTurn].setHealth(players[playerTurn].getCharacter().loseLifePoints(1));
         }
         
         int gatling = 0;
@@ -205,7 +244,13 @@ public class Game {
             String faceName = d.getFace();
             if(faceName.equalsIgnoreCase("beer")){
                 if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("slab_the_killer")){
-                    if(true){/*he chooses to double 1 or 2 instead */
+                    boolean ability = false;
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){/*he chooses to double 1 or 2 instead */
                         beerKiller++; 
                         continue;
                     }
@@ -224,7 +269,13 @@ public class Game {
             }
         }
         if(playerChar.getName().equalsIgnoreCase("kit_carlson") && gatling > 0){
-            if(true){/*he chooses to use gatling to discard*/
+                boolean ability = false;
+                Scanner s = new Scanner(System.in);
+                System.out.println("Do you want to use your ability? (yes/no)");
+                String ans = s.next();
+                if(ans.equalsIgnoreCase("yes"))
+                     ability = true;
+                if(ability){/*he chooses to use gatling to discard*/
                 for(int i = 0; i < gatling; i++){
                     int chosen = 0; //index of chosen player, -1 if done choosing
                     if(chosen == -1)
@@ -256,14 +307,24 @@ public class Game {
                 lafayette = false;
                 int spacesFromPlayer = 1;
                 if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
-                    /*ask user if they want to do two instead*/
-                    if(true){
+                    boolean ability = false;
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){
                         spacesFromPlayer = 2;
                     }
                 }
                 if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
-                    //asks if user wants to use one for one place furhter
-                    if(true){
+                    boolean ability = false;
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){
                         spacesFromPlayer++;
                     }
                 }
@@ -278,14 +339,24 @@ public class Game {
                 lafayette = false;
                 int spacesFromPlayer = 2;
                 if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
-                    /*ask user if they want to do one instead*/
-                    if(true){
+                    boolean ability = false;
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){
                         spacesFromPlayer = 1;
                     }
                 }
                 if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
-                    //asks if user wants to use two for one place furhter
-                    if(true){
+                    boolean ability = false;
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){
                         spacesFromPlayer++;
                     }
                 }
@@ -304,6 +375,7 @@ public class Game {
         for(Player p: players){
             if(p.getHealth() <= 0){
                 p.setStatus(false);
+              
                 for(int i = 0; i < players.length; i++){
                     if(players[i].getStatus() && players[i].getCharacter().getName().equalsIgnoreCase("vulture_sam")){
                         players[i].setHealth(players[i].getCharacter().gainLifePoints(2));
@@ -318,7 +390,13 @@ public class Game {
    public void loseLife(Player attacker, Player target){
        int loss = 1;
        if(target.getCharacter().getName().equalsIgnoreCase("bart_cassidy")){
-           if(true)/*chooses to take arrow instead*/{
+             boolean ability = false;
+             Scanner s = new Scanner(System.in);
+             System.out.println("Do you want to use your ability? (yes/no)");
+             String ans = s.next();
+             if(ans.equalsIgnoreCase("yes"))
+                  ability = true;
+             if(ability)/*chooses to take arrow instead*/{
                int a = target.getArrows();
                a++;
                target.setArrows(a);
@@ -339,7 +417,13 @@ public class Game {
            target.setHealth(loseHealth);
        }
        else if(target.getCharacter().getName().equalsIgnoreCase("pedro_ramirez")){
-          if(true){ /*chooses to discard an arrow*/
+          boolean ability = false;
+          Scanner s = new Scanner(System.in);
+          System.out.println("Do you want to use your ability? (yes/no)");
+          String ans = s.next();
+          if(ans.equalsIgnoreCase("yes"))
+               ability = true;
+          if(ability){ /*chooses to discard an arrow*/
               target.setArrows(target.getArrows() - 1);
               middleArrows++;
           }
