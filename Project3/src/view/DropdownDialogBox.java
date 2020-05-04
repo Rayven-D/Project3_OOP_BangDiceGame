@@ -10,15 +10,12 @@
 
 package view;
 
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
+
+import javafx.stage.*;
+import javafx.scene.*;
+import javafx.scene.layout.*;
+import javafx.scene.control.*;
+import javafx.geometry.*;
 
 /**
  *
@@ -41,10 +38,10 @@ public class DropdownDialogBox extends ConfirmDialogBox{
             Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
             window.setTitle(title);
-            window.setMinWidth(250);
+            window.setMinWidth(750);
 
             Label messageLabel = new Label(message);
-            Button proceed = new Button();
+            Button proceed = new Button("Proceed");
             
             ChoiceBox<Integer> choiceBox = new ChoiceBox<>();
             
@@ -52,6 +49,7 @@ public class DropdownDialogBox extends ConfirmDialogBox{
             
             proceed.setOnAction(e -> {
                 userChoice = getChoice(choiceBox);
+                window.close();
             });      
 
             VBox confirmBoxLayout = new VBox(10);
@@ -59,7 +57,7 @@ public class DropdownDialogBox extends ConfirmDialogBox{
             optionsLayout.getChildren().addAll(proceed);
             optionsLayout.setAlignment(Pos.CENTER);
 
-            confirmBoxLayout.getChildren().addAll(messageLabel, optionsLayout);
+            confirmBoxLayout.getChildren().addAll(messageLabel, choiceBox, optionsLayout);
             confirmBoxLayout.setAlignment(Pos.CENTER);
 
             Scene scene = new Scene(confirmBoxLayout);
@@ -72,5 +70,11 @@ public class DropdownDialogBox extends ConfirmDialogBox{
 
         private int getChoice(ChoiceBox<Integer> choiceBox){
             return choiceBox.getValue();
+        }
+        
+        public static void main(String[] args){
+            DropdownDialogBox db = new DropdownDialogBox("ya", "ya");
+            db.display();
+            
         }
 }

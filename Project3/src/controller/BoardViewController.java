@@ -12,7 +12,11 @@ package controller;
 
 import javafx.stage.Stage;
 import project3.Player;
+import project3.Character;
+import project3.Game;
 import view.Board;
+import view.ConfirmDialogBox;
+import view.DropdownDialogBox;
 
 
 /**
@@ -23,31 +27,52 @@ public class BoardViewController {
     
     //User attributes
     private String role, character;
-    private int lifePoints, arrows, numPlayers;
+    private int lifePoints, arrows, numPlayers, wantExtension;
+
+    /**
+     *
+     */
     public Board board;
     
-    public void getNumberOfPlayers(){
-        DropdownDialogBox dropdown = new DropdownDialogBox("Select the number of players you want in the game", "How many friends you got ?");
+    /**
+     * Ask the user if they want the extensions included
+     */
+    
+    /**
+     *
+     * @param user
+     */
+    public BoardViewController(){
         
     }
     
-    public BoardViewController(Player player){
-        this.role = player.getRole().getName();
-        this.character = player.getCharacter().getName();
-        this.lifePoints = player.getHealth();
-        this.arrows = player.getArrows();
-        this.initPlayer();
-  
+    /**
+     *
+     */
+    public void initUser(){
+        Board.lifePoints = lifePoints;
+        Board.userCharacter = character;
+        Board.userRole = role;
+        Board.numberOfArrows = arrows;  
     }
     
-    public void initPlayer(){
-    Board.lifePoints = lifePoints;
-    Board.userCharacter = character;
-    Board.userRole = role;
-    Board.numberOfArrows = arrows;  
+    public int getNumPlayers(){
+        return this.numPlayers;
     }
     
-    public static void main(String[] args){
+    public int getWantExtensions(){
+        return this.wantExtension;
+    }
+    
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args){   
+//        BoardViewController vc = new BoardViewController();
+//        vc.getNumberOfPlayers();
+//        vc.wantExtensionsIncluded();
+//        Game game = new Game(vc.getNumPlayers(), 1);
         Board.main(args);
     }
 

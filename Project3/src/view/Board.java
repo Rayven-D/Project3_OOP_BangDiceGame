@@ -36,7 +36,7 @@ public class Board extends Application{
     Stage window;
     
     // State Properties - Controller 
-    public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable;
+    public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable, wantExtension, numPlayers;
     public static String userRole, userCharacter;
 
     /**
@@ -51,6 +51,19 @@ public class Board extends Application{
     public static void main(String[] args){
         launch(args);
     }
+    
+    public void wantExtensionsIncluded(){
+        ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
+        wantExtension = dialogBox.display();
+    }
+    
+    /**
+     * Get the number of players playing the game
+     */
+    public void getNumberOfPlayers(){
+        DropdownDialogBox dropdown = new DropdownDialogBox("Select the number of players you want in the game", "How many friends you got ?");
+        numPlayers = dropdown.display();
+    }
 
     /**
      *
@@ -61,10 +74,9 @@ public class Board extends Application{
     public void start(Stage stage) throws Exception {
         window = stage;
         window.setTitle("Bang! The Dice Game");
-        
-        ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
-        int ans = dialogBox.display();
-        System.out.println(ans);
+        wantExtensionsIncluded();
+        getNumberOfPlayers();
+  
         //Anonymous Players
         Player player = new Player("Player 2", 3, 7);
         VBox leftPlayers = new VBox(100);
