@@ -15,6 +15,7 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import project3.CyclicDoublyLinkedList;
 import project3.RollDice;
 import project3.Die;
 import project3.Player;
@@ -43,6 +44,8 @@ public class Board extends Application{
     private VBox leftPlayers = new VBox(100);
     private HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
     private Player user;
+    
+    private CyclicDoublyLinkedList<Player> playerSeating;
     
 
     /**
@@ -74,6 +77,10 @@ public class Board extends Application{
     public int wantToUseAbility(){
         ConfirmDialogBox confirm = new ConfirmDialogBox(user.getCharacter().getSpecialAbility(), "Do you want to use your ability?");
         return confirm.display();
+    }
+    
+    public createPlayerSeating(){
+        
     }
     
     public void createPlayerCards(Player[] players){
