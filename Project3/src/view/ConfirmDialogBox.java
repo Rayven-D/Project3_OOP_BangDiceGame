@@ -24,8 +24,8 @@ import javafx.geometry.*;
  */
 public class ConfirmDialogBox {
         
-    private String message;
-    private String title;
+    public String message;
+    public String title;
     private boolean userChoice = false; 
     
     public ConfirmDialogBox(String message, String title){
@@ -33,7 +33,7 @@ public class ConfirmDialogBox {
         this.title = title;
     }
     
-    public boolean display(){
+    public int display(){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
         window.setTitle(this.title);
@@ -66,7 +66,7 @@ public class ConfirmDialogBox {
         window.setScene(scene);
         window.showAndWait(); // Display the window and before it returns it needs to be closed
         
-        return this.userChoice;
+        return this.userChoice?1:0;
     }
     
     public boolean setUserChoice(boolean choice){

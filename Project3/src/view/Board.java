@@ -63,7 +63,7 @@ public class Board extends Application{
         window.setTitle("Bang! The Dice Game");
         
         ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
-        boolean ans = dialogBox.display();
+        int ans = dialogBox.display();
         System.out.println(ans);
         //Anonymous Players
         Player player = new Player("Player 2", 3, 7);
