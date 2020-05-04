@@ -10,6 +10,7 @@ public class Game {
     private int numPlayers;
     private int middleArrows;
     private int lossLifeIndians;
+    private CyclicDoublyLinkedList<Player> playerSeating;
 
     public Game(int numPlayers, int userPlayers) {
         this.numPlayers = numPlayers;
@@ -28,6 +29,7 @@ public class Game {
             System.out.println(players[j].getCharacter().getName() + players[j].getCharacter().getSpecialAbility());
         }
         setRoles();
+        
         
     }
 
@@ -364,7 +366,9 @@ public class Game {
            p.getHealth();
        }
    }
-   
+   /*
+    Collaborator: Shreyesh Arangath
+   */
    public Player[] getPlayers(){
        Player[] tempPlayer = this.players;
        return tempPlayer;
@@ -375,6 +379,51 @@ public class Game {
        mr.assignRole(players);
        return players;
    }
+   
+   
+   //Assembles the players in a circle
+    public CyclicDoublyLinkedList createPlayerSeating(Player[] players){
+        CyclicDoublyLinkedList<Player> ll = new CyclicDoublyLinkedList<>();
+        for(Player player: players){
+            ll.insert(player);
+        }
+        return ll;
+    }
+    
+    //Returns the index/number of players whom you can attack
+    public Integer[] getPlayerToAttack(int distance, int curPlayerNumber){
+        playerSeating = createPlayerSeating(players);
+        int index=0;
+        Node<Player> cur = playerSeating.start;
+        Node<Player> initPlayer;
+        Integer[] attackPlayerIndices = new Integer[2];
+        for(int i=0; i<curPlayerNumber; i++){
+            cur = cur.getNext();
+        }
+        initPlayer = cur;
+        
+        for(int i=0; i<=distance; i++){
+            if(i==distance){
+                attackPlayerIndices[index] = cur.getData().getNum();
+                index++;
+            }
+            cur = cur.getNext();
+        }
+        
+        cur = initPlayer;
+        
+        for(int i=0; i<=distance; i++){
+            if(i==distance){
+                attackPlayerIndices[index] = cur.getData().getNum();
+                index++;
+            }
+            cur = cur.getPrevious();
+        }
+        
+        return attackPlayerIndices;
+    }
+    
+    
    
     public static void main(String [] args){
         Game g = new Game(4,1);

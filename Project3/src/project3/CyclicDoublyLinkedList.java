@@ -18,7 +18,7 @@ package project3;
 
 public class CyclicDoublyLinkedList<T> {
     
-    private Node start, end;
+    public Node start, end;
     public int sizeOfList =0;
     
     public CyclicDoublyLinkedList(){

@@ -45,7 +45,7 @@ public class Board extends Application{
     private HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
     private Player user;
     
-    private CyclicDoublyLinkedList<Player> playerSeating;
+    
     
 
     /**
@@ -79,9 +79,7 @@ public class Board extends Application{
         return confirm.display();
     }
     
-    public createPlayerSeating(){
-        
-    }
+
     
     public void createPlayerCards(Player[] players){
        for(Player player: players){
@@ -100,7 +98,7 @@ public class Board extends Application{
    
     }
     
-    public int getPlayerToAttack(){
+    public int getPlayerToAttack(int distance, int curUser){
         
     }
     
