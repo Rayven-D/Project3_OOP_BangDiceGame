@@ -51,7 +51,7 @@ public class DropdownDialogBox extends ConfirmDialogBox{
             choiceBox.getItems().addAll(3,4,5,6,7,8);
             
             proceed.setOnAction(e -> {
-                getChoice(choiceBox);
+                userChoice = getChoice(choiceBox);
             });      
 
             VBox confirmBoxLayout = new VBox(10);

@@ -23,8 +23,13 @@ public class BoardViewController {
     
     //User attributes
     private String role, character;
-    private int lifePoints, arrows;
+    private int lifePoints, arrows, numPlayers;
     public Board board;
+    
+    public void getNumberOfPlayers(){
+        DropdownDialogBox dropdown = new DropdownDialogBox("Select the number of players you want in the game", "How many friends you got ?");
+        
+    }
     
     public BoardViewController(Player player){
         this.role = player.getRole().getName();
