@@ -438,6 +438,10 @@ public class Game {
         return attackPlayerIndices;
     }
     
+    public int getArrowsInTheMiddle(){
+        return this.middleArrows;
+    }
+    
     
    
     public static void main(String [] args){

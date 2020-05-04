@@ -248,12 +248,8 @@ public class Board extends Application{
         arrowsOnTheTable.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; fx-padding-bottom: 140px");
         StackPane arrowTextPane = new StackPane();
         arrowTextPane.getChildren().addAll(arrowsOnTheTable);  
-        
-        Label currentArrowsOnTheTable = new Label(Integer.toString(numberOfArrowsOnTheTable));
-        StackPane curArrowPane = new StackPane();
-        curArrowPane.getChildren().addAll(arrowsOnTheTable);  
-        
-        Token boardArrows = new Token("", 6, "assets/arrow.png", 120, 120);
+       
+        Token boardArrows = new Token("", game.getArrowsInTheMiddle(), "assets/arrow.png", 120, 120);
         
      
          
@@ -271,7 +267,7 @@ public class Board extends Application{
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
-        center.getChildren().addAll(dicePane,inventory, arrowTextPane,curArrowPane, boardArrows.display());
+        center.getChildren().addAll(dicePane,inventory, arrowTextPane, boardArrows.display());
         center.setStyle("-fx-padding: 100 25 0 25;");
         centerView.getChildren().addAll(center);
         

@@ -54,7 +54,8 @@ public class PlayerView implements Components<StackPane>{
         component.getChildren().addAll(player, singleBullets, multiBullets);
         group.getChildren().add(component);
         
-        group.setStyle("-fx-background-color: #000000");
+        group.setStyle("-fx-background-color: #000000; "
+                + "-fx-padding: 20 20 20 20");
         return group;
     }
     
