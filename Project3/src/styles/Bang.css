@@ -20,6 +20,7 @@ and open the template in the editor.
 .button {
 
     -fx-border-radius: 15px;
+    -fx-background-color: #fff;
     
 }
 

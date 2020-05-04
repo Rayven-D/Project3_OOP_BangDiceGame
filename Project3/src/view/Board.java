@@ -71,6 +71,11 @@ public class Board extends Application{
         threeBullets = user.getHealth()/3;
     }
     
+    public int wantToUseAbility(){
+        ConfirmDialogBox confirm = new ConfirmDialogBox(user.getCharacter().getSpecialAbility(), "Do you want to use your ability?");
+        return confirm.display();
+    }
+    
     public void createPlayerCards(Player[] players){
        for(Player player: players){
            PlayerView card = new PlayerView(player, 175, 100);
@@ -86,6 +91,21 @@ public class Board extends Application{
            if(player.isUser()) user = player;
        }
    
+    }
+    
+    public int getPlayerToAttack(){
+        
+    }
+    
+    public VBox displayUserActions(){
+        VBox actions = new VBox();
+        StackPane attacks = new StackPane();
+        HBox userAttacks = new HBox(PADDING_SIZE); 
+        Button attackLeft = new Button("Attack Left");  
+        Button attackRight = new Button("Attack Right");
+        userAttacks.getChildren().addAll(attackLeft, attackRight);
+        attacks.getChildren().addAll(userAttacks);
+        return actions;
     }
 
     /**
@@ -107,8 +127,7 @@ public class Board extends Application{
         //Get the necessary input from the user
         wantExtension = wantExtensionsIncluded();
         numPlayers = getNumberOfPlayers();
-        
-         
+    
         //Initialize the Game class
         Game game = new Game(numPlayers, 1);
         
@@ -120,7 +139,7 @@ public class Board extends Application{
         
 
         /*
-              ********  RIGHT PANE ELEMENTS *******
+              ********  RIGHT PANE ELEMENTS (USER) *******
         */
         
         //User Attributes
@@ -139,24 +158,12 @@ public class Board extends Application{
         tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display());
         
         
-        //Roll Dice  
+        //User Actions  
         StackPane userRoll = new StackPane();
-        Button rollDice = new Button("Roll Dice");
-        
-        rollDice.setId("button-attack");
+        Button rollDice = new Button("Roll Dice");        
         userRoll.getChildren().addAll(rollDice);
         
-        StackPane attacks = new StackPane();
-        HBox userAttacks = new HBox(PADDING_SIZE);
-        
-        Button attackLeft = new Button("Attack Left");  
-        attackLeft.setId("button-attack");
-        
-        Button attackRight = new Button("Attack Right");
-        attackRight.setId("button-attack");
-        
-        userAttacks.getChildren().addAll(attackLeft, attackRight);
-        attacks.getChildren().addAll(userAttacks);
+        VBox userActions = displayUserActions();
         
                 
         HBox inventory = new HBox(PADDING_SIZE);
@@ -215,7 +222,7 @@ public class Board extends Application{
 
         
         VBox rightPane = new VBox(PADDING_SIZE);
-        rightPane.getChildren().addAll(userInfo, tokens, userRoll, userAttacks); 
+        rightPane.getChildren().addAll(userInfo, tokens, userRoll, userActions); 
         rightPane.setStyle( "-fx-padding: 50 30 30 50; ");
         
         
