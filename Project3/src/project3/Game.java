@@ -271,7 +271,7 @@ public class Game {
                             players[playerTurn].setChiefArrow(true);
                     }else if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("apache_kid") && !players[playerTurn].hasChiefArrow() && (players[playerTurn].getStatus() || players[playerTurn].getZombieMaster())){
                         boolean ability = false;
-                        if(player[playerTurn].isUser()){
+                        if(players[playerTurn].isUser()){
                             if(true){ //if apache_kid does want to take Indian Cheif's Arrow from another layer
                                 for(int k = 0; k < numPlayers; k++){
                                     if(players[k].hasChiefArrow()){
