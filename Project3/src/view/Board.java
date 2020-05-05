@@ -353,6 +353,12 @@ public class Board extends Application{
                 
                 game.nextTurn();
                 
+                if(game.playerTurn == user.getNum()){
+                    PlatformImpl.runAndWait(()->{
+                        doYouWantToUseYourAbility();
+                    });
+                }
+                
                 try {
                         Thread.sleep(1000);
                 } catch (InterruptedException ex) {

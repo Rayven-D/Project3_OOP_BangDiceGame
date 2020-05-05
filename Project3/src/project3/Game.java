@@ -246,11 +246,16 @@ public class Game {
             if(faceName.equalsIgnoreCase("beer")){
                 if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("slab_the_killer")){
                     boolean ability = false;
-                    Scanner s = new Scanner(System.in);
-                    System.out.println("Do you want to use your ability? (yes/no)");
-                    String ans = s.next();
-                    if(ans.equalsIgnoreCase("yes"))
-                         ability = true;
+                    if(players[playerTurn].isUser()){
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                            ability = true;
+                    }
+                    else{
+                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
+                    }
                     if(ability){/*he chooses to double 1 or 2 instead */
                         beerKiller++; 
                         continue;
@@ -271,11 +276,16 @@ public class Game {
         }
         if(playerChar.getName().equalsIgnoreCase("kit_carlson") && gatling > 0){
                 boolean ability = false;
-                Scanner s = new Scanner(System.in);
-                System.out.println("Do you want to use your ability? (yes/no)");
-                String ans = s.next();
-                if(ans.equalsIgnoreCase("yes"))
-                     ability = true;
+                if(players[playerTurn].isUser()){
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                            ability = true;
+                    }
+                    else{
+                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
+                    }
                 if(ability){/*he chooses to use gatling to discard*/
                 for(int i = 0; i < gatling; i++){
                     int chosen = 0; //index of chosen player, -1 if done choosing
@@ -309,22 +319,32 @@ public class Game {
                 int spacesFromPlayer = 1;
                 if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
                     boolean ability = false;
-                    Scanner s = new Scanner(System.in);
-                    System.out.println("Do you want to use your ability? (yes/no)");
-                    String ans = s.next();
-                    if(ans.equalsIgnoreCase("yes"))
-                         ability = true;
+                     if(players[playerTurn].isUser()){
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                            ability = true;
+                    }
+                    else{
+                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
+                    }
                     if(ability){
                         spacesFromPlayer = 2;
                     }
                 }
                 if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
                     boolean ability = false;
-                    Scanner s = new Scanner(System.in);
-                    System.out.println("Do you want to use your ability? (yes/no)");
-                    String ans = s.next();
-                    if(ans.equalsIgnoreCase("yes"))
-                         ability = true;
+                    if(players[playerTurn].isUser()){
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                            ability = true;
+                    }
+                    else{
+                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
+                    }
                     if(ability){
                         spacesFromPlayer++;
                     }
@@ -341,22 +361,32 @@ public class Game {
                 int spacesFromPlayer = 2;
                 if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
                     boolean ability = false;
-                    Scanner s = new Scanner(System.in);
-                    System.out.println("Do you want to use your ability? (yes/no)");
-                    String ans = s.next();
-                    if(ans.equalsIgnoreCase("yes"))
-                         ability = true;
+                    if(players[playerTurn].isUser()){
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                            ability = true;
+                    }
+                    else{
+                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
+                    }
                     if(ability){
                         spacesFromPlayer = 1;
                     }
                 }
                 if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
                     boolean ability = false;
-                    Scanner s = new Scanner(System.in);
-                    System.out.println("Do you want to use your ability? (yes/no)");
-                    String ans = s.next();
-                    if(ans.equalsIgnoreCase("yes"))
-                         ability = true;
+                    if(players[playerTurn].isUser()){
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                            ability = true;
+                    }
+                    else{
+                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
+                    }
                     if(ability){
                         spacesFromPlayer++;
                     }

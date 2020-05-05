@@ -44,11 +44,13 @@ public class AbilityDialogBox extends ConfirmDialogBox{
         
         yesButton.setOnAction(e -> {
             setUserChoice(true);
+            System.out.println("yes");
             window.close();
         });
         
         noButton.setOnAction(e -> {
             setUserChoice(false);
+            System.out.println("no");
             window.close();
         }); 
        
