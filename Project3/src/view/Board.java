@@ -174,6 +174,7 @@ public class Board extends Application{
                arrows.curVal= user.getArrows();
                tokens.getChildren().addAll(singleBullet.display(), 
                     multipleBullet.display(), arrows.display() );
+               continue;
                
            }
            PlayerView card = new PlayerView(player, 175, 100);
@@ -187,16 +188,16 @@ public class Board extends Application{
                topPlayers.getChildren().add(card.display());
            }
        }
-       
-       
-  
-   
+      
     }
     
+    
+    
+    
     public void updateDie(List<Die> dice, int arrows){
-        tableArrows.getChildren().clear();
-        boardArrows.curVal = arrows;
-        tableArrows.getChildren().add(boardArrows.display());
+//        tableArrows.getChildren().clear();
+//        boardArrows.curVal = arrows;
+//        tableArrows.getChildren().add(boardArrows.display());
         if(dice!=null){
             inventory.getChildren().clear();
             inventory.getChildren().add(displayDice(dice));
@@ -204,7 +205,6 @@ public class Board extends Application{
                     
         
     }
-   
 
     /**
      *
