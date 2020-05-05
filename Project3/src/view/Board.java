@@ -10,8 +10,16 @@
 
 package view;
 
+import com.sun.javafx.application.PlatformImpl;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.concurrent.Task;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
@@ -33,20 +41,27 @@ public class Board extends Application{
      * The general padding size used
      */
     public final int PADDING_SIZE = 40;
+    public static List<Die> curRoll ;
     
     Stage window;
     
     // State Properties - Controller 
     public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable, wantExtension, numPlayers, oneBullet, threeBullets;
     public static String userRole, userCharacter;
-    public static HBox currentDiceSelection;
-    private VBox leftPlayers = new VBox(100);
-    private HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
-    private Player user;
+    public static HBox currentDiceSelection,  inventory ;
+    private static VBox leftPlayers = new VBox(100);
+    private static HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
+    private static Player user;
+   
+    public static Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
+   
     
-    public Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
+    public static ConfirmDialogBox askUserInput;
     
     
+    public Board(){
+        
+    }
     
 
     /**
@@ -57,7 +72,11 @@ public class Board extends Application{
         launch(args);
     }
     
-    public int wantExtensionsIncluded(){
+//    public void startGUI(){
+//        launch();
+//    }
+    
+    public static int wantExtensionsIncluded(){
         ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
         return dialogBox.display();
     }
@@ -80,11 +99,11 @@ public class Board extends Application{
         return confirm.display();
     }
     
-    public int whomDoYouWantToAttack(String face, int[] attackPlayerIndices){
+    public int whomDoYouWantToAttack(Integer[] attackPlayerIndices){
         String message = "You can either attack Player "+
                 attackPlayerIndices[0]+" or "+
                 attackPlayerIndices[1]+"!";
-        String title = "You have chosen "+"face" ;
+        String title = "Attack!" ;
         AttackDialogBox attack = new AttackDialogBox(message, title);
         return attack.display();
     }
@@ -136,6 +155,10 @@ public class Board extends Application{
 
     
     public void createPlayerCards(Player[] players){
+        
+        bottomPlayers.getChildren().clear();
+        topPlayers.getChildren().clear();
+        leftPlayers.getChildren().clear();
 
        for(Player player: players){
            PlayerView card = new PlayerView(player, 175, 100);
@@ -155,7 +178,12 @@ public class Board extends Application{
    
     }
     
-    public void checkSelectedDie(Die die){
+    public void updateDie(List<Die> dice){
+        if(dice!=null){
+            inventory.getChildren().clear();
+            inventory.getChildren().add(displayDice(dice));
+        }
+                    
         
     }
    
@@ -182,6 +210,7 @@ public class Board extends Application{
     
         //Initialize the Game class
         Game game = new Game(numPlayers, 1);
+        
         
         //Anonymous Players
         Player[] players = game.getPlayers();
@@ -224,7 +253,7 @@ public class Board extends Application{
 //        attacks.getChildren().addAll(userAttacks);
 //        
                 
-        HBox inventory = new HBox(PADDING_SIZE);
+        inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
             inventory.getChildren().clear();
             RollDice dice = new RollDice();
@@ -283,12 +312,85 @@ public class Board extends Application{
         
         
         BorderPane boardLayout = createBorderPane(topPane, bottomPane, leftPane, rightPane, centerView);
+  
         
+    Task updateArrowsInTheGame = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                    while (true) {
+                            updateMessage(Integer.toString(game.getArrowsInTheMiddle()));
+                            try {
+                                    Thread.sleep(100);
+                            } catch (InterruptedException ex) {
+                                    break;
+                            }
+                    }
+                    return null;
+            }
+    };
+    
+        //Keeps updating the arrowsOnTheTable label on the basis of the message property
+//        arrowsOnTheTable.textProperty().bind(updateArrowsInTheGame.messageProperty());
+        Thread t2 = new Thread(updateArrowsInTheGame);
+        t2.setName("Tesk Time Updater");
+        t2.setDaemon(true);
+        t2.start();
+        
+        
+        
+
+    Task playTurn = new Task<Void>(){
+        @Override 
+        protected Void call() throws Exception{
+            while(!game.won){
+                final List<Die> temp = game.turn();
+                for(int i=0; i< game.getPlayers().length; i++){
+                    game.won = game.getPlayers()[i].getRole().getWon(game.getPlayers());
+                    if(game.won){
+                        break;
+                    }
+                }
+                if(game.won){
+                    break;
+                }
+                
+                game.nextTurn();
+                if(game.playerTurn == user.getNum()){
+                    PlatformImpl.runAndWait(()->{
+                        whomDoYouWantToAttack(game.getPlayerToAttack(2, 0));
+                    });
+                }
+                
+                try {
+                        Thread.sleep(10000);
+                } catch (InterruptedException ex) {
+                        break;
+                }
+                
+                Platform.runLater(()->{
+                    createPlayerCards(game.getPlayers());
+                    updateDie(temp);
+                    
+                });
+            }
+            return null;
+        }
+    };    
+    
+    Thread t1 = new Thread(playTurn);
+    t1.setDaemon(true);
+    t1.start();
+        
+        
+        
+        
+ 
         
         Scene gameView = new Scene(boardLayout, 1980, 1024);
         gameView.getStylesheets().add("styles/Bang.css");
         window.setScene(gameView);
         window.show();
+        
     }
     
     /**
@@ -316,6 +418,10 @@ public class Board extends Application{
         return boardLayout;
     }
     
+
+
+}
+    
     
   
-}
+

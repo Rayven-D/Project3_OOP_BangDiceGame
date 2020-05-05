@@ -3,24 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/view/PlayerView.java</file>
             <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/project3/Game.java</file>
+            <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/view/PlayerView.java</file>
             <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/project3/RollDice.java</file>
+            <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/controller/BoardViewController.java</file>
             <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/view/DropdownDialogBox.java</file>
             <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/view/Board.java</file>
-            <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/project3/Player.java</file>
             <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/project3/CyclicDoublyLinkedList.java</file>
-=======
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Comp.java</file>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Game.java</file>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/MasterRole.java</file>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Player.java</file>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Die.java</file>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Character.java</file>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/CompBrain.java</file>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/RollDice.java</file>
->>>>>>> 85898e1a475c657cdb8dc7554a3fbef4fc9f6c7a
+            <file>file:/Users/shreyesh/Desktop/School%20&amp;%20Job/SPR20/OOP/project3_OOP/Project3/src/project3/Player.java</file>
         </group>
     </open-files>
 </project-private>
