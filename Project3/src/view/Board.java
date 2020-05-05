@@ -189,16 +189,15 @@ public class Board extends Application{
        }
       
     }
-
+    
     public void updateDie(List<Die> dice){
-
         if(dice!=null){
             inventory.getChildren().clear();
             inventory.getChildren().add(displayDice(dice));
         }
-                    
-        
     }
+    
+    
 
     /**
      *
@@ -240,16 +239,6 @@ public class Board extends Application{
         VBox characterCard = AttributeCard.display("Character", user.getCharacter().getName().replace('_',' '));
         HBox userInfo = new HBox(PADDING_SIZE+20);
         userInfo.getChildren().addAll(roleCard, characterCard);
-
-        
-        //User Tokens
-        setDistributionOfBullets();
-       
-        singleBullet.curVal = oneBullet;
-        multipleBullet.curVal = threeBullets;
-        arrows.curVal = numberOfArrows;
-        
-//        tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display());
         
         
         //User Actions  
@@ -257,15 +246,11 @@ public class Board extends Application{
         Button rollDice = new Button("Roll Dice");        
         userRoll.getChildren().addAll(rollDice);
         
-        
-//        StackPane attacks = new StackPane();
-//        HBox userAttacks = new HBox(PADDING_SIZE); 
-//        Button attackLeft = new Button("Attack Left");
-//        Button attackRight = new Button("Attack Right");
-//        userAttacks.getChildren().addAll(attackLeft, attackRight);
-//        attacks.getChildren().addAll(userAttacks);
-//        
-                
+       
+        /*
+              ********  CENTER PANE ELEMENTS *******
+        */
+            
         inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
             inventory.getChildren().clear();
@@ -274,7 +259,6 @@ public class Board extends Application{
         });
        
         
-        //Center Console
         Label diceText = new Label("DICE");
         diceText.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; ");
         StackPane dicePane = new StackPane();
@@ -382,7 +366,7 @@ public class Board extends Application{
                
                 
                 try {
-                        Thread.sleep(1000);
+                        Thread.sleep(5000);
                 } catch (InterruptedException ex) {
                         break;
                 }
