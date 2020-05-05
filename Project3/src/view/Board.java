@@ -344,7 +344,7 @@ public class Board extends Application{
     Task playTurn = new Task<Void>(){
         @Override 
         protected Void call() throws Exception{
-            while(!game.won){
+            while(true){
                 
 //                final List<Die> temp = 
                 game.turn();
@@ -368,7 +368,7 @@ public class Board extends Application{
                             doYouWantToUseYourAbility();
                         }
                         else{
-                        ConfirmDialogBox youLost = new ConfirmDialogBox("YOU LOST", "OOPS, you LOSTTTT!!!");
+                        OkayDialogBox youLost = new OkayDialogBox("YOU LOST", "OOPS, you LOSTTTT!!!");
                         youLost.display();
                         System.exit(0);
                         }
@@ -388,6 +388,20 @@ public class Board extends Application{
                     updateDie(game.finalRoll);
                     
                 });
+                
+                if(game.won){
+                   PlatformImpl.runAndWait(()->{
+                        if(game.getPlayers()[game.playerTurn].getStatus()){
+                            doYouWantToUseYourAbility();
+                        }
+                        else{
+                        OkayDialogBox youLost = new OkayDialogBox("GAME OVER", game.getPlayers()[game.playerTurn-1].getCharacter().getName() + " WON!!!");
+                        youLost.display();
+                        System.exit(0);
+                        }
+                    }); 
+                }
+                
             }
             return null;
         }
@@ -396,6 +410,7 @@ public class Board extends Application{
     Thread t1 = new Thread(playTurn);
     t1.setDaemon(true);
     t1.start();
+    
         
     Scene gameView = new Scene(boardLayout, 1980, 1024);
     gameView.getStylesheets().add("styles/Bang.css");
