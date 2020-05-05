@@ -52,11 +52,9 @@ public class Board extends Application{
     private static VBox leftPlayers = new VBox(100);
     private static HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
     private static Player user;
-   
+    public static boolean askUserInput = false;
     public static Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
-   
-    
-    public static ConfirmDialogBox askUserInput;
+  
     
     
     public Board(){
@@ -106,6 +104,13 @@ public class Board extends Application{
         String title = "Attack!" ;
         AttackDialogBox attack = new AttackDialogBox(message, title);
         return attack.display();
+    }
+    
+    public int doYouWantToUseYourAbility(){
+        String message = user.getCharacter().getSpecialAbility();
+        String title = "To use the ability or not to use";
+        AbilityDialogBox dialogbox = new AbilityDialogBox(message, title);
+        return dialogbox.display();
     }
     
     public void checkDieAction(Die die){
@@ -259,14 +264,7 @@ public class Board extends Application{
             RollDice dice = new RollDice();
             inventory.getChildren().add(displayDice(dice.getDice()));
         });
-        
-        
-        
-        
-        // Selected Dice
-        HBox userSelectedDice = new HBox();
-        
-        
+       
         
         //Center Console
         Label diceText = new Label("DICE");
@@ -347,22 +345,24 @@ public class Board extends Application{
                 for(int i=0; i< game.getPlayers().length; i++){
                     game.won = game.getPlayers()[i].getRole().getWon(game.getPlayers());
                     if(game.won){
-                        break;
+                        System.out.println("Here - END");
+                        break;    
                     }
                 }
                 if(game.won){
+                    System.out.println("Here - END");
                     break;
                 }
                 
                 game.nextTurn();
-                if(game.playerTurn == user.getNum()){
-                    PlatformImpl.runAndWait(()->{
-                        whomDoYouWantToAttack(game.getPlayerToAttack(2, 0));
-                    });
-                }
+//                if(game.playerTurn == user.getNum()){
+//                    PlatformImpl.runAndWait(()->{
+//                        doYouWantToUseYourAbility();
+//                    });
+//                }
                 
                 try {
-                        Thread.sleep(10000);
+                        Thread.sleep(1000);
                 } catch (InterruptedException ex) {
                         break;
                 }
@@ -381,15 +381,10 @@ public class Board extends Application{
     t1.setDaemon(true);
     t1.start();
         
-        
-        
-        
- 
-        
-        Scene gameView = new Scene(boardLayout, 1980, 1024);
-        gameView.getStylesheets().add("styles/Bang.css");
-        window.setScene(gameView);
-        window.show();
+    Scene gameView = new Scene(boardLayout, 1980, 1024);
+    gameView.getStylesheets().add("styles/Bang.css");
+    window.setScene(gameView);
+    window.show();
         
     }
     
