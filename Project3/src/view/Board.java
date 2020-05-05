@@ -41,7 +41,7 @@ public class Board extends Application{
     Stage window;
     
     // State Properties - Controller 
-    public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable, wantExtension, numPlayers, oneBullet, threeBullets;
+    public static int lifePoints,numberOfArrows =0, numberOfArrowsOnTheTable, wantExtension, numPlayers, oneBullet =0, threeBullets =0;
     public static String userRole, userCharacter;
     public static HBox currentDiceSelection,  inventory ;
     private static VBox leftPlayers = new VBox(100);
@@ -50,6 +50,10 @@ public class Board extends Application{
     public static boolean askUserInput = false;
     public static Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
   
+    
+    Token singleBullet = new Token("Bullet", 0, "assets/bullet.png", 64, 64);
+    Token multipleBullet = new Token("Three Bullets", 0, "assets/ammunition.png", 64, 64);
+    Token arrows = new Token("Arrows", 0, "assets/indian.png", 64, 64);
     
     
     public Board(){
@@ -161,6 +165,10 @@ public class Board extends Application{
         leftPlayers.getChildren().clear();
 
        for(Player player: players){
+           if(player.isUser()){
+               user = player;
+                setDistributionOfBullets();
+           }
            PlayerView card = new PlayerView(player, 175, 100);
            if (player.getNum()<3){
                bottomPlayers.getChildren().add(card.display());
@@ -171,8 +179,8 @@ public class Board extends Application{
            else if(player.getNum()<8){
                topPlayers.getChildren().add(card.display());
            }
-           if(player.isUser()) user = player;
        }
+       
        
   
    
@@ -232,9 +240,10 @@ public class Board extends Application{
         
         //User Tokens
         setDistributionOfBullets();
-        Token singleBullet = new Token("Bullet", oneBullet, "assets/bullet.png", 64, 64);
-        Token multipleBullet = new Token("Three Bullets", threeBullets, "assets/ammunition.png", 64, 64);
-        Token arrows = new Token("Arrows", user.getArrows(), "assets/indian.png", 64, 64);
+       
+        singleBullet.curVal = oneBullet;
+        multipleBullet.curVal = threeBullets;
+        arrows.curVal = numberOfArrows;
         HBox tokens = new HBox(PADDING_SIZE);
         tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display());
         
@@ -355,9 +364,18 @@ public class Board extends Application{
                 
                 if(game.playerTurn == user.getNum()){
                     PlatformImpl.runAndWait(()->{
-                        doYouWantToUseYourAbility();
-                    });
+                        if(game.getPlayers()[game.playerTurn].getStatus()){
+                            doYouWantToUseYourAbility();
+                        }
+                        else{
+                        ConfirmDialogBox youLost = new ConfirmDialogBox("YOU LOST", "OOPS, you LOSTTTT!!!");
+                        youLost.display();
+                        System.exit(0);
+                        }
+                        }); 
+                    
                 }
+               
                 
                 try {
                         Thread.sleep(1000);
