@@ -1,20 +1,19 @@
 package project3;
 
 import java.util.*;
-import view.Board;
 
 public class Game {
 
 
-    private Player players[]; 
+    public Player players[]; 
     public int playerTurn;
-    private int numPlayers;
+    public boolean won;
+    public int numPlayers;
     public int middleArrows;
     private int lossLifeIndians;
     private CyclicDoublyLinkedList<Player> playerSeating;
-    private MasterRole roles; 
-    public boolean isUser;
-    public boolean won;
+    private MasterRole roles;
+    public List<Die> finalRoll;
 
     public Game(int numPlayers, int userPlayers) {
         this.numPlayers = numPlayers;
@@ -24,26 +23,21 @@ public class Game {
         players = new Player[numPlayers];
         int i = 0;
         for(; i < userPlayers; i++){
-            players[i] = new User(i);
+            players[i] = new Player(i, true);
         }
         for(; i < numPlayers; i++){
-            players[i] = new Comp(i);
+            players[i] = new Player(i, false);
         }
         setUp();
     }
 
     public Game() {
-        
     }
 
     public void runGame(){
         for(Player p : players){
                 System.out.println(p.getRole().getName() + " " + p.getCharacter().getName() + " " + p.getHealth());
-                if(p.isUser()){
-                    isUser = true;
-                }
         }
-        
         won = false;
         while(true){
             turn();
@@ -160,10 +154,10 @@ public class Game {
         roles.assignRole(players);
     }
 
-    public List<Die> turn(){
+    public void turn(){
         if(players[playerTurn].getStatus() == false){
              System.out.println("Player " + players[playerTurn].getCharacter().getName() + " is eliminated.Skipping Turn");
-            return null;
+            return;
         }
         Character playerChar = players[playerTurn].getCharacter();
         System.out.println(playerChar.getName() + "'s Turn");
@@ -183,7 +177,7 @@ public class Game {
         allDynamite[1] = null;
         allDynamite[2] = null;
         
-        List<Die> finalRoll = null;
+        finalRoll = null;
         
         boolean lafayette = true;
         
@@ -191,9 +185,7 @@ public class Game {
         
         for(int i = 0; i < rolls; i++){
             RollDice diceroll = new RollDice();
-            List<Die> roll = diceroll.rollDice(diceroll.getDice());   
-            Board.curRoll = roll;
-            //Add a pop-up to tell the user that he is playing the game
+            List<Die> roll = diceroll.rollDice(diceroll.getDice());    
             System.out.println("Roll " + i + " " );
             
             /*
@@ -254,18 +246,14 @@ public class Game {
             if(faceName.equalsIgnoreCase("beer")){
                 if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("slab_the_killer")){
                     boolean ability = false;
-                    
-                    if(isUser){
-                        
-                         Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){/*he chooses to double 1 or 2 instead */
-                            beerKiller++; 
-                            continue;
-                        }
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){/*he chooses to double 1 or 2 instead */
+                        beerKiller++; 
+                        continue;
                     }
                 }
                 int chosenPlayer = 0; // index of chosen player
@@ -283,14 +271,13 @@ public class Game {
         }
         if(playerChar.getName().equalsIgnoreCase("kit_carlson") && gatling > 0){
                 boolean ability = false;
-                if(isUser){
-                         Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){/*he chooses to use gatling to discard*/
-                            for(int i = 0; i < gatling; i++){
+                Scanner s = new Scanner(System.in);
+                System.out.println("Do you want to use your ability? (yes/no)");
+                String ans = s.next();
+                if(ans.equalsIgnoreCase("yes"))
+                     ability = true;
+                if(ability){/*he chooses to use gatling to discard*/
+                for(int i = 0; i < gatling; i++){
                     int chosen = 0; //index of chosen player, -1 if done choosing
                     if(chosen == -1)
                         break;
@@ -321,33 +308,29 @@ public class Game {
                 lafayette = false;
                 int spacesFromPlayer = 1;
                 if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
-                    if(isUser){
-                         Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){
+                    boolean ability = false;
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){
                         spacesFromPlayer = 2;
                     }
                 }
                 if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
-                        ability = false;
-                        if(isUser){
-                         Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){
+                    boolean ability = false;
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){
                         spacesFromPlayer++;
                     }
                 }
                 /*player chooses spacesFromPlayer spaces away*/
                 int targetPlayer = 0;
-                if (!players[playerTurn].isUser()) {
-                    targetPlayer = ((Comp)players[playerTurn]).findTarget(spacesFromPlayer);
-                }
                 loseLife(players[playerTurn], players[targetPlayer]);
                 if(beerKiller > 0){
                     loseLife(players[playerTurn], players[targetPlayer]);
@@ -355,36 +338,31 @@ public class Game {
             }
             if(faceName.equalsIgnoreCase("two")){
                 lafayette = false;
-                spacesFromPlayer = 2;
+                int spacesFromPlayer = 2;
                 if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
-                    ability = false;
-                     if(isUser){
-                         Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){
+                    boolean ability = false;
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){
                         spacesFromPlayer = 1;
                     }
                 }
                 if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
-                    ability = false;
-                     if(isUser){
-                         Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){
+                    boolean ability = false;
+                    Scanner s = new Scanner(System.in);
+                    System.out.println("Do you want to use your ability? (yes/no)");
+                    String ans = s.next();
+                    if(ans.equalsIgnoreCase("yes"))
+                         ability = true;
+                    if(ability){
                         spacesFromPlayer++;
                     }
                 }
                 /*player chooses spacesFromPlayer spaces away*/
                 int targetPlayer = 0;
-                if (!players[playerTurn].isUser()) {
-                    targetPlayer = ((Comp)players[playerTurn]).findTarget(spacesFromPlayer);
-                }
                 loseLife(players[playerTurn], players[targetPlayer]);
                 if(beerKiller > 0){
                     loseLife(players[playerTurn], players[targetPlayer]);
@@ -408,13 +386,6 @@ public class Game {
         }
         
     }
- }
-            }
-        }
-        }
-        return finalRoll;
-    }
-    
    
    
    public void loseLife(Player attacker, Player target){
@@ -550,10 +521,6 @@ public class Game {
         }
         
         return attackPlayerIndices;
-    }
-    
-    public int getArrowsInTheMiddle(){
-        return middleArrows;
     }
     
     

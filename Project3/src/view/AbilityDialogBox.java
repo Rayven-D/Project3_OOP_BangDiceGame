@@ -10,27 +10,25 @@
 
 package view;
 
-
-import javafx.stage.*;
-import javafx.scene.*;
-import javafx.scene.layout.*;
-import javafx.scene.control.*;
-import javafx.geometry.*;
-
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  *
  * @author shreyesh
  */
-public class ConfirmDialogBox {
-        
-    public String message;
-    public String title;
-    private boolean userChoice = false; 
+public class AbilityDialogBox extends ConfirmDialogBox{
     
-    public ConfirmDialogBox(String message, String title){
-        this.message = message;
-        this.title = title;
+    public int userChoice;
+
+    public AbilityDialogBox(String message, String title) {
+        super(message, title);
     }
     
     public int display(){
@@ -52,7 +50,8 @@ public class ConfirmDialogBox {
         noButton.setOnAction(e -> {
             setUserChoice(false);
             window.close();
-        });
+        }); 
+       
         
         VBox confirmBoxLayout = new VBox(10);
         HBox optionsLayout = new HBox(50);
@@ -66,14 +65,12 @@ public class ConfirmDialogBox {
         window.setScene(scene);
         window.showAndWait(); // Display the window and before it returns it needs to be closed
         
-        return this.userChoice?1:0;
+        return userChoice;
     }
     
-    public boolean setUserChoice(boolean choice){
-         return this.userChoice = choice;
+    public void setUserChoice(int choice){
+        this.userChoice = choice;
     }
-    
-    
-    
+
     
 }

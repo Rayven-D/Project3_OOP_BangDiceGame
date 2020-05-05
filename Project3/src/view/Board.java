@@ -11,14 +11,9 @@
 package view;
 
 import com.sun.javafx.application.PlatformImpl;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
 import javafx.stage.*;
 import javafx.scene.*;
@@ -277,7 +272,7 @@ public class Board extends Application{
         StackPane arrowTextPane = new StackPane();
         arrowTextPane.getChildren().addAll(arrowsOnTheTable);  
        
-        Token boardArrows = new Token("", game.getArrowsInTheMiddle(), "assets/arrow.png", 120, 120);
+        Token boardArrows = new Token("", game.middleArrows, "assets/arrow.png", 120, 120);
         
      
          
@@ -316,7 +311,7 @@ public class Board extends Application{
             @Override
             protected Void call() throws Exception {
                     while (true) {
-                            updateMessage(Integer.toString(game.getArrowsInTheMiddle()));
+                            updateMessage(Integer.toString(game.middleArrows));
                             try {
                                     Thread.sleep(100);
                             } catch (InterruptedException ex) {
@@ -341,7 +336,9 @@ public class Board extends Application{
         @Override 
         protected Void call() throws Exception{
             while(!game.won){
-                final List<Die> temp = game.turn();
+                
+//                final List<Die> temp = 
+                game.turn();
                 for(int i=0; i< game.getPlayers().length; i++){
                     game.won = game.getPlayers()[i].getRole().getWon(game.getPlayers());
                     if(game.won){
@@ -355,11 +352,6 @@ public class Board extends Application{
                 }
                 
                 game.nextTurn();
-//                if(game.playerTurn == user.getNum()){
-//                    PlatformImpl.runAndWait(()->{
-//                        doYouWantToUseYourAbility();
-//                    });
-//                }
                 
                 try {
                         Thread.sleep(1000);
@@ -369,7 +361,7 @@ public class Board extends Application{
                 
                 Platform.runLater(()->{
                     createPlayerCards(game.getPlayers());
-                    updateDie(temp);
+                    updateDie(game.finalRoll);
                     
                 });
             }
