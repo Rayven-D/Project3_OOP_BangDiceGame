@@ -96,8 +96,6 @@ public class RollDice {
                     this.die.setReroll(true);
                 }
 
-                this.die.setChooseRoll(false);
-
                 dice.set(i, this.die);
             }
             
