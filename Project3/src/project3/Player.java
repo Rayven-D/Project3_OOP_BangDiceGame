@@ -6,8 +6,6 @@
  */
 package project3;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author Jeffrey Tessitore
@@ -48,10 +46,6 @@ public class Player {
      * an object of type Role containing the PLayer's Role
      */
     private Role role;
-    
-    protected static int numPlayers;
-    protected static ArrayList<Player> players;
-    protected static int playersAlive;
     
     
     /***

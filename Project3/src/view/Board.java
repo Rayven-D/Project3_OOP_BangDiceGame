@@ -50,8 +50,8 @@ public class Board extends Application{
     public static boolean askUserInput = false;
     public static Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
     public HBox tokens = new HBox(PADDING_SIZE);
-    public HBox tableArrows = new HBox(PADDING_SIZE);
-    Token boardArrows = new Token("", 0, "assets/arrow.png", 120, 120);
+  
+    
     Token singleBullet = new Token("Bullet", 0, "assets/bullet.png", 64, 64);
     Token multipleBullet = new Token("Three Bullets", 0, "assets/ammunition.png", 64, 64);
     Token arrows = new Token("Arrows", 0, "assets/indian.png", 64, 64);
@@ -164,7 +164,6 @@ public class Board extends Application{
         bottomPlayers.getChildren().clear();
         topPlayers.getChildren().clear();
         leftPlayers.getChildren().clear();
-               
 
        for(Player player: players){
            if(player.isUser()){
@@ -190,14 +189,9 @@ public class Board extends Application{
        }
       
     }
-    
-    
-    
-    
-    public void updateDie(List<Die> dice, int arrows){
-//        tableArrows.getChildren().clear();
-//        boardArrows.curVal = arrows;
-//        tableArrows.getChildren().add(boardArrows.display());
+
+    public void updateDie(List<Die> dice){
+
         if(dice!=null){
             inventory.getChildren().clear();
             inventory.getChildren().add(displayDice(dice));
@@ -291,7 +285,7 @@ public class Board extends Application{
         StackPane arrowTextPane = new StackPane();
         arrowTextPane.getChildren().addAll(arrowsOnTheTable);  
        
-        
+        Token boardArrows = new Token("", game.middleArrows, "assets/arrow.png", 120, 120);
         
      
          
@@ -306,11 +300,10 @@ public class Board extends Application{
         leftPane.getChildren().addAll(leftPlayers);
         leftPane.setStyle("-fx-padding: 100 0 100 50");
 
-        tableArrows.getChildren().add(boardArrows.display());
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
-        center.getChildren().addAll(dicePane,inventory, arrowTextPane, tableArrows);
+        center.getChildren().addAll(dicePane,inventory, arrowTextPane, boardArrows.display());
         center.setStyle("-fx-padding: 100 25 0 25;");
         centerView.getChildren().addAll(center);
         
@@ -396,7 +389,7 @@ public class Board extends Application{
                 
                 Platform.runLater(()->{
                     createPlayerCards(game.getPlayers());
-                    updateDie(game.finalRoll, game.middleArrows);
+                    updateDie(game.finalRoll);
                     
                 });
                 

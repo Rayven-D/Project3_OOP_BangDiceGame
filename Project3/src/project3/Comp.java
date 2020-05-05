@@ -163,13 +163,13 @@ public class Comp extends Player implements CompBrain {
         boolean incExp2 = rDice.getExp2();
         
         for(Die die: dice){
-            if("Gatling".equals(die.getFace())){
+            if(die.getFace() == "Gatling"){
                 numGat++;
             }
-            else if("Dynamite".equals(die.getFace())){
+            else if(die.getFace() == "Dynamite"){
                 numDyn++;
             }
-            if("Arrow".equals(die.getFace())){
+            if(die.getFace() == "Arrow"){
                 die.setChooseRoll(true);
             }
         }
@@ -192,14 +192,14 @@ public class Comp extends Player implements CompBrain {
         //keep beer and reroll shots if low health, otherwise keep shots and reroll beer
         if(health <= 4){
             for(Die die: dice){
-                if("One".equals(die.getFace()) || "Two".equals(die.getFace())){
+                if(die.getFace() == "One" || die.getFace() == "Two"){
                     die.setChooseRoll(true);
                 }
             }
         }
         else{
             for(Die die: dice){
-                if("Beer".equals(die.getFace())){
+                if(die.getFace() == "Beer"){
                     die.setChooseRoll(true);
                 }
             }
@@ -207,7 +207,7 @@ public class Comp extends Player implements CompBrain {
                 
         //always reroll a bullet (loudmouth Die)
         for(Die die: dice){
-            if("Bullet".equals(die.getFace())){
+            if(die.getFace() == "Bullet"){
                 die.setChooseRoll(true);
             }
         }
@@ -221,7 +221,7 @@ public class Comp extends Player implements CompBrain {
         //comp will keep whiskey if only missing a couple points of health
         if(health > 6){
             for(Die die: dice){
-                if("Whiskey".equals(die.getFace()))
+                if(die.getFace() == "Whiskey")
                     die.setChooseRoll(true);
             }
         }
@@ -229,7 +229,7 @@ public class Comp extends Player implements CompBrain {
         //the computer will like to duel, but won't risk it if low health
         if(health < 3){
             for(Die die: dice){
-                if("Whiskey".equals(die.getFace())){
+                if(die.getFace() == "Whiskey"){
                     die.setChooseRoll(true);
                 }
             }
@@ -239,8 +239,7 @@ public class Comp extends Player implements CompBrain {
         
         return dice;
     }
-  
-}
     // should we have some sort of "detectMove" method for determining 
     // allies/enemies?
-  
+    
+}
