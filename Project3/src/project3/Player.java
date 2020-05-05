@@ -21,6 +21,11 @@ public class Player {
      * an int containing the number of arrows current player has
      */
     private int arrows;
+    
+    /**
+     * and boolean containing if the player has the cheif's arrow
+     */
+    private boolean chiefArrow;
 
     /**
      * a boolean containing if the Player is alive (true) or dead (false)
@@ -59,7 +64,12 @@ public class Player {
         this.arrows = 0;
         this.alive = true;
     }
-    
+    public void setChiefArrow(boolean b){
+        this.chiefArrow = b;
+    }
+    public boolean hasChiefArrow(){
+        return chiefArrow;
+    }
     /***
      * return the Player's player number
      * @return an integer containing the Player's number
