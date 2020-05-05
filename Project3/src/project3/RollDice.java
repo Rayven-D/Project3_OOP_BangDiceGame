@@ -70,7 +70,7 @@ public class RollDice {
      */
     public List rollDice(List<Die> dice){
         
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < dice.size(); i++){
             this.die = (Die) dice.get(i);
             Random r = new Random();
             if(die.getReroll() && die.getChooseRoll()){
@@ -100,6 +100,7 @@ public class RollDice {
 
                 dice.set(i, this.die);
             }
+            
         }
         
         return dice;

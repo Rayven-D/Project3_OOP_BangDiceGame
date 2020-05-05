@@ -8,18 +8,28 @@ public class Game {
     private Player players[]; 
     private int playerTurn;
     private int numPlayers;
+    private int alivePlayers;
     private int middleArrows;
     private boolean chiefArrow;
     private int lossLifeIndians;
+    private boolean zombieOutbreak;
     private CyclicDoublyLinkedList<Player> playerSeating;
     private MasterRole roles; 
+    private List<Integer> boneyardCards = new ArrayList<Integer>();
+    private List<Integer> drawnBYCards = new ArrayList<Integer>();
+    private boolean expansions;
 
     public Game(int numPlayers, int userPlayers) {
         this.numPlayers = numPlayers;
+        this.alivePlayers = numPlayers;
         this.middleArrows = 9;
+        this.zombieOutbreak = false;
         this.playerTurn = ((int)Math.random()*100) % this.numPlayers;
         roles = new MasterRole(numPlayers);
         players = new Player[numPlayers];
+        
+        expansions = true; //are expansions included or not
+        
         int i = 0;
         for(; i < userPlayers; i++){
             players[i] = new Player(i, true);
@@ -67,6 +77,14 @@ public class Game {
     }
 
     private void setUp(){
+        
+        if(expansions == true){
+            for(int i = 0; i < 20; i++){
+                int temp = i % 3;
+                boneyardCards.add(temp);
+            }
+            Collections.shuffle(boneyardCards);
+        }
 
         Random randomCharacter = new Random();
         int usedIndex[] = new int[numPlayers];
@@ -142,6 +160,12 @@ public class Game {
                 case "willy_the_kid":
                     playerCharacter.setSpecialAbility("You only need 2 (gatling guns) to use the Gatling Gun. You can only use the Gatling Gun one per turn.");
                     break;
+                case "apache_kid":
+                    playerCharacter.setSpecialAbility("If you roll an ARROW, you may take the Indian Chief's Arrow from another Player");
+                    break;
+                case "bill_noface":
+                    playerCharacter.setSpecialAbility("Apply ARROW results only after your last roll");
+                    break;
                 default:
                     playerCharacter.setSpecialAbility("NULL");
                     break;
@@ -155,19 +179,44 @@ public class Game {
     }
 
     private void turn(){
-        if(players[playerTurn].getStatus() == false){
+        /*
+           Undead or Alive Expansion
+        */
+        if(players[playerTurn].getStatus() == false &&  !zombieOutbreak){
              System.out.println("Player " + players[playerTurn].getCharacter().getName() + " is eliminated.Skipping Turn");
+             if(this.expansions == true){
+                int temp = this.boneyardCards.get(0);
+                if(temp == 0){
+                    //no outbreak | resuffle card back into deck
+                    Collections.shuffle(this.boneyardCards);
+                    return;
+                }
+                else{
+                    this.drawnBYCards.add(temp);
+                    this.boneyardCards.remove(0);
+                }
+                int sum = 0;
+                for(int drawn: this.drawnBYCards){
+                    sum += drawn;
+                }
+                if(sum > this.alivePlayers){
+                    outbreak();
+                }
+             }
+             else{
+                 return;
+             }
             return;
         }
         Character playerChar = players[playerTurn].getCharacter();
         System.out.println(playerChar.getName() + "'s Turn");
-        if(playerChar.getName().equalsIgnoreCase("sid_ketchum")){
+        if(playerChar.getName().equalsIgnoreCase("sid_ketchum") && (players[playerTurn].getStatus() || players[playerTurn].getZombieMaster())){
             int chosenPlayer = 0; // index of chosen player
             int gainHealth = players[chosenPlayer].getCharacter().gainLifePoints(2);
             players[chosenPlayer].setHealth(gainHealth);
         }
         int rolls = 3;
-        if(playerChar.getName().equalsIgnoreCase("lucky_duke")){
+        if(playerChar.getName().equalsIgnoreCase("lucky_duke") && (players[playerTurn].getStatus() || players[playerTurn].getZombieMaster())){
             rolls++;
         }
         
@@ -251,11 +300,23 @@ public class Game {
                     }           
                 }
             }
+            
             for(Die d: roll){
                 System.out.print(d.getFace() + " ");
             }   
             System.out.println();
             if(!rollAgain  || (i+1) == rolls || numDyn >= 3){
+                //Belle Star Ability
+                if(numDyn <3 && numDyn > 0 && players[playerTurn].getCharacter().getName().equalsIgnoreCase("belle_star"))
+                {
+                   //if he choses to use his ability
+                    if(true){
+                        for(int k = 0; k < numDyn; k++){
+                            int diceIndex = 0;//index of chosen dynamite die
+                            roll.get(diceIndex).setFace("Gatling");
+                        }
+                    }
+                }   
                 writeDiceRoll(roll);                
                 finalRoll = roll;
                 break;
@@ -267,15 +328,23 @@ public class Game {
             players[playerTurn].setHealth(players[playerTurn].getCharacter().loseLifePoints(1));
         }
         
-        int gatling = 0;
-        int beerKiller = 0;
-        int doubleGatling = 0;
         /*
-        This for loop resolved the beer and gatling
+        Resolving the Wishkey Bottle
         */
         for(Die d: finalRoll){
-            String faceName = d.getFace();
-            if(faceName.equalsIgnoreCase("beer") || faceName.equalsIgnoreCase("dbeer")){
+            if(d.getFace().equalsIgnoreCase("whiskey")){
+                players[playerTurn].setHealth(players[playerTurn].getCharacter().gainLifePoints(1));  
+                if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("greg_digger")){
+                    players[playerTurn].setHealth(players[playerTurn].getCharacter().gainLifePoints(1));         
+                }
+            }
+        }
+        
+        /*
+       we resolve the one and two die face
+        */
+        int beerKiller = 0;
+        for(Die d: finalRoll){
                 if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("slab_the_killer")){
                     boolean ability = false;
                     Scanner s = new Scanner(System.in);
@@ -288,6 +357,93 @@ public class Game {
                         continue;
                     }
                 }
+            String faceName = d.getFace();
+            if(faceName.equalsIgnoreCase("one")|| faceName.equalsIgnoreCase("done")){
+                lafayette = false;
+                int doubleOne = 0;
+                if(faceName.equalsIgnoreCase("done"))
+                    doubleOne++;
+                for(int i = 0 ; i <= doubleOne; i++){
+                    int spacesFromPlayer = 1;
+                    if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
+                        boolean ability = false;
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                             ability = true;
+                        if(ability){
+                            spacesFromPlayer = 2;
+                        }
+                    }
+                    if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
+                        boolean ability = false;
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                             ability = true;
+                        if(ability){
+                            spacesFromPlayer++;
+                        }
+                    }
+                    /*player chooses spacesFromPlayer spaces away*/
+                    int targetPlayer = 0;
+                    loseLife(players[playerTurn], players[targetPlayer]);
+                    if(beerKiller > 0){
+                        loseLife(players[playerTurn], players[targetPlayer]);
+                        beerKiller--;
+                    }
+                }
+            }
+            if(faceName.equalsIgnoreCase("two")|| faceName.equalsIgnoreCase("dtwo")){
+                lafayette = false;
+                int doubleTwo = 0;
+                if(faceName.equalsIgnoreCase("dtwo"))
+                    doubleTwo++;
+                for(int i = 0; i <= doubleTwo; i++){
+                    int spacesFromPlayer = 2;
+                    if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
+                        boolean ability = false;
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                             ability = true;
+                        if(ability){
+                            spacesFromPlayer = 1;
+                        }
+                    }
+                    if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
+                        boolean ability = false;
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                             ability = true;
+                        if(ability){
+                            spacesFromPlayer++;
+                        }
+                    }
+                    /*player chooses spacesFromPlayer spaces away*/
+                    int targetPlayer = 0;
+                    loseLife(players[playerTurn], players[targetPlayer]);
+                    if(beerKiller > 0){
+                        loseLife(players[playerTurn], players[targetPlayer]);
+                    }
+                }
+            }
+        }
+        
+        
+        int gatling = 0;
+        int doubleGatling = 0;
+        /*
+        This for loop resolved the beer and gatling
+        */
+        for(Die d: finalRoll){
+            String faceName = d.getFace();
+            if(faceName.equalsIgnoreCase("beer") || faceName.equalsIgnoreCase("dbeer")){
                 int chosenPlayer = 0; // index of chosen player
                 
                 if(players[chosenPlayer].getCharacter().getName().equalsIgnoreCase("jesse_jones")&& playerTurn == chosenPlayer && players[chosenPlayer].getHealth() <= 4){
@@ -355,84 +511,20 @@ public class Game {
         }
         
         /*
-        Finally, after all is resolved, we resolve the one and two die face
+            Dueling (expansion 2)
         */
+        int numDuels = 0;
+        Die duelTemp = null;
         for(Die d: finalRoll){
-            String faceName = d.getFace();
-            if(faceName.equalsIgnoreCase("one")|| faceName.equalsIgnoreCase("done")){
-                lafayette = false;
-                int doubleOne = 0;
-                if(faceName.equalsIgnoreCase("done"))
-                    doubleOne++;
-                for(int i = 0 ; i <= doubleOne; i++){
-                    int spacesFromPlayer = 1;
-                    if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
-                        boolean ability = false;
-                        Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){
-                            spacesFromPlayer = 2;
-                        }
-                    }
-                    if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
-                        boolean ability = false;
-                        Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){
-                            spacesFromPlayer++;
-                        }
-                    }
-                    /*player chooses spacesFromPlayer spaces away*/
-                    int targetPlayer = 0;
-                    loseLife(players[playerTurn], players[targetPlayer]);
-                    if(beerKiller > 0){
-                        loseLife(players[playerTurn], players[targetPlayer]);
-                    }
-                }
+            if(d.getFace().equalsIgnoreCase("duel")){
+                numDuels++;
+                duelTemp = d;
             }
-            if(faceName.equalsIgnoreCase("two")|| faceName.equalsIgnoreCase("dtwo")){
-                lafayette = false;
-                int doubleTwo = 0;
-                if(faceName.equalsIgnoreCase("dtwo"))
-                    doubleTwo++;
-                for(int i = 0; i <= doubleTwo; i++){
-                    int spacesFromPlayer = 2;
-                    if(playerChar.getName().equalsIgnoreCase("calamity_janet")){
-                        boolean ability = false;
-                        Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){
-                            spacesFromPlayer = 1;
-                        }
-                    }
-                    if(playerChar.getName().equalsIgnoreCase("rose_doolan")){
-                        boolean ability = false;
-                        Scanner s = new Scanner(System.in);
-                        System.out.println("Do you want to use your ability? (yes/no)");
-                        String ans = s.next();
-                        if(ans.equalsIgnoreCase("yes"))
-                             ability = true;
-                        if(ability){
-                            spacesFromPlayer++;
-                        }
-                    }
-                    /*player chooses spacesFromPlayer spaces away*/
-                    int targetPlayer = 0;
-                    loseLife(players[playerTurn], players[targetPlayer]);
-                    if(beerKiller > 0){
-                        loseLife(players[playerTurn], players[targetPlayer]);
-                    }
-                }
-            }
+        }
+        for(int i = 0; i < numDuels; i++){
+            //player chooses which player to target
+            int indexTarget = 0;
+            duels(players[playerTurn], players[indexTarget], duelTemp);
         }
         
         
@@ -441,7 +533,7 @@ public class Game {
         for(Player p: players){
             if(p.getHealth() <= 0){
                 p.setStatus(false);
-              
+                this.alivePlayers--;
                 for(int i = 0; i < players.length; i++){
                     if(players[i].getStatus() && players[i].getCharacter().getName().equalsIgnoreCase("vulture_sam")){
                         players[i].setHealth(players[i].getCharacter().gainLifePoints(2));
@@ -528,6 +620,41 @@ public class Game {
               int numArr = players[i].getArrows();
               players[i].setHealth(players[i].getCharacter().loseLifePoints(numArr)); 
               middleArrows += numArr;
+           }
+       }
+   }
+   
+   
+   public void duels(Player attacker, Player target, Die duel){
+       boolean rolledDuel = false;
+       int turn = 0; //even if target fails, odd if attacker fails
+       String[] DuelFace = new String[]{"Whiskey", "Duel", "Arrow", "Gatling", "Duel", "Dynamite"};
+       while(!rolledDuel){
+           Random r = new Random();
+           duel.setFace(DuelFace[r.nextInt(6)]);
+           if(duel.getFace().equalsIgnoreCase("duel")){
+               turn++;
+               rolledDuel = true;
+           }else{
+                if(turn%2 == 0){
+                    target.setHealth(target.getCharacter().loseLifePoints(1));
+                }else{
+                    attacker.setHealth(attacker.getCharacter().loseLifePoints(1));
+                }
+           }
+       }
+   }
+   
+   public void outbreak(){
+       this.drawnBYCards = null;//remove all boneyard cards fromn play
+       this.boneyardCards = null;
+       
+       for(Player p: players){
+           if(p.getStatus() == false && p.getRole().getName().equalsIgnoreCase("renegade")){
+               p.setZombieMaster(true);
+           }
+           else if(p.getStatus() == false){
+               p.setZombie(true, this.alivePlayers);
            }
        }
    }
