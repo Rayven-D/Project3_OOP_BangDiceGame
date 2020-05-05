@@ -22,9 +22,9 @@ public class RollDice {
     
     String[] Face = new String[]{"Arrow", "One", "Two", "Dynamite", "Gatling", "Beer"};
     
-    String[] LoudFace = new String[]{"Bullet", "Gatling", "Dynamite", "One", "Two", "Arrow"};
+    String[] LoudFace = new String[]{"Bullet", "DGatling", "Dynamite", "DOne", "DTwo", "Arrow"};
     
-    String[] CowardFace = new String[]{"Beer", "BrokenA", "Dynamite", "Arrow", "One", "DBeer"};
+    String[] CowardFace = new String[]{"DBeer", "BrokenA", "Dynamite", "Arrow", "DOne", "DBeer"};
     
     String[] DuelFace = new String[]{"Whiskey", "Duel", "Arrow", "Gatling", "Duel", "Dynamite"};
     
@@ -70,7 +70,7 @@ public class RollDice {
      */
     public List rollDice(List<Die> dice){
         
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < dice.size(); i++){
             this.die = (Die) dice.get(i);
             Random r = new Random();
             if(die.getReroll() && die.getChooseRoll()){
@@ -96,10 +96,9 @@ public class RollDice {
                     this.die.setReroll(true);
                 }
 
-                this.die.setChooseRoll(false);
-
                 dice.set(i, this.die);
             }
+            
         }
         
         return dice;

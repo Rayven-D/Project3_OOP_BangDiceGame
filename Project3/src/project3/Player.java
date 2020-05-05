@@ -6,6 +6,8 @@
  */
 package project3;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Jeffrey Tessitore
@@ -17,10 +19,19 @@ public class Player {
      */
     private boolean user;
     
+    protected static int numPlayers;
+protected static ArrayList<Player> players;
+protected static int playersAlive;
+    
     /**
      * an int containing the number of arrows current player has
      */
     private int arrows;
+    
+    /**
+     * and boolean containing if the player has the cheif's arrow
+     */
+    private boolean chiefArrow;
 
     /**
      * a boolean containing if the Player is alive (true) or dead (false)
@@ -47,6 +58,15 @@ public class Player {
      */
     private Role role;
     
+    /**
+     * a boolean type saying if they are a Zombie Master
+     */
+    private boolean zombieMaster;
+    
+    /**
+     * a boolean type saying if they are a zombie
+     */
+    private boolean zombie;
     
     /***
      * Declare a new Player Object
@@ -58,8 +78,33 @@ public class Player {
         this.user = user;
         this.arrows = 0;
         this.alive = true;
+        this.zombieMaster = false;
     }
     
+    public void setZombie(boolean b, int life){
+        this.zombie = b;
+        this.health = life;
+    }
+    public boolean getZombie(){
+        return zombie;
+    }
+    public void setZombieMaster(boolean b){
+        if(role.getName().equalsIgnoreCase("renegade")){
+            this.zombieMaster = b;
+            this.health = this.character.gainLifePoints(10);
+            this.zombie = false;//because player can still use abilities      
+        }  
+    }
+    public boolean getZombieMaster(){
+        return this.zombieMaster;
+    }   
+    
+    public void setChiefArrow(boolean b){
+        this.chiefArrow = b;
+    }
+    public boolean hasChiefArrow(){
+        return chiefArrow;
+    }
     /***
      * return the Player's player number
      * @return an integer containing the Player's number
