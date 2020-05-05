@@ -22,9 +22,9 @@ public class RollDice {
     
     String[] Face = new String[]{"Arrow", "One", "Two", "Dynamite", "Gatling", "Beer"};
     
-    String[] LoudFace = new String[]{"Bullet", "Gatling", "Dynamite", "One", "Two", "Arrow"};
+    String[] LoudFace = new String[]{"Bullet", "DGatling", "Dynamite", "DOne", "DTwo", "Arrow"};
     
-    String[] CowardFace = new String[]{"Beer", "BrokenA", "Dynamite", "Arrow", "One", "DBeer"};
+    String[] CowardFace = new String[]{"DBeer", "BrokenA", "Dynamite", "Arrow", "DOne", "DBeer"};
     
     String[] DuelFace = new String[]{"Whiskey", "Duel", "Arrow", "Gatling", "Duel", "Dynamite"};
     
