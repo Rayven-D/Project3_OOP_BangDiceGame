@@ -11,7 +11,7 @@ import project3.RollDice;
 
 /**
  *
- * @author parra
+ * @author Jeffrey Tessitore
  */
 public class Comp extends Player implements CompBrain {
     
@@ -19,20 +19,7 @@ public class Comp extends Player implements CompBrain {
      * an ArrayList made up of Integer types containing which other players
      * the computer considers an ally. Used in determining moves
      */
-    private ArrayList<Integer> allies;
-    
-    /**
-     * an ArrayList made up of Integer types containing which other players
-     * the computer considers an enemy. Used in determining moves
-     */
-    private ArrayList<Integer> enemies;
-    
-    /**
-     * an ArrayList made up of Integer types containing which other players
-     * the computer considers as neutral. Used in determining moves if no 
-     * allies or enemies are available.
-     */
-    private ArrayList<Integer> neutral;
+    private ArrayList<String> allies;
     
     /***
      * 
@@ -40,39 +27,89 @@ public class Comp extends Player implements CompBrain {
      */
     public Comp(int playerNum) {
         super(playerNum,false);
-        allies = new ArrayList<Integer>();
-        enemies = new ArrayList<Integer>();
-        neutral = new ArrayList<Integer>();
+        allies = new ArrayList<String>();
     }
     
     /***
-     * Determines if the player given by playerNum is an ally by doing a linear
+     * @author Jeffrey Tessitore
+     * Determines if the player given by role is an ally by doing a linear
      * search through the allies ArrayList
-     * @param playerNum - the integer containing the player number
-     * @return - a boolean containing if said player is an ally
+     * @param role - the string containing the role to determine
+     * @return - an integer value of -1, 0, or 1 depending on the following:
+     *      -1: The role is SHERIFF and this Comp is either an OUTLAW or the last RENEGADE
+     *       0: The role is "UNKNOWN" (any other role, which the Comp shouldn't know)
+     *       1: The role is SHERIFF and this Comp is a DEPUTY
      */
     @Override
-    public boolean detAlly(int playerNum) {
-        // working on this with group
-        return false;
+    public int detAlly(String role) {
+        if (role.equals("Sheriff")) {
+            if (this.getRole().getName().equals("Deputy")) {
+                return 1;
+            }
+            else if (this.getRole().getName().equals("Outlaw")) {
+                return -1;
+            }
+            else {  // this player MUST be a Renegade
+                if (playersAlive == 2)
+                    return -1;
+                else {
+                    return 1; // The Renegade will not want to kill the sheriff and end the game if there are too many players
+                }
+            }
+        }
+        else
+            return 0;
+    }
+    
+    private void getAllyList() {
+        ArrayList<String> allylist = this.getRole().getAllies();
+        for (String s : allylist) {
+            allies.add(s);
+        }
     }
     
     /***
+     * @author Jeffrey Tessitore
      * Finds the best move for this Computer Player
+     * These Computer players aren't very smart and can only determine if a
+     * player is an ally or enemy based on if they are the SHERIFF
+     * @param pots - potential targets for this comp player
+     * @return - The integer containing the player num to target
      */
     @Override
-    public void findBestMove() {
-        // working on this with group
+    public int findBestTarget(int[] pots) {
+        if (pots[0] == pots[1]) // if the potential targets are equal (only one other player)
+            return pots[0];
+        int[] isAlly = new int[2];
+        for (int i = 0; i < 2; ++i) {
+            isAlly[i] = detAlly(players.get(pots[i]).getRole().getName());
+        }
+        if (isAlly[0] == -1 || isAlly[1] == -1) {
+            return (isAlly[0] == -1 ? pots[0] : pots[1]);
+        }
+        else if (isAlly[0] == 1 || isAlly[1] == 1) {
+            return (isAlly[0] == 1 ? pots[1] : pots[0]);
+        }
+        else {
+            int rand = (int)(Math.random()*2); // returns either 0 or 1
+            return pots[rand];
+        }
     }
     
     /***
+     * @author Jeffrey Tessitore
      * Finds the target for this Computer Player
+     * @param spaces - The number of spaces away from the current Comp that
+     * they may target
      * @return - an integer containing the player to target
      */
     @Override
-    public int findTarget() {
-        // working on this with group
-        return 0;
+    public int findTarget(int spaces) {
+        getAllyList();
+        int[] potTargs = new int[2]; // potential targets
+        potTargs[0] = (this.getNum() - spaces < 1) ? (numPlayers + (this.getNum() - spaces)) : (this.getNum() - spaces);
+        potTargs[1] = (this.getNum() + spaces > numPlayers) ? (this.getNum() + spaces - numPlayers) : (this.getNum() + spaces);
+        return findBestTarget(potTargs);
     }
     
     /***
