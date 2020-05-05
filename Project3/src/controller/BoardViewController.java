@@ -33,6 +33,7 @@ public class BoardViewController {
      *
      */
     public Board board;
+    public Game game;
     
     /**
      * Ask the user if they want the extensions included
@@ -43,17 +44,16 @@ public class BoardViewController {
      * @param user
      */
     public BoardViewController(){
+        //game = new Game();
         
+        board = new Board();
     }
     
     /**
      *
      */
     public void initUser(){
-        Board.lifePoints = lifePoints;
-        Board.userCharacter = character;
-        Board.userRole = role;
-        Board.numberOfArrows = arrows;  
+     
     }
     
     public int getNumPlayers(){
@@ -69,8 +69,8 @@ public class BoardViewController {
      * @param args
      */
     public static void main(String[] args){   
-        Board.main(args);
-        Game game = new Game(Board.numPlayers,1 );
+        
+        BoardViewController vc = new BoardViewController();
     }
 
 }

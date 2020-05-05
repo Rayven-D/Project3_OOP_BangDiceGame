@@ -39,6 +39,10 @@ public class Character {
         SLAB_THE_KILLER(8), 
         SUZY_LAFAYETTE(8), 
         VULTURE_SAM(9), 
+        BELLE_STAR(8),
+        GREG_DIGGER(7),
+        APACHE_KID(9),
+        BILLY_NOFACE(9),
         WILLY_THE_KID(8);
 
         

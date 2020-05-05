@@ -19,7 +19,8 @@ public class Game {
     private List<Integer> boneyardCards = new ArrayList<Integer>();
     private List<Integer> drawnBYCards = new ArrayList<Integer>();
     private boolean expansions;
-
+    public List<Die> finalRoll;
+    
     public Game(int numPlayers, int userPlayers) {
         this.numPlayers = numPlayers;
         this.alivePlayers = numPlayers;
@@ -39,7 +40,6 @@ public class Game {
             players[i] = new Player(i, false);
         }
         setUp();
-        runGame();
     }
 
     public Game() {
@@ -227,7 +227,7 @@ public class Game {
         allDynamite[1] = null;
         allDynamite[2] = null;
         
-        List<Die> finalRoll = null;
+        finalRoll = null;
         
         boolean lafayette = true;
         
@@ -378,7 +378,6 @@ public class Game {
         for(Die d: finalRoll){
                 if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("slab_the_killer") && (players[playerTurn].getStatus() || players[playerTurn].getZombieMaster())){
                     boolean ability = false;
-                    boolean ability = false;
                     if(players[playerTurn].isUser()){
                         Scanner s = new Scanner(System.in);
                         System.out.println("Do you want to use your ability? (yes/no)");
@@ -387,7 +386,7 @@ public class Game {
                             ability = true;
                     }
                     else{
-
+                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
                     }
                     if(ability){/*he chooses to double 1 or 2 instead */
                         beerKiller++; 
@@ -534,15 +533,16 @@ public class Game {
         if(playerChar.getName().equalsIgnoreCase("kit_carlson") && gatling > 0 && (players[playerTurn].getStatus() || players[playerTurn].getZombieMaster())){
                 boolean ability = false;
                 if(players[playerTurn].isUser()){
-                    Scanner s = new Scanner(System.in);
-                    System.out.println("Do you want to use your ability? (yes/no)");
-                    String ans = s.next();
-                    if(ans.equalsIgnoreCase("yes"))
-                        ability = true;
-                }
-                else{
+                        Scanner s = new Scanner(System.in);
+                        System.out.println("Do you want to use your ability? (yes/no)");
+                        String ans = s.next();
+                        if(ans.equalsIgnoreCase("yes"))
+                            ability = true;
+                    }
+                    else{
+                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
+                    }
 
-                }
                 if(ability){/*he chooses to use gatling to discard*/
                 for(int i = 0; i < gatling; i++){
                     int chosen = 0; //index of chosen player, -1 if done choosing
@@ -581,6 +581,7 @@ public class Game {
             if(d.getFace().equalsIgnoreCase("duel")){
                 numDuels++;
                 duelTemp = d;
+
             }
         }
         for(int i = 0; i < numDuels; i++){
@@ -796,5 +797,6 @@ public class Game {
    
     public static void main(String [] args){
         Game g = new Game(4,1);
+        g.runGame();
     }
 }

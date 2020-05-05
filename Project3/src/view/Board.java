@@ -10,18 +10,19 @@
 
 package view;
 
+import com.sun.javafx.application.PlatformImpl;
 import java.util.List;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import project3.CyclicDoublyLinkedList;
 import project3.RollDice;
 import project3.Die;
 import project3.Player;
 import project3.Game;
-import project3.MasterRole;
 
 /**
  *
@@ -35,20 +36,30 @@ public class Board extends Application{
      * The general padding size used
      */
     public final int PADDING_SIZE = 40;
+    public static List<Die> curRoll ;
     
     Stage window;
     
     // State Properties - Controller 
-    public static int lifePoints,numberOfArrows, numberOfArrowsOnTheTable, wantExtension, numPlayers, oneBullet, threeBullets;
+    public static int lifePoints,numberOfArrows =0, numberOfArrowsOnTheTable, wantExtension, numPlayers, oneBullet =0, threeBullets =0;
     public static String userRole, userCharacter;
-    public static HBox currentDiceSelection;
-    private VBox leftPlayers = new VBox(100);
-    private HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
-    private Player user;
+    public static HBox currentDiceSelection,  inventory ;
+    private static VBox leftPlayers = new VBox(100);
+    private static HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
+    private static Player user;
+    public static boolean askUserInput = false;
+    public static Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
+    public HBox tokens = new HBox(PADDING_SIZE);
+  
     
-    public Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
+    Token singleBullet = new Token("Bullet", 0, "assets/bullet.png", 64, 64);
+    Token multipleBullet = new Token("Three Bullets", 0, "assets/ammunition.png", 64, 64);
+    Token arrows = new Token("Arrows", 0, "assets/indian.png", 64, 64);
     
     
+    public Board(){
+        
+    }
     
 
     /**
@@ -59,7 +70,11 @@ public class Board extends Application{
         launch(args);
     }
     
-    public int wantExtensionsIncluded(){
+//    public void startGUI(){
+//        launch();
+//    }
+    
+    public static int wantExtensionsIncluded(){
         ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
         return dialogBox.display();
     }
@@ -82,13 +97,20 @@ public class Board extends Application{
         return confirm.display();
     }
     
-    public int whomDoYouWantToAttack(String face, int[] attackPlayerIndices){
+    public int whomDoYouWantToAttack(Integer[] attackPlayerIndices){
         String message = "You can either attack Player "+
                 attackPlayerIndices[0]+" or "+
                 attackPlayerIndices[1]+"!";
-        String title = "You have chosen "+"face" ;
+        String title = "Attack!" ;
         AttackDialogBox attack = new AttackDialogBox(message, title);
         return attack.display();
+    }
+    
+    public int doYouWantToUseYourAbility(){
+        String message = user.getCharacter().getSpecialAbility();
+        String title = "To use the ability or not to use";
+        AbilityDialogBox dialogbox = new AbilityDialogBox(message, title);
+        return dialogbox.display();
     }
     
     public void checkDieAction(Die die){
@@ -138,23 +160,44 @@ public class Board extends Application{
 
     
     public void createPlayerCards(Player[] players){
+        
+        bottomPlayers.getChildren().clear();
+        topPlayers.getChildren().clear();
+        leftPlayers.getChildren().clear();
+
        for(Player player: players){
+           if(player.isUser()){
+               tokens.getChildren().clear();
+               user = player;
+               setDistributionOfBullets();
+               arrows.curVal= user.getArrows();
+               tokens.getChildren().addAll(singleBullet.display(), 
+                    multipleBullet.display(), arrows.display() );
+               
+           }
            PlayerView card = new PlayerView(player, 175, 100);
-           if (player.getNum()<2){
-               leftPlayers.getChildren().add(card.display());
+           if (player.getNum()<3){
+               bottomPlayers.getChildren().add(card.display());
            }
            else if(player.getNum()<5){
-               bottomPlayers.getChildren().add(card.display());
+               leftPlayers.getChildren().add(card.display());
            }
            else if(player.getNum()<8){
                topPlayers.getChildren().add(card.display());
            }
-           if(player.isUser()) user = player;
        }
+       
+       
+  
    
     }
     
-    public void checkSelectedDie(Die die){
+    public void updateDie(List<Die> dice){
+        if(dice!=null){
+            inventory.getChildren().clear();
+            inventory.getChildren().add(displayDice(dice));
+        }
+                    
         
     }
    
@@ -182,6 +225,7 @@ public class Board extends Application{
         //Initialize the Game class
         Game game = new Game(numPlayers, 1);
         
+        
         //Anonymous Players
         Player[] players = game.getPlayers();
         
@@ -195,18 +239,19 @@ public class Board extends Application{
         
         //User Attributes
         VBox roleCard = AttributeCard.display("Role",user.getRole().getName());
-        VBox characterCard = AttributeCard.display("Character", user.getCharacter().getName());
+        VBox characterCard = AttributeCard.display("Character", user.getCharacter().getName().replace('_',' '));
         HBox userInfo = new HBox(PADDING_SIZE+20);
         userInfo.getChildren().addAll(roleCard, characterCard);
 
         
         //User Tokens
         setDistributionOfBullets();
-        Token singleBullet = new Token("Bullet", oneBullet, "assets/bullet.png", 64, 64);
-        Token multipleBullet = new Token("Three Bullets", threeBullets, "assets/ammunition.png", 64, 64);
-        Token arrows = new Token("Arrows", user.getArrows(), "assets/indian.png", 64, 64);
-        HBox tokens = new HBox(PADDING_SIZE);
-        tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display());
+       
+        singleBullet.curVal = oneBullet;
+        multipleBullet.curVal = threeBullets;
+        arrows.curVal = numberOfArrows;
+        
+//        tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display());
         
         
         //User Actions  
@@ -215,28 +260,21 @@ public class Board extends Application{
         userRoll.getChildren().addAll(rollDice);
         
         
-        StackPane attacks = new StackPane();
-        HBox userAttacks = new HBox(PADDING_SIZE); 
-        Button attackLeft = new Button("Attack Left");
-        Button attackRight = new Button("Attack Right");
-        userAttacks.getChildren().addAll(attackLeft, attackRight);
-        attacks.getChildren().addAll(userAttacks);
-        
+//        StackPane attacks = new StackPane();
+//        HBox userAttacks = new HBox(PADDING_SIZE); 
+//        Button attackLeft = new Button("Attack Left");
+//        Button attackRight = new Button("Attack Right");
+//        userAttacks.getChildren().addAll(attackLeft, attackRight);
+//        attacks.getChildren().addAll(userAttacks);
+//        
                 
-        HBox inventory = new HBox(PADDING_SIZE);
+        inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
             inventory.getChildren().clear();
             RollDice dice = new RollDice();
             inventory.getChildren().add(displayDice(dice.getDice()));
         });
-        
-        
-        
-        
-        // Selected Dice
-        HBox userSelectedDice = new HBox();
-        
-        
+       
         
         //Center Console
         Label diceText = new Label("DICE");
@@ -248,12 +286,8 @@ public class Board extends Application{
         arrowsOnTheTable.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; fx-padding-bottom: 140px");
         StackPane arrowTextPane = new StackPane();
         arrowTextPane.getChildren().addAll(arrowsOnTheTable);  
-        
-        Label currentArrowsOnTheTable = new Label(Integer.toString(numberOfArrowsOnTheTable));
-        StackPane curArrowPane = new StackPane();
-        curArrowPane.getChildren().addAll(arrowsOnTheTable);  
-        
-        Token boardArrows = new Token("", 6, "assets/arrow.png", 120, 120);
+       
+        Token boardArrows = new Token("", game.middleArrows, "assets/arrow.png", 120, 120);
         
      
          
@@ -271,7 +305,7 @@ public class Board extends Application{
         
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
-        center.getChildren().addAll(dicePane,inventory, arrowTextPane,curArrowPane, boardArrows.display());
+        center.getChildren().addAll(dicePane,inventory, arrowTextPane, boardArrows.display());
         center.setStyle("-fx-padding: 100 25 0 25;");
         centerView.getChildren().addAll(center);
         
@@ -281,17 +315,114 @@ public class Board extends Application{
 
         
         VBox rightPane = new VBox(PADDING_SIZE);
-        rightPane.getChildren().addAll(userInfo, tokens, userRoll, attacks); 
+        rightPane.getChildren().addAll(userInfo, tokens, userRoll); //ADD ATTACKS IF NECESSARY
         rightPane.setStyle( "-fx-padding: 50 30 30 50; ");
         
         
         BorderPane boardLayout = createBorderPane(topPane, bottomPane, leftPane, rightPane, centerView);
+  
+        
+    Task updateArrowsInTheGame = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                    while (true) {
+                            updateMessage(Integer.toString(game.middleArrows));
+                            try {
+                                    Thread.sleep(100);
+                            } catch (InterruptedException ex) {
+                                    break;
+                            }
+                    }
+                    return null;
+            }
+    };
+    
+        //Keeps updating the arrowsOnTheTable label on the basis of the message property
+//        arrowsOnTheTable.textProperty().bind(updateArrowsInTheGame.messageProperty());
+        Thread t2 = new Thread(updateArrowsInTheGame);
+        t2.setName("Tesk Time Updater");
+        t2.setDaemon(true);
+        t2.start();
         
         
-        Scene gameView = new Scene(boardLayout, 1980, 1024);
-        gameView.getStylesheets().add("styles/Bang.css");
-        window.setScene(gameView);
-        window.show();
+        
+
+    Task playTurn = new Task<Void>(){
+        @Override 
+        protected Void call() throws Exception{
+            while(true){
+                
+//                final List<Die> temp = 
+                game.turn();
+                for(int i=0; i< game.getPlayers().length; i++){
+                    game.won = game.getPlayers()[i].getRole().getWon(game.getPlayers());
+                    if(game.won){
+                        System.out.println("Here - END");
+                        break;    
+                    }
+                }
+                if(game.won){
+                    System.out.println("Here - END");
+                    break;
+                }
+                
+                game.nextTurn();
+                
+                if(game.getPlayers()[game.playerTurn].isUser()){
+                    PlatformImpl.runAndWait(()->{
+                        if(game.getPlayers()[game.playerTurn].getStatus()){
+                            doYouWantToUseYourAbility();
+                        }
+                        else{
+                            OkayDialogBox youLost = new OkayDialogBox("YOU LOST", "OOPS, you LOSTTTT!!!");
+                            youLost.display();
+                            System.exit(0);
+                        }
+                        }); 
+                    
+                }
+               
+                
+                try {
+                        Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                        break;
+                }
+                
+                Platform.runLater(()->{
+                    createPlayerCards(game.getPlayers());
+                    updateDie(game.finalRoll);
+                    
+                });
+                
+                if(game.won){
+                   PlatformImpl.runAndWait(()->{
+                        if(game.getPlayers()[game.playerTurn].getStatus()){
+                            doYouWantToUseYourAbility();
+                        }
+                        else{
+                        OkayDialogBox youLost = new OkayDialogBox("GAME OVER", game.getPlayers()[game.playerTurn-1].getCharacter().getName() + " WON!!!");
+                        youLost.display();
+                        System.exit(0);
+                        }
+                    }); 
+                }
+                
+            }
+            return null;
+        }
+    };    
+    
+    Thread t1 = new Thread(playTurn);
+    t1.setDaemon(true);
+    t1.start();
+    
+        
+    Scene gameView = new Scene(boardLayout, 1980, 1024);
+    gameView.getStylesheets().add("styles/Bang.css");
+    window.setScene(gameView);
+    window.show();
+        
     }
     
     /**
@@ -319,6 +450,10 @@ public class Board extends Application{
         return boardLayout;
     }
     
+
+
+}
+    
     
   
-}
+

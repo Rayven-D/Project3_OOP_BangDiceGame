@@ -11,7 +11,7 @@ package project3;
  * @author parra
  */
 public interface CompBrain {
-    boolean detAlly(int playerNum);
-    void findBestMove();
-    int findTarget();
+    int detAlly(String role);
+    int findBestTarget(int[] pots);
+    int findTarget(int spaces);
 }
