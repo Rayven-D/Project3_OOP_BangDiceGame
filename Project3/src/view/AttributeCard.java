@@ -62,7 +62,15 @@ public class AttributeCard {
                 + "");
             
         }
-            
+        else if(label.equals("Character")){
+            String url = "assets/"+role.replace(' ', '_').toLowerCase()+".png";
+            icon.setPrefSize(135, 135);
+
+            icon.setStyle( "-fx-background-image: url("+ url
+                + ");"
+                + "");
+        }
+             
         //Layouts
         VBox card = new VBox();
         card.getChildren().addAll(roleLabel, icon, userRole);

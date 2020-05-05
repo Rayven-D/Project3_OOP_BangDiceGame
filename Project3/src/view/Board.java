@@ -49,6 +49,7 @@ public class Board extends Application{
     private static Player user;
     public static boolean askUserInput = false;
     public static Button firstDie, secondDie, thirdDie, fourthDie, fifthDie, sixthDie;
+    public HBox tokens = new HBox(PADDING_SIZE);
   
     
     Token singleBullet = new Token("Bullet", 0, "assets/bullet.png", 64, 64);
@@ -166,8 +167,13 @@ public class Board extends Application{
 
        for(Player player: players){
            if(player.isUser()){
+               tokens.getChildren().clear();
                user = player;
-                setDistributionOfBullets();
+               setDistributionOfBullets();
+               arrows.curVal= user.getArrows();
+               tokens.getChildren().addAll(singleBullet.display(), 
+                    multipleBullet.display(), arrows.display() );
+               
            }
            PlayerView card = new PlayerView(player, 175, 100);
            if (player.getNum()<3){
@@ -244,8 +250,8 @@ public class Board extends Application{
         singleBullet.curVal = oneBullet;
         multipleBullet.curVal = threeBullets;
         arrows.curVal = numberOfArrows;
-        HBox tokens = new HBox(PADDING_SIZE);
-        tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display());
+        
+//        tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display());
         
         
         //User Actions  
@@ -362,15 +368,15 @@ public class Board extends Application{
                 
                 game.nextTurn();
                 
-                if(game.playerTurn == user.getNum()){
+                if(game.getPlayers()[game.playerTurn].isUser()){
                     PlatformImpl.runAndWait(()->{
                         if(game.getPlayers()[game.playerTurn].getStatus()){
                             doYouWantToUseYourAbility();
                         }
                         else{
-                        OkayDialogBox youLost = new OkayDialogBox("YOU LOST", "OOPS, you LOSTTTT!!!");
-                        youLost.display();
-                        System.exit(0);
+                            OkayDialogBox youLost = new OkayDialogBox("YOU LOST", "OOPS, you LOSTTTT!!!");
+                            youLost.display();
+                            System.exit(0);
                         }
                         }); 
                     
