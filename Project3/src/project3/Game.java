@@ -24,10 +24,10 @@ public class Game {
         players = new Player[numPlayers];
         int i = 0;
         for(; i < userPlayers; i++){
-            players[i] = new Player(i, true);
+            players[i] = new User(i);
         }
         for(; i < numPlayers; i++){
-            players[i] = new Player(i, false);
+            players[i] = new Comp(i);
         }
         setUp();
     }
@@ -345,6 +345,9 @@ public class Game {
                 }
                 /*player chooses spacesFromPlayer spaces away*/
                 int targetPlayer = 0;
+                if (!players[playerTurn].isUser()) {
+                    targetPlayer = ((Comp)players[playerTurn]).findTarget(spacesFromPlayer);
+                }
                 loseLife(players[playerTurn], players[targetPlayer]);
                 if(beerKiller > 0){
                     loseLife(players[playerTurn], players[targetPlayer]);
@@ -379,6 +382,9 @@ public class Game {
                 }
                 /*player chooses spacesFromPlayer spaces away*/
                 int targetPlayer = 0;
+                if (!players[playerTurn].isUser()) {
+                    targetPlayer = ((Comp)players[playerTurn]).findTarget(spacesFromPlayer);
+                }
                 loseLife(players[playerTurn], players[targetPlayer]);
                 if(beerKiller > 0){
                     loseLife(players[playerTurn], players[targetPlayer]);
