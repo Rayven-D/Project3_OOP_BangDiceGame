@@ -19,10 +19,12 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javax.swing.*;
 import project3.RollDice;
 import project3.Die;
 import project3.Player;
 import project3.Game;
+
 
 /**
  *
@@ -113,7 +115,7 @@ public class Board extends Application{
      * @return An integer value (0 or 1) representing if the user want the Extensions included
      */
     
-    private static int wantExtensionsIncluded(){
+    public int wantExtensionsIncluded(){
         ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
         return dialogBox.display();
     }
@@ -159,6 +161,24 @@ public class Board extends Application{
         return attack.display();
     }
     
+    public void dynamite(){
+        JOptionPane.showMessageDialog(null, "DYNAMITE!!!");
+    }
+    public void indianAttack(){
+        JOptionPane.showMessageDialog(null, "INDIAN ATTACK");
+    }
+    
+    public int doYouWantToUseYourAbility(){
+//        String message = user.getCharacter().getSpecialAbility();
+//        String title = "To use the ability or not to use";
+//        AbilityDialogBox dialogbox = new AbilityDialogBox(message, title);
+//        return dialogbox.display();
+    return 0;
+    }
+    
+    public void checkDieAction(Die die){
+       
+    }
     
     /**
      *
@@ -296,11 +316,11 @@ public class Board extends Application{
         window.setTitle("Bang! The Dice Game");
         
         //Get the necessary input from the user
-        wantExtension = wantExtensionsIncluded();
+        //wantExtension = wantExtensionsIncluded();
         numPlayers = getNumberOfPlayers();
     
         //Initialize the Game class
-        Game game = new Game(numPlayers, 1);
+        Game game = new Game(numPlayers, 1, this);
         
         
         //Anonymous Players
@@ -338,8 +358,8 @@ public class Board extends Application{
         inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
             inventory.getChildren().clear();
-            RollDice dice = new RollDice();
-            inventory.getChildren().add(displayDice(dice.getDice()));
+            inventory.getChildren().add(displayDice(game.roll));
+            game.rollAgain = true;
         });
        
         
@@ -349,11 +369,14 @@ public class Board extends Application{
         */
         
         //DICE TITLE LABEL
-        Label diceText = new Label("DICE");
+        Label diceText = new Label("Dice");
+        Label turnText = new Label(game.getPlayerTurn().getCharacter().getName());
         diceText.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; ");
+        turnText.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; ");
         StackPane dicePane = new StackPane();
         dicePane.getChildren().addAll(diceText);
-        
+        dicePane.getChildren().addAll(turnText);
+            
         //ARROW TITLE LABEL
         Label arrowsOnTheTable = new Label("ARROWS");
         arrowsOnTheTable.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; fx-padding-bottom: 140px");
@@ -392,29 +415,42 @@ public class Board extends Application{
         rightPane.setStyle( "-fx-padding: 50 30 30 50; ");
 
 
-        BorderPane boardLayout = createBorderPane(topPane, bottomPane, leftPane, rightPane, centerView); //Creates the final board layout
+    Task playTurn = new Task<Void>(){
+        @Override 
+        protected Void call() throws Exception{
+            while(true){    
+                game.turn();
+                if(game.getPlayerTurn().isUser()){
+                    JOptionPane.showMessageDialog(null, "Your Turn!");
+                }else{
+                    JOptionPane.showMessageDialog(null, game.getPlayerTurn().getCharacter().getName());
+                }
 
-
-        //Task to be threaded
-        Task playTurn = new Task<Void>(){
-            @Override 
-            protected Void call() throws Exception{
-                while(true){
-                    //While the loop is true (if the game continues), play a turn
-                    game.turn();
-                    //If after the turn, any player wins let the users know! 
-                    for(int i=0; i< game.getPlayers().length; i++){
-                        game.won = game.getPlayers()[i].getRole().getWon(game.getPlayers());
-                        //What to do if the game has been won
-                        if(game.won){
-                            PlatformImpl.runAndWait(()->{
-                                OkayDialogBox someoneWon = new OkayDialogBox("Game Over, boi!", game.getPlayers()[game.playerTurn-1].getCharacter().getName()+"won!!!");
-                                someoneWon.display();
-                                System.exit(0);
-                            });
-                            break;    
-                        }
+                for(int i=0; i< game.getPlayers().length; i++){
+                    game.won = game.getPlayers()[i].getRole().getWon(game.getPlayers());
+                    if(game.won){
+                        break;    
                     }
+                }
+                if(game.won){
+                    
+                    break;
+                }
+                
+               
+                
+                if(game.getPlayers()[game.playerTurn].isUser()){
+                    PlatformImpl.runAndWait(()->{
+                        if(game.getPlayers()[game.playerTurn].getStatus()){
+                            doYouWantToUseYourAbility();
+                        }
+                        else{
+                            OkayDialogBox youLost = new OkayDialogBox("YOU LOST", "OOPS, you LOSTTTT!!!");
+                            youLost.display();
+                            System.exit(0);
+                        }
+                    });
+                    
                     //Break out of the loop if the game is won
                     if(game.won){
                         break;
@@ -455,14 +491,18 @@ public class Board extends Application{
                     });
 
                 }
-                return null;
+                 game.nextTurn();
+
+                 return null;
             }
-        };    
+        }
+    };
         
         //Start the game thread
         Thread gameThread = new Thread(playTurn);
         gameThread.setDaemon(true);
         gameThread.start();
+        
 
         //Assign the gameView to the Stage
         Scene gameView = new Scene(boardLayout, 1980, 1024);
