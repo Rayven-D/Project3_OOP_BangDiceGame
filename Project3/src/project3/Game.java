@@ -264,7 +264,7 @@ public class Game {
                                 ability = true;
                         }
                         else{
-                            ability = true;
+                            ability = ((Comp)players[playerTurn]).abilityCheck("chief");
                         }
                         /*ask user if he wants to take chief arrow if its in the middle*/
                         if(true)
@@ -338,7 +338,7 @@ public class Game {
                             ability = true;
                     }
                     else{
-
+                        ability = ((Comp)players[playerTurn]).abilityCheck("belle");
                     }
                     //if he choses to use his ability
                     if(ability){
@@ -386,7 +386,7 @@ public class Game {
                             ability = true;
                     }
                     else{
-                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
+                        ability = ((Comp)players[playerTurn]).abilityCheck("slab");
                     }
                     if(ability){/*he chooses to double 1 or 2 instead */
                         beerKiller++; 
@@ -411,7 +411,7 @@ public class Game {
                                 ability = true;
                         }
                         else{
-    
+                            ability = ((Comp)players[playerTurn]).abilityCheck("calamity1");
                         }
                         if(ability){
                             spacesFromPlayer = 2;
@@ -427,7 +427,7 @@ public class Game {
                                 ability = true;
                         }
                         else{
-    
+                            ability = ((Comp)players[playerTurn]).abilityCheck("rose");
                         }
                         if(ability){
                             spacesFromPlayer++;
@@ -459,7 +459,7 @@ public class Game {
                                 ability = true;
                         }
                         else{
-    
+                            ability = ((Comp)players[playerTurn]).abilityCheck("calamity2");
                         }
                         if(ability){
                             spacesFromPlayer = 1;
@@ -475,7 +475,7 @@ public class Game {
                                 ability = true;
                         }
                         else{
-    
+                            ability = ((Comp)players[playerTurn]).abilityCheck("rose");
                         }
                         if(ability){
                             spacesFromPlayer++;
@@ -540,7 +540,7 @@ public class Game {
                             ability = true;
                     }
                     else{
-                        ability = true; //JUST SETTING IT TO TRUE - TESTING.
+                        ability = ((Comp)players[playerTurn]).abilityCheck("kit");
                     }
 
                 if(ability){/*he chooses to use gatling to discard*/
