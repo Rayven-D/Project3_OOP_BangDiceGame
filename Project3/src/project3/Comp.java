@@ -113,6 +113,43 @@ public class Comp extends Player implements CompBrain {
     }
     
     /***
+     * This method allows the Comp to decide whether or not to use the ability
+     * it needs to use on its turn based on the rolls
+     * @param checker - A string used to check the type of ability being processed
+     * @return - The boolean value indicating whether or not the Comp uses the ability
+     */
+    public boolean abilityCheck(String checker) {
+        boolean using = false;
+        switch(checker) {
+            case "chief":
+                if (this.getArrows() >= 3)  // computers will take the arrow if they have a decent chance at having the most
+                    using = true;
+                break;
+            case "belle":
+                using = true; // belle is aggressive and will always want more gatlings
+                break;
+            case "slab":
+                if (this.getHealth() >= 4) // slab will double his attack if he has half his health or more
+                    using = true;
+                break;
+            case "rose":
+                using = true; // rose always wants to be sneaky
+                break;
+            case "calamity1":
+                if (playersAlive > 2) // if calamity is NOT one of the last two players, she will use the ability
+                    using = true;
+                break;
+            case "calamity2":
+                if (playersAlive == 2) // if calamity IS one of the last two players, she will use the ability
+                    using = true;
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+    
+    /***
      *@author Cole Trammell
      * @param incExp1 - boolean that determines if Expansion 1 is included in the game
      * @param incExp2 - boolean that determines if Expansion 2 is included in the game

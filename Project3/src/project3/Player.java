@@ -5,6 +5,7 @@
 // Project 3
  */
 package project3;
+import java.util.*;
 
 import java.util.ArrayList;
 
@@ -68,6 +69,10 @@ protected static int playersAlive;
      */
     private boolean zombie;
     
+    protected static int numPlayers = 0;
+    protected static ArrayList<Player> players = new ArrayList<Player>();
+    protected static int playersAlive = 0;
+    
     /***
      * Declare a new Player Object
      * @param playerNum - the player number of the Player
@@ -79,11 +84,16 @@ protected static int playersAlive;
         this.arrows = 0;
         this.alive = true;
         this.zombieMaster = false;
+        if (this.playerNum > numPlayers)
+            numPlayers = this.playerNum;
+        players.add(this);
+        playersAlive++;
     }
     
     public void setZombie(boolean b, int life){
         this.zombie = b;
         this.health = life;
+        playersAlive--;
     }
     public boolean getZombie(){
         return zombie;
@@ -143,6 +153,8 @@ protected static int playersAlive;
      */
     public void setStatus(boolean alive) {
         this.alive = alive;
+        if (!alive)
+            playersAlive--;
     }
     
     /***
