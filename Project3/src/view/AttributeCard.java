@@ -17,19 +17,29 @@ import javafx.scene.control.*;
  *
  * @author shreyesh
  */
-public class AttributeCard {
+public class AttributeCard  {
     
+    /**
+     * To help the AttributeCard class get the asset URL for the roles.
+     */
     public enum Role {
+
         DEPUTY("assets/Deputy.png"),
         RENEGADE("assets/Renegade.png"),
         OUTLAW("assets/Outlaw.png"),
         SHERIFF("assets/Sheriff.PNG");
-        
+
         public String url;
         
         Role(String url){
             this.url = url;
         }
+
+        /**
+         *
+         * @param role
+         * @return
+         */
         public static String getImage(String role){
             switch(role.toLowerCase()){
                 case "deputy":
@@ -46,13 +56,20 @@ public class AttributeCard {
         }
     }
         
-    
+    /**
+     *
+     * @param label The name associated with the Attribute
+     * @param role The role associated with the Attribute
+     * @return
+     */
     public static VBox display(String label, String role){
-        //Components
+        //ATTRIBUTE BOX COMPONENTS
         Label roleLabel = new Label(label);
         Button icon = new Button();
         Label userRole = new Label(role);
         
+        
+        // ASSIGNING THE IMAGE VIEW FOR THE ATTRIBUTE
         if(label.equals("Role")){
             String url = Role.getImage(role);
             icon.setPrefSize(163, 228);
@@ -70,8 +87,9 @@ public class AttributeCard {
                 + ");"
                 + "");
         }
+        
              
-        //Layouts
+        // ATTRIBUTE BOX LAYOUT
         VBox card = new VBox();
         card.getChildren().addAll(roleLabel, icon, userRole);
         

@@ -10,13 +10,9 @@
 
 package view;
 
-import javafx.stage.*;
-import javafx.scene.*;
+
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
-import javafx.geometry.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 /**
  *
@@ -24,10 +20,21 @@ import javafx.scene.image.ImageView;
  */
 public class Token implements Components<VBox>{
     
-    public static final int PADDING_SIZE = 20;
+
+    /**
+     * Token attributes
+     */
     public String type, url;
-    public int curVal, width, height;
+    public int curVal, width,height;
     
+    /**
+     *
+     * @param type The type of value to be stored in the label for the Token
+     * @param curVal The current value of the token
+     * @param url The URL associated with the Token
+     * @param width The width of the token
+     * @param height THe height of the token
+     */
     public Token(String type, int curVal, String url, int width, int height){
         this.type = type;
         this.curVal = curVal;
@@ -36,6 +43,10 @@ public class Token implements Components<VBox>{
         this.height = height;
     }
     
+    /**
+     * To display the token! 
+     * @return A VBox with the Token attributes and ImageView
+     */
     @Override
     public VBox display(){
         // Components

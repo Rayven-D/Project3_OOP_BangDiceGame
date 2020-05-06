@@ -8,10 +8,19 @@ package view;
 /**
  *
  * @author shreyesh
+ * @param <T> The type of layout user decides to design in the interface
  */
 public interface Components<T> {
     
+    /**
+     *  The padding size associated with the Component Interface
+     */
     public final int PADDING_SIZE = 20;
+
+    /**
+     *
+     * @return The layout they want to output
+     */
     public T display();
     
 }

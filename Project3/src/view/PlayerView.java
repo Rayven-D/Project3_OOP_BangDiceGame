@@ -26,6 +26,13 @@ public class PlayerView implements Components<StackPane>{
     private int width, height, arrows;
     
     //Create a constructor that takes in a Player object and create the necessary labels
+
+    /**
+     *
+     * @param player The player object associated with the View
+     * @param width The width of the view
+     * @param height The height of the view
+     */
     
     public PlayerView(Player player, int width, int height){
         this.playerName = player.getCharacter().getName();
@@ -36,6 +43,10 @@ public class PlayerView implements Components<StackPane>{
         this.height = height;
     }
     
+    /**
+     *
+     * @return A StackPane with the Player info!
+     */
     public StackPane display(){
         // Components
         setBullets();
@@ -51,13 +62,16 @@ public class PlayerView implements Components<StackPane>{
         group.getChildren().add(component);
         
         group.setStyle("-fx-background-color: #000000; "
-                + "-fx-padding: 20 20 20 20; "
+                + "-fx-padding: 12 12 12 12; "
                 + "-fx-border-radius: 10;" 
                 + "-fx-border-width: 1;" 
                 + "-fx-border-color: #FC3D44;");
         return group;
     }
     
+    /**
+     *
+     */
     public void setBullets(){
         threeBullet = bullets/3;
         oneBullet = bullets%3;

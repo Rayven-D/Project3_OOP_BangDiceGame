@@ -26,18 +26,26 @@ import javafx.stage.Stage;
  */
 public class AbilityDialogBox extends Application{
     
+    /**
+     * Determines the user choice! 
+     */
     public int userChoice;
     Stage window;
     public String message="", title="";
 
-
-    
- 
-    
+    /**
+     * Sets the user choice depending on the button click
+     * @param choice The user choice
+     */
     public void setUserChoice(int choice){
         this.userChoice = choice;
     }
 
+    /**
+     *
+     * @param stage The stage to display the dialog box
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         window = stage;
@@ -47,11 +55,12 @@ public class AbilityDialogBox extends Application{
         window.setTitle(this.title);
         window.setMinWidth(250);
         
+        //DIALOG BOX FUNDAMENTAL ATTRIBUTES
         Label messageLabel = new Label(this.message);
-        
         Button yesButton = new Button("yes");
         Button noButton = new Button("no");
         
+        //DIALOG BOX BUTTON FUNCTIONALITY
         yesButton.setOnAction(e -> {
             System.out.println("yes");
             window.close();
@@ -62,7 +71,7 @@ public class AbilityDialogBox extends Application{
             window.close();
         }); 
        
-        
+        //DIALOG BOX LAYOUT
         VBox confirmBoxLayout = new VBox(10);
         HBox optionsLayout = new HBox(50);
         optionsLayout.getChildren().addAll(yesButton, noButton);
@@ -73,12 +82,13 @@ public class AbilityDialogBox extends Application{
         
         Scene scene = new Scene(confirmBoxLayout);
         window.setScene(scene);
-        window.showAndWait(); // Di
-    
-        
-//To change body of generated methods, choose Tools | Templates.
+        window.showAndWait(); 
     }
     
+    /**
+     *
+     * @param args
+     */
     public static void main(String[] args){
         
         launch(args);

@@ -1,3 +1,7 @@
+//CS 2450 001 
+//Shreyesh Arangath 
+//shreyesh.arangath@ttu.edu
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -9,7 +13,7 @@ import view.Board;
 
 /**
  *
- * @author ctram
+ * @author Shreyesh
  */
 public class Project3 {
 
@@ -18,8 +22,7 @@ public class Project3 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Board gameBoard = new Board();
-        
+     Board.main(args);
     }
     
 }
