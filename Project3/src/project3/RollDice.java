@@ -88,13 +88,6 @@ public class RollDice {
                 else{
                     this.die.setFace(Face[randomNum]);
                 }
-                
-                if(Face[randomNum] == "Dynamite"){
-                    die.setReroll(false);
-                }
-                else{
-                    this.die.setReroll(true);
-                }
 
                 dice.set(i, this.die);
             }

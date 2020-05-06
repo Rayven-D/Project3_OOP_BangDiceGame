@@ -81,6 +81,7 @@ protected static int playersAlive;
         this.arrows = 0;
         this.alive = true;
         this.zombieMaster = false;
+        players = new ArrayList<Player>();
         if (this.playerNum > numPlayers)
             numPlayers = this.playerNum;
         players.add(this);

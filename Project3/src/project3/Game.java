@@ -4,6 +4,7 @@ import java.util.*;
 import javafx.scene.control.Alert;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import view.Board;
 
 public class Game {
 
@@ -23,9 +24,12 @@ public class Game {
     private List<Integer> boneyardCards = new ArrayList<Integer>();
     private List<Integer> drawnBYCards = new ArrayList<Integer>();
     private boolean expansions;
+    public List<Die> roll;
     public List<Die> finalRoll;
+    public boolean rollAgain;
+    private Board gameBoard;
     
-    public Game(int numPlayers, int userPlayers) {
+    public Game(int numPlayers, int userPlayers, Board gameBoard) {
         this.numPlayers = numPlayers;
         this.alivePlayers = numPlayers;
         this.middleArrows = 9;
@@ -34,7 +38,13 @@ public class Game {
         roles = new MasterRole(numPlayers);
         players = new Player[numPlayers];
         
-        expansions = true; //are expansions included or not
+        this.gameBoard = gameBoard;
+        int exp = this.gameBoard.wantExtensionsIncluded();
+        if(exp == 1){
+            this.expansions = true;
+        }else{
+            this.expansions = false;
+        }//are expansions included or not
         
         int i = 0;
         for(; i < userPlayers; i++){
@@ -42,7 +52,6 @@ public class Game {
         }
         for(; i < numPlayers; i++){
             players[i] = new Comp(i);
-            players[i] = new Player(i, true);
         }
         setUp();
     }
@@ -50,31 +59,8 @@ public class Game {
     public Game() {
     }
 
-    public void runGame(){
-        for(Player p : players){
-                System.out.println(p.getRole().getName() + " " + p.getCharacter().getName() + " " + p.getHealth());
-        }
-        won = false;
-        while(true){
-            turn();
-            for(int i = 0; i < players.length; i++){
-                won = players[i].getRole().getWon(players);
-                if(won){
-                    System.out.println(players[i].getCharacter().getName() + " WON!!!");
-                    break;
-                }
-            }
-            if(won){
-                break;
-            }
-            System.out.println();
-            for(Player p: players){
-                System.out.println(p.getCharacter().getName() + " " + p.getHealth());
-            }
-            System.out.println();
-            nextTurn();
-        }
-        
+    public Player getPlayerTurn(){
+        return players[playerTurn];
     }
     
     public void nextTurn() {
@@ -103,17 +89,13 @@ public class Game {
             while(used){
                 randomInt = randomCharacter.nextInt(16);
                 for(int j = 0; j <= i; j++){
-                    if(i == 0){
-                        playerCharacter  = new Character(Character.Characters.values()[randomInt], "");
-                        players[i].setCharacter(playerCharacter);
-                        used = false;
-                    }else if(randomInt == usedIndex[j]){
-                        used = true;
-                    }else{
-                        playerCharacter  = new Character(Character.Characters.values()[randomInt], "");
-                        players[i].setCharacter(playerCharacter);
+                    if(j==i && usedIndexes[j] != randomInt){
                         used = false;
                     }
+                }
+                if(!used){
+                    playerCharacter  = new Character(Character.Characters.values()[randomInt], "");
+                    players[i].setCharacter(playerCharacter);
                 }
             }
             String charName = playerCharacter.getName().toLowerCase();
@@ -179,8 +161,7 @@ public class Game {
         }
         
         
-        
-        Random randomRole = new Random();
+     
         roles.assignRole(players);
     }
 
@@ -188,6 +169,10 @@ public class Game {
         /*
            Undead or Alive Expansion
         */
+        System.out.println("Middle Arrows: " + this.middleArrows);
+        for(Player p: players){
+            System.out.println(p.getCharacter().getName() + " " + p.getArrows() + " " + p.getHealth());
+        }
         if(players[playerTurn].getStatus() == false &&  !zombieOutbreak){
              System.out.println("Player " + players[playerTurn].getCharacter().getName() + " is eliminated.Skipping Turn");
              if(this.expansions == true){
@@ -236,9 +221,9 @@ public class Game {
         
         boolean lafayette = true;
         
-        boolean rollAgain = true;
+       rollAgain = true;
         RollDice diceroll = new RollDice();
-        List<Die> roll = diceroll.getDice();
+        roll = diceroll.getDice();
         if(zombieOutbreak){
             if(players[playerTurn].getZombie()){
                 roll.remove(roll.size() - 1);
@@ -246,18 +231,19 @@ public class Game {
             }
         }
         for(int i = 0; i < rolls; i++){  
+            System.out.println("Roll " + (i + 1));
             roll = diceroll.rollDice(roll);
                         for(Die d: roll){
                 System.out.print(d.getFace() + " ");
             }   
             System.out.println();
-            
+            this.gameBoard.updateDie(roll);
             /*
             This for loop resolves arrows and dynamite, as they are resolved while
                 the player is still rolling
             */
             for(int rollIterator = 0; rollIterator < roll.size() || numDyn >= allDynamite.length; rollIterator++){
-                String currFace = roll.get(i).getFace().toLowerCase();
+                String currFace = roll.get(rollIterator).getFace().toLowerCase();
                 if(currFace.equalsIgnoreCase("arrow") && !players[playerTurn].getCharacter().getName().equalsIgnoreCase("bill_noface")){
                     if( chiefArrow == true){
                         boolean ability = false;
@@ -270,7 +256,7 @@ public class Game {
                             ability = ((Comp)players[playerTurn]).abilityCheck("chief");
                         }
                         /*ask user if he wants to take chief arrow if its in the middle*/
-                        if(true)
+                        if(ability)
                             players[playerTurn].setChiefArrow(true);
                     }else if(players[playerTurn].getCharacter().getName().equalsIgnoreCase("apache_kid") && !players[playerTurn].hasChiefArrow() && (players[playerTurn].getStatus() || players[playerTurn].getZombieMaster())){
                         boolean ability = false;
@@ -286,13 +272,10 @@ public class Game {
                         }
                     }
                     else{
-                        int a = players[i].getArrows();
+                        int a = players[playerTurn].getArrows();
                         a++;
-                        players[i].setArrows(a);
+                        players[playerTurn].setArrows(a);
                         middleArrows--;
-                        if(middleArrows == 0){
-                            indianAttack();
-                        }
                     }
                 }
                 else if(currFace.equalsIgnoreCase("brokena")){
@@ -306,8 +289,8 @@ public class Game {
                 else if(currFace.equalsIgnoreCase("bullet")){
                     players[playerTurn].setHealth(players[playerTurn].getCharacter().loseLifePoints(1));
                 }
-                else if(currFace.equalsIgnoreCase("dynamite")){
-                    Die d = roll.get(i);
+                else if(currFace.equalsIgnoreCase("dynamite") && roll.get(rollIterator).getReroll() == true){
+                    Die d = roll.get(rollIterator);
                     d.setReroll(false);
                     d.setChooseRoll(false);
                     allDynamite[numDyn] = d;
@@ -315,6 +298,7 @@ public class Game {
 
                 }  
                 if(numDyn == 3){
+                    this.gameBoard.dynamite();
                     break;
                 }
                 if(playerChar.getName().equalsIgnoreCase("black_jack") && (players[playerTurn].getStatus() || players[playerTurn].getZombieMaster())){
@@ -327,8 +311,11 @@ public class Game {
                     }           
                 }
             }
-           
-            if(!rollAgain  || (i+1) == rolls || numDyn >= 3){
+            if(middleArrows <= 0){
+                indianAttack();
+            }
+
+            if(!rollAgain  || i+1 == rolls || numDyn >= 3){
                 //Belle Star Ability
                 if(numDyn <3 && numDyn > 0 && players[playerTurn].getCharacter().getName().equalsIgnoreCase("belle_star") && (players[playerTurn].getStatus() || players[playerTurn].getZombieMaster()))
                 {
@@ -355,9 +342,12 @@ public class Game {
             }
             writeDiceRoll(roll);
         }
+        
         System.out.println("");
         if(numDyn >= 3){
+            //this.gameBoard.dynamite();
             players[playerTurn].setHealth(players[playerTurn].getCharacter().loseLifePoints(1));
+            return;
         }
         
         /*
@@ -601,6 +591,9 @@ public class Game {
                 }
                 /*player chooses spacesFromPlayer spaces away*/
                 int targetPlayer = 0;
+                if (!players[playerTurn].isUser()) {	
+                    targetPlayer = ((Comp)players[playerTurn]).findTarget(spacesFromPlayer);	
+                }
                 loseLife(players[playerTurn], players[targetPlayer]);
                 if(beerKiller > 0){
                     loseLife(players[playerTurn], players[targetPlayer]);
@@ -642,7 +635,7 @@ public class Game {
               if (!players[playerTurn].isUser()) {	
                     targetPlayer = ((Comp)players[playerTurn]).findTarget(spacesFromPlayer);	
                 }
-                loseLife(players[playerTurn], players[targetPlayer]);
+                //loseLife(players[playerTurn], players[targetPlayer]);
                 if(beerKiller > 0){
                     loseLife(players[playerTurn], players[targetPlayer]);
                 }
@@ -651,7 +644,7 @@ public class Game {
                 duelTemp = d;
             }
         }
-        for(int i = 0; i < numDuels; i++){
+        for(int i = 0; i < numDuels && this.expansions; i++){
             //player chooses which player to target
             int indexTarget = 0;
             duels(players[playerTurn], players[indexTarget], duelTemp);
@@ -664,6 +657,8 @@ public class Game {
             if(p.getHealth() <= 0){
                 p.setStatus(false);
                 this.alivePlayers--;
+                this.middleArrows = p.getArrows();
+                p.setArrows(0);
                 for(int i = 0; i < players.length; i++){
                     if(players[i].getStatus() && players[i].getCharacter().getName().equalsIgnoreCase("vulture_sam")){
                         players[i].setHealth(players[i].getCharacter().gainLifePoints(2));
@@ -672,7 +667,7 @@ public class Game {
             }
         }
         
-    }
+        }
   
     }
    
@@ -723,6 +718,7 @@ public class Game {
    }
 
    public void indianAttack(){
+       System.out.println("INDIAN ATTACK");
        for(int i = 0; i < players.length; i++){
            if(players[i].hasChiefArrow()){
                int indexOfHighestArrowPlayer = 0;
@@ -748,6 +744,7 @@ public class Game {
               int numArr = players[i].getArrows();
               players[i].setHealth(players[i].getCharacter().loseLifePoints(numArr)); 
               middleArrows += numArr;
+              players[i].setArrows(0);
            }
        }
    }
@@ -868,7 +865,6 @@ public class Game {
     
    
     public static void main(String [] args){
-        Game g = new Game(4,1);
-        g.runGame();
+    
     }
 }
