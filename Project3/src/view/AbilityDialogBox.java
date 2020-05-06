@@ -10,6 +10,7 @@
 
 package view;
 
+import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -23,16 +24,25 @@ import javafx.stage.Stage;
  *
  * @author shreyesh
  */
-public class AbilityDialogBox extends ConfirmDialogBox{
+public class AbilityDialogBox extends Application{
     
     public int userChoice;
+    Stage window;
+    public String message="", title="";
 
-    public AbilityDialogBox(String message, String title) {
-        super(message, title);
-    }
+
     
-    public int display(){
-        Stage window = new Stage();
+ 
+    
+    public void setUserChoice(int choice){
+        this.userChoice = choice;
+    }
+
+    @Override
+    public void start(Stage stage) throws Exception {
+        window = stage;
+        window.setTitle(title);
+   
         window.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
         window.setTitle(this.title);
         window.setMinWidth(250);
@@ -43,13 +53,11 @@ public class AbilityDialogBox extends ConfirmDialogBox{
         Button noButton = new Button("no");
         
         yesButton.setOnAction(e -> {
-            setUserChoice(true);
             System.out.println("yes");
             window.close();
         });
         
         noButton.setOnAction(e -> {
-            setUserChoice(false);
             System.out.println("no");
             window.close();
         }); 
@@ -65,13 +73,15 @@ public class AbilityDialogBox extends ConfirmDialogBox{
         
         Scene scene = new Scene(confirmBoxLayout);
         window.setScene(scene);
-        window.showAndWait(); // Display the window and before it returns it needs to be closed
+        window.showAndWait(); // Di
+    
         
-        return userChoice;
+//To change body of generated methods, choose Tools | Templates.
     }
     
-    public void setUserChoice(int choice){
-        this.userChoice = choice;
+    public static void main(String[] args){
+        
+        launch(args);
     }
 
     
