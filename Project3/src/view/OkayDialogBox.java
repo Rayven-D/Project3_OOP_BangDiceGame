@@ -26,34 +26,37 @@ import javafx.stage.Stage;
 public class OkayDialogBox extends ConfirmDialogBox {
     
     /**
-     *
-     * @param message
-     * @param title
+     * Class Constructor
+     * @param message The message you want to display in the Dialog Box
+     * @param title The title of the message in the Dialog Box
      */
     public OkayDialogBox(String message, String title) {
         super(message, title);
     }
     
     /**
-     *
-     * @return
+     *  The function to display the OkayDialogBox
+     * @return An integer representing if the execution is done
      */
     public int display(){
+        //DIALOG BOX SET UP
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
         window.setTitle(this.title);
         window.setMinWidth(250);
         
+        //DIALOG BOX ATTRIBUTES
         Label messageLabel = new Label(this.message);
-        
         Button okButton = new Button("Ok.");
         
+        //DIALOG BOX BUTTON FUNCTIONALITY
         okButton.setOnAction(e -> {
 
             window.close();
         });
         
         
+        //DIALOG BOX LAYOUT
         VBox confirmBoxLayout = new VBox(10);
         HBox optionsLayout = new HBox(50);
         optionsLayout.getChildren().addAll(okButton);
@@ -64,7 +67,7 @@ public class OkayDialogBox extends ConfirmDialogBox {
         
         Scene scene = new Scene(confirmBoxLayout);
         window.setScene(scene);
-        window.showAndWait(); // Display the window and before it returns it needs to be closed
+        window.showAndWait(); 
         
         return 0;
     }

@@ -29,9 +29,9 @@ public class PlayerView implements Components<StackPane>{
 
     /**
      *
-     * @param player
-     * @param width
-     * @param height
+     * @param player The player object associated with the View
+     * @param width The width of the view
+     * @param height The height of the view
      */
     
     public PlayerView(Player player, int width, int height){
@@ -45,7 +45,7 @@ public class PlayerView implements Components<StackPane>{
     
     /**
      *
-     * @return
+     * @return A StackPane with the Player info!
      */
     public StackPane display(){
         // Components
@@ -62,7 +62,7 @@ public class PlayerView implements Components<StackPane>{
         group.getChildren().add(component);
         
         group.setStyle("-fx-background-color: #000000; "
-                + "-fx-padding: 20 20 20 20; "
+                + "-fx-padding: 12 12 12 12; "
                 + "-fx-border-radius: 10;" 
                 + "-fx-border-width: 1;" 
                 + "-fx-border-color: #FC3D44;");

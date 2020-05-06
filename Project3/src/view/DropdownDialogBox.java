@@ -23,12 +23,12 @@ import javafx.geometry.*;
  */
 public class DropdownDialogBox extends ConfirmDialogBox{
     
-    private int userChoice;
+    private int userChoice; //The option that the user chooses
     
     /**
-     *
-     * @param message
-     * @param title
+     * Class constructor
+     * @param message The message to be displayed within the DropdownDialogBox
+     * @param title The title associated with the DropdownDialogBox
      */
     public DropdownDialogBox(String message, String title) {
         super(message, title);
@@ -36,27 +36,29 @@ public class DropdownDialogBox extends ConfirmDialogBox{
     
     /**
      *
-     * @return
+     * @return An integer representing the number of players the user wants in the game
      */
     @Override
         public int display(){
+            //DIALOG BOX STAGE SET UP
             Stage window = new Stage();
             window.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
             window.setTitle(title);
             window.setMinWidth(750);
-
+            
+            //DIALOG BOX ATTRIBUTES
             Label messageLabel = new Label(message);
             Button proceed = new Button("Proceed");
-            
             ChoiceBox<Integer> choiceBox = new ChoiceBox<>();
-            
             choiceBox.getItems().addAll(4,5,6,7,8);
             
+            //DIALOG BOX BUTTON FUNCTIONALITY
             proceed.setOnAction(e -> {
                 userChoice = getChoice(choiceBox);
                 window.close();
             });      
-
+            
+            //DIALOG BOX LAYOUT
             VBox confirmBoxLayout = new VBox(10);
             HBox optionsLayout = new HBox(50);
             optionsLayout.getChildren().addAll(proceed);
@@ -67,7 +69,7 @@ public class DropdownDialogBox extends ConfirmDialogBox{
 
             Scene scene = new Scene(confirmBoxLayout);
             window.setScene(scene);
-            window.showAndWait(); // Display the window and before it returns it needs to be closed
+            window.showAndWait(); 
 
             return userChoice;
         }
@@ -78,7 +80,7 @@ public class DropdownDialogBox extends ConfirmDialogBox{
         }
         
     /**
-     *
+     * Test Function
      * @param args
      */
     public static void main(String[] args){
