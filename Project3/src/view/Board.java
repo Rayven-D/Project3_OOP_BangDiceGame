@@ -113,7 +113,7 @@ public class Board extends Application{
      * @return An integer value (0 or 1) representing if the user want the Extensions included
      */
     
-    public static int wantExtensionsIncluded(){
+    private static int wantExtensionsIncluded(){
         ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
         return dialogBox.display();
     }
@@ -122,7 +122,7 @@ public class Board extends Application{
      * Get the number of players playing the game
      * @return 
      */
-    public int getNumberOfPlayers(){
+    private int getNumberOfPlayers(){
         DropdownDialogBox dropdown = new DropdownDialogBox("Select the number of players you want in the game", "How many friends you got ?");
         return dropdown.display();
     }
@@ -131,7 +131,7 @@ public class Board extends Application{
      * Distribute life points into pairs of 1's and 3's
      * 
      */
-    public void setDistributionOfBullets(){
+    private void setDistributionOfBullets(){
         oneBullet = user.getHealth()%3;
         threeBullets = user.getHealth()/3;
     }
@@ -140,7 +140,7 @@ public class Board extends Application{
      *  To check if the user wants to use their ability
      * @return An integer value (0 or 1) representing if the user wants to use the abilities
      */
-    public int wantToUseAbility(){
+    private int wantToUseAbility(){
         ConfirmDialogBox confirm = new ConfirmDialogBox(user.getCharacter().getSpecialAbility(), "Do you want to use your ability?");
         return 0;
     }
@@ -150,7 +150,7 @@ public class Board extends Application{
      * @param attackPlayerIndices
      * @return
      */
-    public int whomDoYouWantToAttack(Integer[] attackPlayerIndices){
+    private int whomDoYouWantToAttack(Integer[] attackPlayerIndices){
         String message = "You can either attack Player "+
                 attackPlayerIndices[0]+" or "+
                 attackPlayerIndices[1]+"!";
@@ -165,7 +165,7 @@ public class Board extends Application{
      * @param dice The final list of dice that has been rolled for a round
      * @return Displays the dice in a horizontal box layout
      */
-    public HBox displayDice(List<Die> dice){
+    private HBox displayDice(List<Die> dice){
         
         Die die1 = (Die) dice.get(0);
         Die die2 = (Die) dice.get(1);
@@ -209,7 +209,7 @@ public class Board extends Application{
      *  This method creates the player rectangles during the execution of the game
      * @param players The list of players playing the game
      */
-    public void createPlayerCards(Player[] players){
+    private void createPlayerCards(Player[] players){
         
         bottomPlayers.getChildren().clear();
         topPlayers.getChildren().clear();
@@ -261,7 +261,7 @@ public class Board extends Application{
      * @param center  The center pane for the game layout
      * @return The layout for the game
      */
-    public BorderPane createBorderPane(HBox topPane, HBox bottomPane, VBox leftPane, VBox rightPane, StackPane center){
+    private BorderPane createBorderPane(HBox topPane, HBox bottomPane, VBox leftPane, VBox rightPane, StackPane center){
         
         BorderPane boardLayout = new BorderPane();
         boardLayout.setStyle("-fx-background-color: #ffffff ;-fx-background-image: url("
