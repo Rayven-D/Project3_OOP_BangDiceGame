@@ -69,9 +69,6 @@ protected static int playersAlive;
      */
     private boolean zombie;
     
-    protected static int numPlayers = 0;
-    protected static ArrayList<Player> players = new ArrayList<Player>();
-    protected static int playersAlive = 0;
     
     /***
      * Declare a new Player Object
