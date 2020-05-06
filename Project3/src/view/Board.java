@@ -19,10 +19,12 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javax.swing.*;
 import project3.RollDice;
 import project3.Die;
 import project3.Player;
 import project3.Game;
+
 
 /**
  *
@@ -43,6 +45,7 @@ public class Board extends Application{
     // State Properties - Controller 
     public static int lifePoints,numberOfArrows =0, numberOfArrowsOnTheTable, wantExtension, numPlayers, oneBullet =0, threeBullets =0;
     public static String userRole, userCharacter;
+    public String turnCharacter = " ";
     public static HBox currentDiceSelection,  inventory ;
     private static VBox leftPlayers = new VBox(100);
     private static HBox bottomPlayers = new HBox(100), topPlayers = new HBox(100);
@@ -58,7 +61,6 @@ public class Board extends Application{
     
     
     public Board(){
-        
     }
     
 
@@ -74,7 +76,7 @@ public class Board extends Application{
 //        launch();
 //    }
     
-    public static int wantExtensionsIncluded(){
+    public int wantExtensionsIncluded(){
         ConfirmDialogBox dialogBox = new ConfirmDialogBox("Do you wish to play with extensions? ", "Extenions.. Mate?");
         return dialogBox.display();
     }
@@ -104,6 +106,13 @@ public class Board extends Application{
         String title = "Attack!" ;
         AttackDialogBox attack = new AttackDialogBox(message, title);
         return attack.display();
+    }
+    
+    public void dynamite(){
+        JOptionPane.showMessageDialog(null, "DYNAMITE!!!");
+    }
+    public void indianAttack(){
+        JOptionPane.showMessageDialog(null, "INDIAN ATTACK");
     }
     
     public int doYouWantToUseYourAbility(){
@@ -215,11 +224,11 @@ return 0;
         window.setTitle("Bang! The Dice Game");
         
         //Get the necessary input from the user
-        wantExtension = wantExtensionsIncluded();
+        //wantExtension = wantExtensionsIncluded();
         numPlayers = getNumberOfPlayers();
     
         //Initialize the Game class
-        Game game = new Game(numPlayers, 1);
+        Game game = new Game(numPlayers, 1, this);
         
         
         //Anonymous Players
@@ -253,7 +262,7 @@ return 0;
         
         //User Actions  
         StackPane userRoll = new StackPane();
-        Button rollDice = new Button("Roll Dice");        
+        Button rollDice = new Button("Roll Dice"); 
         userRoll.getChildren().addAll(rollDice);
         
         
@@ -268,16 +277,19 @@ return 0;
         inventory = new HBox(PADDING_SIZE);
         rollDice.setOnAction(e-> { 
             inventory.getChildren().clear();
-            RollDice dice = new RollDice();
-            inventory.getChildren().add(displayDice(dice.getDice()));
+            inventory.getChildren().add(displayDice(game.roll));
+            game.rollAgain = true;
         });
        
         
         //Center Console
-        Label diceText = new Label("DICE");
+        Label diceText = new Label("Dice");
+        Label turnText = new Label(this.turnCharacter);
         diceText.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; ");
+        turnText.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; ");
         StackPane dicePane = new StackPane();
         dicePane.getChildren().addAll(diceText);
+        dicePane.getChildren().addAll(turnText);
         
         Label arrowsOnTheTable = new Label("ARROWS");
         arrowsOnTheTable.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; fx-padding-bottom: 140px");
@@ -350,6 +362,11 @@ return 0;
 //                final List<Die> temp = 
                 
                 game.turn();
+                if(game.getPlayerTurn().isUser()){
+                    JOptionPane.showMessageDialog(null, "Your Turn!");
+                }else{
+                    JOptionPane.showMessageDialog(null, game.getPlayerTurn().getCharacter().getName());
+                }
                 for(int i=0; i< game.getPlayers().length; i++){
                     game.won = game.getPlayers()[i].getRole().getWon(game.getPlayers());
                     if(game.won){
@@ -362,7 +379,7 @@ return 0;
                     break;
                 }
                 
-                game.nextTurn();
+               
                 
                 if(game.getPlayers()[game.playerTurn].isUser()){
                     PlatformImpl.runAndWait(()->{
@@ -403,7 +420,7 @@ return 0;
                         }
                     }); 
                 }
-                
+                 game.nextTurn();
             }
             return null;
         }

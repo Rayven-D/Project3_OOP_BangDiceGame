@@ -5,6 +5,8 @@
  */
 package project3;
 
+import view.Board;
+
 /**
  *
  * @author ctram
@@ -16,6 +18,8 @@ public class Project3 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Board gameBoard = new Board();
+        
     }
     
 }
