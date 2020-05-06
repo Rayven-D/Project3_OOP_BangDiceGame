@@ -261,7 +261,7 @@ public class Board extends Application{
      *  This method is part of the Game class parallel thread
      * @param dice The list of dice that you need to update at the end of each turn 
      */
-    private void updateDie(List<Die> dice){
+    public void updateDie(List<Die> dice){
 
         if(dice!=null){
             inventory.getChildren().clear();
@@ -375,7 +375,7 @@ public class Board extends Application{
         turnText.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; ");
         StackPane dicePane = new StackPane();
         dicePane.getChildren().addAll(diceText);
-        dicePane.getChildren().addAll(turnText);
+        
             
         //ARROW TITLE LABEL
         Label arrowsOnTheTable = new Label("ARROWS");
@@ -401,7 +401,7 @@ public class Board extends Application{
 
         StackPane centerView = new StackPane();
         VBox center = new VBox(PADDING_SIZE);
-        center.getChildren().addAll(dicePane,inventory, arrowTextPane, boardArrows.display());
+        center.getChildren().addAll(dicePane,turnText,inventory, arrowTextPane, boardArrows.display());
         center.setStyle("-fx-padding: 100 25 0 25;");
         centerView.getChildren().addAll(center);
 
@@ -486,6 +486,7 @@ public class Board extends Application{
                     Platform.runLater(()->{
                         createPlayerCards(game.getPlayers());
                         updateDie(game.finalRoll);
+                        turnText.setText(game.getPlayerTurn().getCharacter().getName());
                         arrowsOnTheTable.setText("ARROWS: "+Integer.toString(game.middleArrows));
 
                     });
@@ -493,10 +494,13 @@ public class Board extends Application{
                 }
                  game.nextTurn();
 
-                 return null;
+                 
             }
-        }
+            return null;
+        }  
     };
+    
+        BorderPane boardLayout = createBorderPane(topPane, bottomPane, leftPane, rightPane, centerView);
         
         //Start the game thread
         Thread gameThread = new Thread(playTurn);
