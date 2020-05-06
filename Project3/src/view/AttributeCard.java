@@ -17,7 +17,7 @@ import javafx.scene.control.*;
  *
  * @author shreyesh
  */
-public class AttributeCard {
+public class AttributeCard  {
     
     /**
      * To help the AttributeCard class get the asset URL for the roles.

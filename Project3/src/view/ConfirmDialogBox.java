@@ -25,20 +25,20 @@ import javafx.geometry.*;
 public class ConfirmDialogBox {
         
     /**
-     *
+     * The message to be displayed in the Dialog Box
      */
     public String message;
 
     /**
-     *
+     * The title to be displayed alongside the message in the Dialog Box
      */
     public String title;
     private boolean userChoice = false; 
     
     /**
-     *
-     * @param message
-     * @param title
+     * Class Constructor
+     * @param message The message to be displayed within the Dialog Box
+     * @param title THe title to be displayed in the Dialog Box
      */
     public ConfirmDialogBox(String message, String title){
         this.message = message;
@@ -47,19 +47,22 @@ public class ConfirmDialogBox {
     
     /**
      *
-     * @return
+     * @return An integer (0 or 1) indicating the userChoice
      */
     public int display(){
+        
+        //DIALOG BOX STAGE SET UP
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
         window.setTitle(this.title);
         window.setMinWidth(250);
         
+        //DIALOG BOX ATTRIBUTES
         Label messageLabel = new Label(this.message);
-        
         Button yesButton = new Button("yes");
         Button noButton = new Button("no");
         
+        //DIALOG BOX BUTTON FUNCTIONALITY
         yesButton.setOnAction(e -> {
             setUserChoice(true);
             window.close();
@@ -70,6 +73,7 @@ public class ConfirmDialogBox {
             window.close();
         });
         
+        //DIALOG BOX LAYOUT
         VBox confirmBoxLayout = new VBox(10);
         HBox optionsLayout = new HBox(50);
         optionsLayout.getChildren().addAll(yesButton, noButton);
@@ -80,15 +84,15 @@ public class ConfirmDialogBox {
         
         Scene scene = new Scene(confirmBoxLayout);
         window.setScene(scene);
-        window.showAndWait(); // Display the window and before it returns it needs to be closed
+        window.showAndWait(); 
         
         return this.userChoice?1:0;
     }
     
     /**
      *
-     * @param choice
-     * @return
+     * @param choice The option that the user chooses in the Dialog Box
+     * @return A pointer to the userChoice variable
      */
     public boolean setUserChoice(boolean choice){
          return this.userChoice = choice;
