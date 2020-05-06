@@ -6,6 +6,8 @@
  */
 package project3;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Jeffrey Tessitore
@@ -16,6 +18,10 @@ public class Player {
      * a boolean containing if the player is a user or a CPU
      */
     private boolean user;
+    
+    protected static int numPlayers;
+protected static ArrayList<Player> players;
+protected static int playersAlive;
     
     /**
      * an int containing the number of arrows current player has

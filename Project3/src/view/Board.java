@@ -107,10 +107,11 @@ public class Board extends Application{
     }
     
     public int doYouWantToUseYourAbility(){
-        String message = user.getCharacter().getSpecialAbility();
-        String title = "To use the ability or not to use";
-        AbilityDialogBox dialogbox = new AbilityDialogBox(message, title);
-        return dialogbox.display();
+//        String message = user.getCharacter().getSpecialAbility();
+//        String title = "To use the ability or not to use";
+//        AbilityDialogBox dialogbox = new AbilityDialogBox(message, title);
+//        return dialogbox.display();
+return 0;
     }
     
     public void checkDieAction(Die die){
@@ -171,9 +172,7 @@ public class Board extends Application{
                user = player;
                setDistributionOfBullets();
                arrows.curVal= user.getArrows();
-               tokens.getChildren().addAll(singleBullet.display(), 
-                    multipleBullet.display(), arrows.display() );
-               
+               tokens.getChildren().addAll(singleBullet.display(), multipleBullet.display(), arrows.display() );
            }
            PlayerView card = new PlayerView(player, 175, 100);
            if (player.getNum()<3){
@@ -186,13 +185,11 @@ public class Board extends Application{
                topPlayers.getChildren().add(card.display());
            }
        }
-       
-       
-  
-   
+      
     }
-    
+
     public void updateDie(List<Die> dice){
+
         if(dice!=null){
             inventory.getChildren().clear();
             inventory.getChildren().add(displayDice(dice));
@@ -200,7 +197,6 @@ public class Board extends Application{
                     
         
     }
-   
 
     /**
      *
@@ -230,8 +226,8 @@ public class Board extends Application{
         Player[] players = game.getPlayers();
         
         //Create Player cards
-        createPlayerCards(players);
-        
+        createPlayerCards(game.getPlayers());
+
 
         /*
               ********  RIGHT PANE ELEMENTS (USER) *******
@@ -243,6 +239,7 @@ public class Board extends Application{
         HBox userInfo = new HBox(PADDING_SIZE+20);
         userInfo.getChildren().addAll(roleCard, characterCard);
 
+        
         
         //User Tokens
         setDistributionOfBullets();
@@ -286,12 +283,10 @@ public class Board extends Application{
         arrowsOnTheTable.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; fx-padding-bottom: 140px");
         StackPane arrowTextPane = new StackPane();
         arrowTextPane.getChildren().addAll(arrowsOnTheTable);  
-       
         Token boardArrows = new Token("", game.middleArrows, "assets/arrow.png", 120, 120);
         
      
-         
-        
+     
         //Board Layout
         HBox topPane = new HBox();
         topPane.getChildren().addAll(topPlayers);
@@ -353,6 +348,7 @@ public class Board extends Application{
             while(true){
                 
 //                final List<Die> temp = 
+                
                 game.turn();
                 for(int i=0; i< game.getPlayers().length; i++){
                     game.won = game.getPlayers()[i].getRole().getWon(game.getPlayers());
@@ -379,7 +375,6 @@ public class Board extends Application{
                             System.exit(0);
                         }
                         }); 
-                    
                 }
                
                 
@@ -392,13 +387,14 @@ public class Board extends Application{
                 Platform.runLater(()->{
                     createPlayerCards(game.getPlayers());
                     updateDie(game.finalRoll);
+                    arrowsOnTheTable.setText(Integer.toString(game.middleArrows));
                     
                 });
                 
                 if(game.won){
                    PlatformImpl.runAndWait(()->{
                         if(game.getPlayers()[game.playerTurn].getStatus()){
-                            doYouWantToUseYourAbility();
+//                            doYouWantToUseYourAbility();
                         }
                         else{
                         OkayDialogBox youLost = new OkayDialogBox("GAME OVER", game.getPlayers()[game.playerTurn-1].getCharacter().getName() + " WON!!!");
