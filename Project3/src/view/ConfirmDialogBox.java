@@ -24,15 +24,31 @@ import javafx.geometry.*;
  */
 public class ConfirmDialogBox {
         
+    /**
+     *
+     */
     public String message;
+
+    /**
+     *
+     */
     public String title;
     private boolean userChoice = false; 
     
+    /**
+     *
+     * @param message
+     * @param title
+     */
     public ConfirmDialogBox(String message, String title){
         this.message = message;
         this.title = title;
     }
     
+    /**
+     *
+     * @return
+     */
     public int display(){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows
@@ -69,6 +85,11 @@ public class ConfirmDialogBox {
         return this.userChoice?1:0;
     }
     
+    /**
+     *
+     * @param choice
+     * @return
+     */
     public boolean setUserChoice(boolean choice){
          return this.userChoice = choice;
     }

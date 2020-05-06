@@ -25,6 +25,11 @@ public class DropdownDialogBox extends ConfirmDialogBox{
     
     private int userChoice;
     
+    /**
+     *
+     * @param message
+     * @param title
+     */
     public DropdownDialogBox(String message, String title) {
         super(message, title);
     }
@@ -72,7 +77,11 @@ public class DropdownDialogBox extends ConfirmDialogBox{
             return choiceBox.getValue();
         }
         
-        public static void main(String[] args){
+    /**
+     *
+     * @param args
+     */
+    public static void main(String[] args){
             DropdownDialogBox db = new DropdownDialogBox("ya", "ya");
             db.display();
             

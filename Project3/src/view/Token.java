@@ -24,10 +24,44 @@ import javafx.scene.image.ImageView;
  */
 public class Token implements Components<VBox>{
     
+    /**
+     *
+     */
     public static final int PADDING_SIZE = 20;
-    public String type, url;
-    public int curVal, width, height;
+
+    /**
+     *
+     */
+    public String type,
+
+    /**
+     *
+     */
+    url;
+
+    /**
+     *
+     */
+    public int curVal,
+
+    /**
+     *
+     */
+    width,
+
+    /**
+     *
+     */
+    height;
     
+    /**
+     *
+     * @param type
+     * @param curVal
+     * @param url
+     * @param width
+     * @param height
+     */
     public Token(String type, int curVal, String url, int width, int height){
         this.type = type;
         this.curVal = curVal;
@@ -36,6 +70,10 @@ public class Token implements Components<VBox>{
         this.height = height;
     }
     
+    /**
+     *
+     * @return
+     */
     @Override
     public VBox display(){
         // Components

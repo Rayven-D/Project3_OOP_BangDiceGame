@@ -25,10 +25,19 @@ import javafx.stage.Stage;
  */
 public class OkayDialogBox extends ConfirmDialogBox {
     
+    /**
+     *
+     * @param message
+     * @param title
+     */
     public OkayDialogBox(String message, String title) {
         super(message, title);
     }
     
+    /**
+     *
+     * @return
+     */
     public int display(){
         Stage window = new Stage();
         window.initModality(Modality.APPLICATION_MODAL); // Block interaction with other windows

@@ -19,17 +19,45 @@ import javafx.scene.control.*;
  */
 public class AttributeCard {
     
+    /**
+     *
+     */
     public enum Role {
+
+        /**
+         *
+         */
         DEPUTY("assets/Deputy.png"),
+
+        /**
+         *
+         */
         RENEGADE("assets/Renegade.png"),
+
+        /**
+         *
+         */
         OUTLAW("assets/Outlaw.png"),
+
+        /**
+         *
+         */
         SHERIFF("assets/Sheriff.PNG");
         
+        /**
+         *
+         */
         public String url;
         
         Role(String url){
             this.url = url;
         }
+
+        /**
+         *
+         * @param role
+         * @return
+         */
         public static String getImage(String role){
             switch(role.toLowerCase()){
                 case "deputy":
@@ -46,7 +74,12 @@ public class AttributeCard {
         }
     }
         
-    
+    /**
+     *
+     * @param label
+     * @param role
+     * @return
+     */
     public static VBox display(String label, String role){
         //Components
         Label roleLabel = new Label(label);

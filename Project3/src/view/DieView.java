@@ -23,36 +23,138 @@ import project3.Die;
 public class DieView{
     
     //SIZE Attributes
+
+    /**
+     *
+     */
     public static final int WIDTH = 120;
+
+    /**
+     *
+     */
     public static final int HEIGHT = 120;
-    public static Button oneButton, twoButton, threeButton, fourButton, fiveButton, sixButton;
+
+    /**
+     *
+     */
+    public static Button oneButton,
+
+    /**
+     *
+     */
+    twoButton,
+
+    /**
+     *
+     */
+    threeButton,
+
+    /**
+     *
+     */
+    fourButton,
+
+    /**
+     *
+     */
+    fiveButton, sixButton;
     
     //Current Dice as per the roll
+
+    /**
+     *
+     */
     public static List<Die> remainingDice = new ArrayList<Die>();
+
+    /**
+     *
+     */
     public static List<Die> selectedDice = new ArrayList<Die>();
     
-   
+    /**
+     *
+     */
     public enum AssetsURL{
+
+        /**
+         *
+         */
         ARROW("assets/arrow.png"),
+
+        /**
+         *
+         */
         BEER("assets/beer.png"),
+
+        /**
+         *
+         */
         DYNAMITE("assets/dynamite.png"),
+
+        /**
+         *
+         */
         GATLING("assets/gatling.png"),
+
+        /**
+         *
+         */
         ONE("assets/1.png"),
+
+        /**
+         *
+         */
         TWO("assets/2.png"),
+
+        /**
+         *
+         */
         INSTANT_BULLET("assets/instant_bulet.png"),
+
+        /**
+         *
+         */
         DUEL("assets/duel.png"),
+
+        /**
+         *
+         */
         BROKEN_ARROW("assets/broken_arrow.png"),
+
+        /**
+         *
+         */
         DOUBLE_ONE("assets/double_one.png"),
+
+        /**
+         *
+         */
         DOUBLE_TWO("assets/double_two.png"),
+
+        /**
+         *
+         */
         DOUBLE_BEER("assets/double_beer.png"),
+
+        /**
+         *
+         */
         WHISKEY("assets/whiskey.png");
         
+        /**
+         *
+         */
         public String url;
         
         AssetsURL(String url){
             this.url = url;
         }
 
+        /**
+         *
+         * @param face
+         * @return
+         */
         public static String getImage(String face){
             switch(face.toLowerCase()){
                 case "arrow":
@@ -72,7 +174,11 @@ public class DieView{
         
     };
     
-    
+    /**
+     *
+     * @param dice
+     * @return
+     */
     public static HBox display(List<Die> dice){
         
         Die die1 = (Die) dice.get(0);
@@ -125,6 +231,11 @@ public class DieView{
         return diceLayout;
     }
     
+    /**
+     *
+     * @param die
+     * @return
+     */
     public static Button assignDie(Die die){
         
         String url = AssetsURL.getImage(die.getFace());
@@ -138,6 +249,10 @@ public class DieView{
         return button;
     }
     
+    /**
+     *
+     * @return
+     */
     public static String getMostRecentClick(){
         return selectedDice.get(selectedDice.size()-1).getFace();        
     }

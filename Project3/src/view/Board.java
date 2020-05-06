@@ -408,7 +408,7 @@ public class Board extends Application{
                         //What to do if the game has been won
                         if(game.won){
                             PlatformImpl.runAndWait(()->{
-                                OkayDialogBox someoneWon = new OkayDialogBox("Game Over, boi!", game.getPlayers()[game.playerTurn-1]+"won!!!");
+                                OkayDialogBox someoneWon = new OkayDialogBox("Game Over, boi!", game.getPlayers()[game.playerTurn-1].getCharacter().getName()+"won!!!");
                                 someoneWon.display();
                                 System.exit(0);
                             });

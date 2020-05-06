@@ -8,10 +8,19 @@ package view;
 /**
  *
  * @author shreyesh
+ * @param <T>
  */
 public interface Components<T> {
     
+    /**
+     *
+     */
     public final int PADDING_SIZE = 20;
+
+    /**
+     *
+     * @return
+     */
     public T display();
     
 }
