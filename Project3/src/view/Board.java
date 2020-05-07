@@ -11,7 +11,7 @@
 package view;
 
 import com.sun.javafx.application.PlatformImpl;
-import java.util.List;
+import java.util.*;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -19,7 +19,10 @@ import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.*;
+import javafx.animation.*;
 import javax.swing.*;
+import javax.swing.JOptionPane;
+import javafx.util.*;
 import project3.RollDice;
 import project3.Die;
 import project3.Player;
@@ -80,13 +83,20 @@ public class Board extends Application{
     /**
      *  Die Buttons
      */
-    public static Button firstDie, secondDie,thirdDie, fourthDie, fifthDie, sixthDie;
+    public Button firstDie, secondDie,thirdDie, fourthDie, fifthDie, sixthDie;
+    
+    public Button rollDice;
 
   
     //Tokens 
     Token singleBullet = new Token("Bullet", 0, "assets/bullet.png", 64, 64);
     Token multipleBullet = new Token("Three Bullets", 0, "assets/ammunition.png", 64, 64);
     Token arrows = new Token("Arrows", 0, "assets/indian.png", 64, 64);
+    
+    Label turnText;
+    Label arrowsOnTheTable;
+    Game game;
+    public boolean nextRoll;
     
     /**
      * Constructor for the Board clASS 
@@ -161,9 +171,18 @@ public class Board extends Application{
         return attack.display();
     }
     
+    /**
+     * To display to the user that a dynamite roll has occured
+     * 
+     * 
+     */
     public void dynamite(){
         JOptionPane.showMessageDialog(null, "DYNAMITE!!!");
     }
+    
+    /**
+     * To display to the user that an Indian attack is commencing
+     */
     public void indianAttack(){
         JOptionPane.showMessageDialog(null, "INDIAN ATTACK");
     }
@@ -185,7 +204,7 @@ public class Board extends Application{
      * @param dice The final list of dice that has been rolled for a round
      * @return Displays the dice in a horizontal box layout
      */
-    private HBox displayDice(List<Die> dice){
+    public HBox displayDice(List<Die> dice){
         
         Die die1 = (Die) dice.get(0);
         Die die2 = (Die) dice.get(1);
@@ -195,27 +214,33 @@ public class Board extends Application{
         
         firstDie = DieView.assignDie(die1);
         firstDie.setOnAction(e->{
-            firstDie.setVisible(false);
+            if(!die1.getFace().equalsIgnoreCase("dynamite")&& game.getPlayerTurn().isUser())
+                firstDie.setVisible(false);
+            System.out.println(firstDie.isVisible());
         });
         
         secondDie = DieView.assignDie(die2);
         secondDie.setOnAction(e->{
-            secondDie.setVisible(false);
+            if(!die2.getFace().equalsIgnoreCase("dynamite")&& game.getPlayerTurn().isUser())
+                secondDie.setVisible(false);
         });
         
         thirdDie = DieView.assignDie(die3);
         thirdDie.setOnAction(e->{
-            thirdDie.setVisible(false);
+            if(!die3.getFace().equalsIgnoreCase("dynamite")&& game.getPlayerTurn().isUser())
+                thirdDie.setVisible(false);
         });
         
         fourthDie = DieView.assignDie(die4);
         fourthDie.setOnAction(e->{
-            fourthDie.setVisible(false);
+            if(!die4.getFace().equalsIgnoreCase("dynamite")&& game.getPlayerTurn().isUser())
+                fourthDie.setVisible(false);
         });
         
         fifthDie = DieView.assignDie(die5);
         fifthDie.setOnAction(e->{
-            fifthDie.setVisible(false);
+            if(!die5.getFace().equalsIgnoreCase("dynamite") && game.getPlayerTurn().isUser())
+                fifthDie.setVisible(false);
         });
         
 
@@ -296,7 +321,7 @@ public class Board extends Application{
         
         return boardLayout;
     }
-   
+    
     
 
     /**
@@ -320,7 +345,7 @@ public class Board extends Application{
         numPlayers = getNumberOfPlayers();
     
         //Initialize the Game class
-        Game game = new Game(numPlayers, 1, this);
+         game = new Game(numPlayers, 1, this);
         
         
         //Anonymous Players
@@ -352,14 +377,23 @@ public class Board extends Application{
         
         //User Actions  
         StackPane userRoll = new StackPane();
-        Button rollDice = new Button("Roll Dice");        
+        rollDice = new Button("Start Game");        
         userRoll.getChildren().addAll(rollDice);  
                 
         inventory = new HBox(PADDING_SIZE);
-        rollDice.setOnAction(e-> { 
-            inventory.getChildren().clear();
-            inventory.getChildren().add(displayDice(game.roll));
-            game.rollAgain = true;
+        rollDice.setOnAction((event)-> { 
+            if(game.chooseReroll == false){
+               
+                inventory.getChildren().clear();
+
+                inventory.getChildren().add(displayDice(game.roll));
+
+                game.rollAgain = true;
+                this.nextRoll = true;
+            }
+            else{
+               this.nextRoll = true;
+            }
         });
        
         
@@ -370,7 +404,7 @@ public class Board extends Application{
         
         //DICE TITLE LABEL
         Label diceText = new Label("Dice");
-        Label turnText = new Label(game.getPlayerTurn().getCharacter().getName());
+         turnText = new Label(game.getPlayerTurn().getCharacter().getName()+ " " + game.rollNumber);
         diceText.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; ");
         turnText.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; ");
         StackPane dicePane = new StackPane();
@@ -378,7 +412,7 @@ public class Board extends Application{
         
             
         //ARROW TITLE LABEL
-        Label arrowsOnTheTable = new Label("ARROWS");
+         arrowsOnTheTable = new Label("ARROWS");
         arrowsOnTheTable.setStyle("-fx-font-size: 18pt; -fx-font-weight: bold; fx-padding-bottom: 140px");
         StackPane arrowTextPane = new StackPane();
         arrowTextPane.getChildren().addAll(arrowsOnTheTable);  
@@ -418,14 +452,17 @@ public class Board extends Application{
     Task playTurn = new Task<Void>(){
         @Override 
         protected Void call() throws Exception{
-            while(true){    
-                game.turn();
+            while(true){  
                 if(game.getPlayerTurn().isUser()){
                     JOptionPane.showMessageDialog(null, "Your Turn!");
                 }else{
-                    JOptionPane.showMessageDialog(null, game.getPlayerTurn().getCharacter().getName());
+                    JOptionPane.showMessageDialog(null, game.getPlayerTurn().getCharacter().getName() + "'s Turn");
                 }
+                try{
+                    Thread.sleep(200);
+                }catch(Exception ex){}
 
+                game.turn(inventory);
                 for(int i=0; i< game.getPlayers().length; i++){
                     game.won = game.getPlayers()[i].getRole().getWon(game.getPlayers());
                     if(game.won){
@@ -458,7 +495,11 @@ public class Board extends Application{
                     
                     //Assign the next player tunr
                     game.nextTurn();    
-
+                    if(game.getPlayerTurn().isUser()){
+                        rollDice.setText("Roll Die");
+                    }else{
+                        rollDice.setText("Continue");
+                     }
                     //If the current player is the user, do the following!
                     if(game.getPlayers()[game.playerTurn].isUser()){
                         PlatformImpl.runAndWait(()->{
@@ -477,23 +518,26 @@ public class Board extends Application{
                     
                     // THREAD HANDLING!!!!
                     try {
-                            Thread.sleep(4000); //Sleep for 4s after every turn to simulate realism
+                            Thread.sleep(1000); //Sleep for 4s after every turn to simulate realism
                     } catch (InterruptedException ex) {
                             break;
                     }   
                     
                     //After the end of everyTurn, do this! 
                     Platform.runLater(()->{
-                        createPlayerCards(game.getPlayers());
-                        updateDie(game.finalRoll);
-                        turnText.setText(game.getPlayerTurn().getCharacter().getName());
-                        arrowsOnTheTable.setText("ARROWS: "+Integer.toString(game.middleArrows));
+                          createPlayerCards(game.getPlayers());
+                          updateDie(game.finalRoll);
+                          turnText.setText(game.getPlayerTurn().getCharacter().getName());
+                          arrowsOnTheTable.setText("ARROWS: "+Integer.toString(game.middleArrows));
 
-                    });
-
+                      });
                 }
-                 game.nextTurn();
-
+                game.nextTurn();
+                    if(game.getPlayerTurn().isUser()){
+                        rollDice.setText("Roll Die");
+                    }else{
+                        rollDice.setText("Continue");
+                     }
                  
             }
             return null;
