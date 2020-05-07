@@ -3,10 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Game.java</file>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Player.java</file>
-            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/view/DieView.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/MasterRole.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Die.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/CompBrain.java</file>
             <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/RollDice.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/view/DropdownDialogBox.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/view/Board.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Comp.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Game.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/view/AbilityDialogBox.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Role.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Player.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/User.java</file>
+            <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/view/OkayDialogBox.java</file>
             <file>file:/C:/Users/Rayven/Documents/CS%202365/Project3/src/project3/Project3.java</file>
         </group>
     </open-files>
