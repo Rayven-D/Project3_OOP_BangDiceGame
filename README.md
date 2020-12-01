@@ -5,5 +5,9 @@
 
 ![Board Layout](https://github.com/Rayven-D/Project3_OOP_BangDiceGame/blob/master/READMEpics/turn.PNG)
 
+[Code and Project Runthrough](https://www.youtube.com/watch?v=qwAj4pjth90&feature=youtu.be)
+
+[Powerpoint Presentation](https://www.youtube.com/watch?v=E9H0vBAcaCU)
+
 <sub>This project took place in Spring 2020 as COVID-19 closed in person classes. Project had to be finished remotely.</sub>
 
